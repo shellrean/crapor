@@ -163,17 +163,6 @@ function get_ta_smt()
 function get_kurikulum($kurikulum_id,$query='nama'){
 	$CI =& get_instance();
   $kompetensi = $CI->db->get_where('data_kurikulum',['kurikulum_id' => $kurikulum_id])->row();
-	// $nama_kompetensi = $kompetensi->nama_kurikulum;
-	// if (strpos($nama_kompetensi, '2013 SMK') !== false) {
-	// 	$get_nama_kompetensi['nama'] = str_replace('2013 SMK','',$nama_kompetensi.' (2013)');
-	// 	$get_nama_kompetensi['id'] = str_replace('2013 SMK','','2013');
-	// }
-	// if (strpos($nama_kompetensi, 'SMK KTSP') !== false) {
-	// 	$get_nama_kompetensi['nama'] = str_replace('SMK KTSP','',$nama_kompetensi.' (KTSP)');
-	// 	$get_nama_kompetensi['id'] = str_replace('SMK KTSP','','KTSP');
-	// }
-  // return $get_nama_kompetensi[$query];
-  
   return $kompetensi->nama_kurikulum;
 }
 
@@ -258,4 +247,18 @@ function get_my_info()
 
   $guru = $CI->db->get_where('user',['username' => $CI->session->userdata('username')])->row();
   return $guru;
+}
+
+/**
+ * Get nama kelas 
+ * 
+ * $kelas_id
+ * 
+ */
+function get_nama_kelas($kelas_id)
+{
+  $CI =& get_instance();
+  $kelas = $CI->db->get_where('kelas',['id' => $kelas_id])->row();
+  $nama_kelas = isset($kelas->nama) ? $kelas->nama : '-';
+  return $nama_kelas;
 }
