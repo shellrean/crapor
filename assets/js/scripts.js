@@ -256,3 +256,34 @@ $('#formEditKd').submit(function(e) {
     }
   });
 })
+
+/**
+ * Sisw changed
+ * 
+ * --------------------------------------------------------------
+ */ 
+$('#siswa').change(function(){
+  var query = $('#query').val();
+  var ini = $(this).val();
+  if(ini == ''){
+    return false;
+  }
+  $('#result').html('');
+  $('.simpan').hide();
+  $('.cancel').hide();
+  $('#rerata').hide();
+  $.ajax({
+    url: $('#base_url').val()+'asesmen/get_'+query,
+    type: 'post',
+    data: $('form').serialize(),
+    success: function(response){
+      $('.simpan').show();
+      $('.cancel').hide();
+      $('#form').fadeOut();
+      $('#result').html(response);
+      $('table.table').addClass("jarak1");
+      $('.add').show();
+      $('#rerata').show();
+    }
+  });
+});

@@ -27,12 +27,16 @@
     <link href="<?= base_url('assets') ?>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendor/select2/css/select2.min.css">
+    
     <link rel="stylesheet" href="<?= base_url('assets') ?>/css/select2-bootstrap4.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     
     <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url('assets') ?>/vendor/jquery-ui/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="<?= base_url('assets') ?>/css/loader2.css">
+    <script src="<?= base_url('assets') ?>/js/pace.min.js"></script>
 
     <script src="<?= base_url() ?>assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
 </head>
@@ -243,6 +247,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -261,9 +266,16 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_content" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+           
+        </div>
+    </div>
     <div id="loading">
     <div class="lds-dual-ring"></div>
     </div>
+
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url('assets') ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -281,8 +293,8 @@
     <script src="<?= base_url('assets') ?>/js/jquery.fileupload.js"></script>
     <!-- Page for select2 -->
     <script src="<?= base_url('assets/') ?>vendor/select2/js/select2.min.js"></script>
-    <script>
     
+    <script>
         $('#fileupload').fileupload({
             url: "<?= site_url('user/import'); ?>",
             done(e,data) {

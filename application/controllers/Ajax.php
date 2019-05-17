@@ -55,33 +55,11 @@ class Ajax extends CI_Controller
    */
   public function get_mapel()
   {
-    $guru = get_my_info();
-    // $loggeduser = $this->ion_auth->user()->row();
-		// $waka = array('waka');
+		$guru = get_my_info();
+		
 		$ajaran_id = $_POST['ajaran_id'];
 		$rombel_id = $_POST['rombel_id'];
     $query		= $_POST['query'];
-    
-		//$all_siswa = filter_agama_siswa(get_nama_mapel($ajaran_id, $rombel_id);
-		// $all_siswa = Datasiswa::find_all_by_data_rombel_id($rombel_id);
-		// if($loggeduser->data_guru_id && !$this->ion_auth->in_group($waka)){
-		// 	//$all_mapel = Kurikulum::find_all_by_rombel_id_and_guru_id($rombel_id,$loggeduser->data_guru_id);
-		// 	//$all_mulok = Mulok1::find_all_by_ajaran_id_and_rombel_id_and_guru_id($ajaran_id,$rombel_id,$loggeduser->data_guru_id);
-		// 	$cond = array('group' => 'id', "conditions"=> array('kurikulums.ajaran_id = ? AND kurikulums.rombel_id = ? AND kurikulums.guru_id = ?',  $ajaran_id, $rombel_id, $loggeduser->data_guru_id));
-		// } else {
-		// 	if($query == 'rencana_penilaian' || $query == 'kd' || $query == 'kkm' || $query == 'add_kd'){
-		// 		//$all_mapel = Kurikulum::find_all_by_rombel_id_and_guru_id($rombel_id,$loggeduser->data_guru_id);
-		// 		//$all_mulok = Mulok1::find_all_by_ajaran_id_and_rombel_id_and_guru_id($ajaran_id,$rombel_id,$loggeduser->data_guru_id);
-		// 		//$cond =array('conditions'=> array('ajaran_id = ? AND rombel_id = ? AND guru_id = ?', $ajaran_id, $rombel_id, $loggeduser->data_guru_id));
-		// 		$join = "INNER JOIN kurikulum_aliases a ON(kurikulums.id_mapel = a.id AND a.nama_kur != 'k13_mulok' OR kurikulums.id_mapel = a.id AND a.nama_kur != 'k_mulok' OR kurikulums.id_mapel != '850010100')";
-		// 	$cond = array('joins'=> $join, 'group' => 'id', "conditions"=> array('kurikulums.ajaran_id = ? AND kurikulums.rombel_id = ? AND kurikulums.guru_id = ?', $ajaran_id, $rombel_id, $loggeduser->data_guru_id));
-		// 	} else {
-		// 		//$all_mapel = Kurikulum::find_all_by_rombel_id($rombel_id);
-		// 		//$all_mulok = Mulok1::find_all_by_ajaran_id_and_rombel_id($ajaran_id,$rombel_id);
-		// 		$cond =array('conditions'=> array('ajaran_id = ? AND rombel_id = ?', $ajaran_id, $rombel_id));
-		// 	}
-		// }
-    // $all_mapel = Kurikulum::all($cond);
     
     $this->db->select('*');
     $this->db->from('kurikulum');

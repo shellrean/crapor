@@ -262,3 +262,17 @@ function get_nama_kelas($kelas_id)
   $nama_kelas = isset($kelas->nama) ? $kelas->nama : '-';
   return $nama_kelas;
 }
+
+/**
+ * Get kelas by id_guru
+ * 
+ * 
+ * $id_guru
+ */
+function get_kelas_by_id_guru($id_guru)
+{
+  $CI =& get_instance();
+  $kelas = $CI->db->get_where('kelas',['guru_id' => $id_guru])->row();
+  return $kelas;
+}
+

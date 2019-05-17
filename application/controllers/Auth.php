@@ -13,6 +13,7 @@ class Auth extends CI_Controller
   {
     parent::__construct();
     $this->load->library('form_validation');
+    $this->load->model('M_log');
   }
 
   /**
@@ -60,8 +61,36 @@ class Auth extends CI_Controller
 
           $query = $this->db->get_where('login',['username' => $username]);
 
+          # cari last login
+          $last_log = $this->M_log->retrieve_last_log($user->id);
+          if (!empty($last_log)) { 
+              # cek last_activitynya, jika kurang dari 2 menit
+              $time_minus = strtotime("-2 minutes", time());
+              if ($last_log['last_activity'] > $time_minus) {
+                  # ini berarti ada yang masih login, cek ip dan browsernya
+                  $last_agent = json_decode($last_log['agent'], 1);
+                  $current_ip = get_ip(); 
+                  $current_browser =($this->agent->is_browser()) ? $this->agent->browser() . ' ' . $this->agent->version() : '';
+
+                  if ($current_ip != $last_agent['ip'] OR $current_browser != $last_agent['browser']) {
+                      # cari selisih
+                      $selisih = lama_pengerjaan(date("Y-m-d H:i:s", $last_log['last_activity']), date("Y-m-d H:i:s", $time_minus), "%i menit %s detik");
+
+                      # atur pesan
+                      $error_msg = "Akun anda sedang digunakan untuk login dengan IP {$last_agent['ip']}.";
+                      if ($current_ip == $last_agent['ip'] AND $current_browser != $last_agent['browser']) {
+                          $error_msg .= "<br><br>Jika anda hanya ganti browser, mohon tunggu {$selisih} dari sekarang.";
+                      }
+                      $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                      '.$error_msg.'</div>');
+                      redirect('login');
+                  }
+              }
+          }
+
+          $log_id = $this->M_log->create_log($user->id); 
           # make identifer for session
-          $identifer = uniqid();
+          $identifer = uniqid(); 
           
           # set all session data and take it in array
           $data = [

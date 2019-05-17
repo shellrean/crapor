@@ -105,3 +105,11 @@ function agent() {
   }
   return $agent;
 }
+/**
+ * Method untuk mendapatkan ip pengakses
+ * @return string
+ */
+function get_ip()
+{
+    return $_SERVER['REMOTE_ADDR'];
+}

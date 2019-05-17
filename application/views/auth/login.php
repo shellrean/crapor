@@ -19,6 +19,8 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets') ?>/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="<?= base_url('assets') ?>/css/loader1.css">
+    <script src="<?= base_url('assets') ?>/js/pace.min.js"></script>
 </head>
 
 <body class="bg-gradient-info">
@@ -45,11 +47,11 @@
 
                                     <form class="user" method="post" action="<?= base_url('Auth') ?>">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" name="username" id="username" placeholder="Masukkan Username..." value="<?= set_value('username') ?>">
+                                            <input type="text" class="form-control form-control-user" name="username" id="username" placeholder="Masukkan Username..." value="<?= set_value('username') ?>" required autofocus>
                                             <?= form_error('username', '<small class="text-danger pl-3">', '</small>') ?>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password" required>
                                             <?= form_error('password', '<small class="text-danger pl-3">', '</small>') ?>
                                         </div>
                                         <button type="submit" class="btn btn-info btn-user btn-block">
@@ -67,6 +69,7 @@
         </div>
 
     </div>
+
 
     <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url('assets') ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
