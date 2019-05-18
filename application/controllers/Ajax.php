@@ -58,19 +58,19 @@ class Ajax extends CI_Controller
 		$guru = get_my_info();
 		
 		$ajaran_id = $_POST['ajaran_id'];
-		$rombel_id = $_POST['rombel_id'];
+		$kelas_id = $_POST['kelas_id'];
     $query		= $_POST['query'];
     
     $this->db->select('*');
     $this->db->from('kurikulum');
-    $this->db->where(['ajaran_id' => $ajaran_id, 'kelas_id' => $rombel_id, 'guru_id' => $guru->id]);
+    $this->db->where(['ajaran_id' => $ajaran_id, 'kelas_id' => $kelas_id, 'guru_id' => $guru->id]);
     $all_mapel = $this->db->get()->result();
 
 		if($all_mapel){
 			foreach($all_mapel as $mapel){
 				$record= array();
 				$record['value'] 	= $mapel->id_mapel;
-				$record['text'] 	= get_nama_mapel($ajaran_id, $rombel_id, $mapel->id_mapel).' ('.$mapel->id_mapel.')';
+				$record['text'] 	= get_nama_mapel($ajaran_id, $kelas_id, $mapel->id_mapel).' ('.$mapel->id_mapel.')';
 				$output['mapel'][] = $record;
 			}
 		} else {
@@ -80,5 +80,26 @@ class Ajax extends CI_Controller
 		}
 
 		echo json_encode($output);
+  }
+
+  /**
+   * GEt kd
+   * 
+   * 
+   * @return ajax
+   */
+  public function get_kd()
+  {
+    $guru = get_my_info();
+    
+    $data['guru_id'] = $guru->id;
+    
+		$data['kelas'] = $_POST['kelas'];
+		$data['kompetensi_id'] = $_POST['kompetensi_id'];
+		$data['ajaran_id'] = $_POST['ajaran_id'];
+		$data['id_mapel'] = $_POST['id_mapel'];
+    $data['id_kelas'] = $_POST['kelas_id'];
+    
+    $this->load->view('perencanaan/form_perencanaan',$data);
   }
 }

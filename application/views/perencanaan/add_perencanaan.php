@@ -9,9 +9,9 @@
             <span class="text">Tambah rencana penilaian pengetahuan</span>
           </a>
         </div>
-        <form action="<?= $form_action ?>" id="myform">
+        <form action="<?= base_url().$form_action ?>" >
         <?php
-
+ 
             $ajaran = get_ta();
             $tahun_ajaran = $ajaran->tahun. ' (SMT '. $ajaran->smt.')';
             $data_kompetensi = $this->db->get('keahlian')->result();
@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                   <label>Kelas</label>
-                  <select name="rombel_id" class="select2 form-control" id="rombel">
+                  <select name="kelas_id" class="select2 form-control" id="rombel">
                     <option value="">&#10147; Pilih kelas</option>
                   </select>
                 </div>
@@ -56,13 +56,13 @@
         </div>
         
     </div>
+      
         <div class="card-footer">
-          <button type="submit" class="btn btn-sm btn-success btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-save"></i>
-            </span>
-            <span class="text">Simpan</span>
-          </a>
+        <div class="box-footer table-responsive no-padding" id="result"> 
+			</div>  
+          
+
+
         </div>
         </form>
 </div> 

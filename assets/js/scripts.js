@@ -1,8 +1,27 @@
+/*
+|--------------------------------------------------------------------------
+| Main javascript
+|--------------------------------------------------------------------------
+|
+| package   crapor
+| author    Kuswandi <wandinak17@gmail.com>
+| copyright Copyright (c) 2018 - 2019
+| since     1.0
+|
+| ------------------------------------------------------------------------
+*/
+
 /**
- * Sinkronkan data rapor dengan dinasti pusat
+ * Menjalankan pace saat ajax request dimulai
  * 
- * --------------------------------------------------------------
- */ 
+ */
+$(document).ajaxStart(function() {
+  Pace.restart();
+})
+
+/**
+ * ---------------------------------------------
+ */
 $("#sync").on('click',function(e){
   var URL = $(this).attr('href')
   e.preventDefault();
@@ -30,7 +49,9 @@ $("#sync").on('click',function(e){
 });    
 
 
-
+/**
+ * ---------------------------------------------
+ */
 $("#delet").on('click',function(e) {
   e.preventDefault();
 if(confirm('Seluruh data siswa akan dihapus?')) {
@@ -115,6 +136,10 @@ $('#kelas').change(function(){
   });
 });
 
+
+/**
+ * ---------------------------------------------
+ */
 $('#rombel').change(function(){
   var get = '';
   var nama_kur = '';
@@ -324,6 +349,7 @@ $('#siswa').change(function(){
       $('#rerata').show();
     }
   });
+
 });
 /**
  * ekskul changed
@@ -350,4 +376,75 @@ $('#ekskul').change(function(){
       $('#rerata').show();
     }
   });
+});
+/**
+ * mapel changed
+ * 
+ * --------------------------------------------------------------
+ */
+
+$('#mapel').change(function(){
+	var ini = $(this).val();
+	if(ini == ''){
+		return false;
+	}
+	var query = $('#query').val();
+  var url_get = $('#base_url').val()+'ajax/get_';
+	if(query == 'analisis_penilaian'){
+		query = 'rencana_id';
+	}
+	if(query == 'analisis_kompetensi'){
+		query = 'all_kd';
+	}
+	if(query == 'sikap'){
+		query = 'undefined';
+	}
+	
+	$.ajax({
+		url: url_get+query,
+		type: 'post',
+		data: $("form").serialize(),
+		success: function(response){
+			$('#kompetensi').html('<option value="">== Pilih Kompetensi Penilaian ==</option>');
+			$('#penilaian').html('<option value="">== Pilih Penilaian ==</option>');
+			$('#kd').html('<option value="">== Pilih KD ==</option>');
+			result = checkJSON(response);
+			if(result == true){
+				var data = $.parseJSON(response);
+				if($.isEmptyObject(data.result)){
+				} else {
+					$.each(data.result, function (i, item) {
+						$('#siswa').append($('<option>', { 
+							value: item.value,
+							text : item.text,
+							}));
+						$('#kompetensi').append($('<option>', { 
+							value: item.value,
+							text : item.text,
+							}));
+						$('#penilaian').append($('<option>', { 
+							value: item.value,
+							text : item.text,
+							}));
+						$('#kd').append($('<option>', { 
+							value: item.value,
+							text : item.text,
+							}));
+					});
+				}
+			} else {		
+				$('.simpan').show();
+				$('.cancel').hide();
+				$('#form').fadeOut();
+				var test =$('#result');
+				if(test.is('input')){
+					$('#result').val(response);
+				} else {
+					$('#result').html(response);
+				}
+				$('table.table').addClass("jarak1");
+				$('.add').show();
+			}
+		}
+	});
 });

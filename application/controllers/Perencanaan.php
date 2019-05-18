@@ -48,65 +48,103 @@ class Perencanaan extends CI_Controller
    */
   public function add_pengetahuan()
   {
-    // $guru = get_my_info();
-    
     $data['ajarans'] = $this->db->get('ajaran')->result();
 		
-		
-    // $loggeduser = $this->ion_auth->user()->row();
 		$guru 	= get_my_info();
 		 
-
-    
-    // if($loggeduser->data_guru_id){
-			// $data_mapel = Kurikulum::find('all', array('conditions' => "guru_id = $loggeduser->data_guru_id", 'group' => 'rombel_id','order'=>'rombel_id ASC'));
-			
-			$this->db->from('kurikulum');
-			$this->db->group_by(['kelas_id']);
-			$this->db->order_by('kelas_id','ASC');
-			$this->db->where(['guru_id' => $guru->id]);
-			$data_mapel = $this->db->get()->result();
+		$this->db->from('kurikulum');
+		$this->db->group_by(['kelas_id']);
+		$this->db->order_by('kelas_id','ASC');
+		$this->db->where(['guru_id' => $guru->id]);
+		$data_mapel = $this->db->get()->result();
 			
 			
 
-      // $data_mapel = $this->db->get_where('kurilulum',['guru_id' => $guru->id])->result();
+    foreach($data_mapel as $datamapel){
+			$rombel_id[] = $datamapel->kelas_id;
+		}
+		if(isset($rombel_id)){
+			$id_rombel = $rombel_id;
+		} else {
+			$id_rombel = array();
+		}
 
-			// var_dump($data_mapel);
-			
-      foreach($data_mapel as $datamapel){
-				$rombel_id[] = $datamapel->kelas_id;
-			}
-			if(isset($rombel_id)){
-				$id_rombel = $rombel_id;
-			} else {
-				$id_rombel = array();
-			}
-			// $data['rombels'] = Datarombel::find('all', array('conditions' => array('id IN (?)', $id_rombel)));
-			// $rombels = $this->db->get_where('data_rombel',['id' => $id_rombel])->result();
-			
-			$this->db->from('kelas');
-			$this->db->where_in('id',$id_rombel);
-			$data['rombels'] = $this->db->get()->result();
-		// } else {
-		// 	$data['rombels'] = Datarombel::all();
-    // }
-    
-
-		// $data['kelas'] = Datarombel::find('all', array('group' => 'tingkat','order'=>'tingkat ASC'));
+		$this->db->from('kelas');
+		$this->db->where_in('id',$id_rombel);
+		$data['rombels'] = $this->db->get()->result();
+		
 		$this->db->from('kelas');
 		$this->db->group_by(['tingkat']);
 		$this->db->order_by('tingkat','ASC');
 		$data['kelas'] = $this->db->get()->result();
 
-		// $this->template->title('Administrator Panel')
-		// ->set_layout($this->admin_tpl)
-		// ->set('form_action', 'admin/perencanaan/simpan_perencanaan')
-		// ->set('page_title', 'Perencanaan Penilaian Pengetahuan')
-		// ->set('query', 'kd')
-		// ->set('kompetensi_id', 1)
-		// ->build($this->admin_folder.'/perencanaan/add_perencanaan',$data);
 		$data['form_action'] 	= 'perencanaan/simpan_perencanaan';
 		$data['query']				= 'kd';
 		$this->template->load('template','perencanaan/add_perencanaan',$data);
-  }
+	}
+	
+	/**
+	 * Save perencanaan
+	 *
+	 *  
+	 * @return 
+	 */
+	public function simpan_perencanaan()
+	{
+		if($_POST){
+			$kompetensi_id		= $_POST['kompetensi_id'];
+			$ajaran_id			= $_POST['ajaran_id'];
+			$rombel_id			= $_POST['rombel_id'];
+			$id_mapel			= $_POST['id_mapel'];
+			$nama_penilaian		= $_POST['nama_penilaian'];
+			$bentuk_penilaian	= $_POST['bentuk_penilaian'];
+			$bobot_penilaian	= isset($_POST['bobot_penilaian']) ? $_POST['bobot_penilaian'] : '';
+			$keterangan_penilaian	= $_POST['keterangan_penilaian'];
+			
+			$bobot_penilaian_result = 1;
+			if($kompetensi_id == 1){
+				$redirect = 'pengetahuan';
+			} else {
+				$redirect = 'keterampilan';
+			}
+			for ($i = 1; $i <= count($nama_penilaian); $i++) {
+				$kd[]		= isset($_POST['kd_'.$i]) ? $_POST['kd_'.$i] : '';
+				$kd_id[]	= isset($_POST['kd_id_'.$i]) ? $_POST['kd_id_'.$i] : '';
+			}
+			$rencana = new Rencana();
+			$rencana->ajaran_id			= $ajaran_id;
+			$rencana->id_mapel			= $id_mapel;
+			$rencana->rombel_id			= $rombel_id;
+			$rencana->kompetensi_id		= $kompetensi_id;
+			$rencana->save();
+			foreach($kd as $k=>$v){
+				if($bobot_penilaian){
+					if($bobot_penilaian[$k] != 0 || $bobot_penilaian[$k] != ''){
+						$bobot_penilaian_result = $bobot_penilaian[$k];
+					}
+				} else {
+					$bobot_penilaian_result = '0';
+				}
+				if(is_array($v)){
+					foreach($v as $ks=>$vs){
+						$get_post_kd = explode("|", $vs);
+						$id_kompetensi = $get_post_kd[0];
+						$id_kd = $get_post_kd[1];
+						$new_rencana_penilaian					= new Rencanapenilaian();
+						$new_rencana_penilaian->rencana_id		= $rencana->id;
+						$new_rencana_penilaian->kompetensi_id	= $kompetensi_id;
+						$new_rencana_penilaian->nama_penilaian	= $nama_penilaian[$k];
+						$new_rencana_penilaian->bentuk_penilaian= $bentuk_penilaian[$k];
+						$new_rencana_penilaian->bobot_penilaian	= $bobot_penilaian_result;
+						$new_rencana_penilaian->keterangan_penilaian	= $keterangan_penilaian[$k];
+						$new_rencana_penilaian->kd_id			= $id_kd;
+						$new_rencana_penilaian->kd				= $id_kompetensi;
+						$new_rencana_penilaian->save();
+					}
+				}
+			}
+			$this->session->set_flashdata('success', 'Berhasil menambah rencana penilaian '.$redirect);
+			redirect('admin/perencanaan/'.$redirect);
+		}
+	}
 }
