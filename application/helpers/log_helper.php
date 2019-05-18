@@ -6,29 +6,12 @@
  * params $tipe = "type of log"
  * params $str = string can write to database in desc
  */
-function helper_log($tipe = "", $str = ""){
+function helper_log($log_tipe = "", $str = ""){
   $CI =& get_instance();
-
-  if (strtolower($tipe) == "login"){
-    $log_tipe   = 0;
-  }
-  elseif(strtolower($tipe) == "logout")
-  {
-    $log_tipe   = 1;
-  }
-  elseif(strtolower($tipe) == "add"){
-    $log_tipe   = 2;
-  }
-  elseif(strtolower($tipe) == "edit"){
-    $log_tipe  = 3;
-  }
-  else{
-    $log_tipe  = 4;
-  }
 
   $param['user']      = $CI->session->userdata('username');
   $param['tipe']      = $log_tipe;
-  $param['desc']      = $str;
+  $param['desc']      = $str. ' |'.get_client_ip_env().' | '.agent();
 
   $CI->load->model('M_log');
 

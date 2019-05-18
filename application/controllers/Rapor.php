@@ -241,7 +241,7 @@ class Rapor extends CI_Controller
 			$ajaran_id = $_POST['ajaran_id'];
 			$kelas_id = $_POST['kelas_id'];
 			$siswa_nis = $_POST['siswa_nis'];
-			$this->form_prakerin($ajaran_id,$kelas_id,$siswa_nis);
+			$this->_form_prakerin($ajaran_id,$kelas_id,$siswa_nis);
 		} else {  
       $data['prakerin'] = $this->db->get_where('pkl',['id' => $id])->row();
       $this->template->set('modal_title','Edit data prakerin');
@@ -250,11 +250,102 @@ class Rapor extends CI_Controller
 		}
   }
 
-  function form_prakerin($ajaran_id,$kelas_id,$siswa_nis){
+  /**
+   * Show form prakerin 
+   * 
+   * 
+   * @return
+   */
+  private function _form_prakerin($ajaran_id,$kelas_id,$siswa_nis){
 		$data['ajaran_id'] = $ajaran_id;
 		$data['kelas_id'] = $kelas_id;
 		$data['siswa_nis'] = $siswa_nis;
 		$this->load->view('rapor/add_pkl', $data);
-	}
+  }
+  
+  /**
+   * show our ekstrakkurikuler
+   * 
+   * 
+   * @return
+   */
+  public function ekskul()
+  {
+    $data['form_action'] = 'rapor/simpan_ekskul';
+    $this->template->load('template','rapor/ekskul',$data);
+  }
+  /**
+   * store our ekstrakkurikuler
+   * 
+   * 
+   * @return
+   */
+  public function simpan_ekskul()
+  {
+    $ajaran_id = $_POST['ajaran_id'];
+		$kelas_id = $_POST['kelas_id'];
+		$ekskul_id = $_POST['ekskul_id'];
+    $siswa_nis = $_POST['siswa_nis'];
+    
+		foreach($siswa_nis as $key=>$siswa){
+    
+      $where = [
+        'ajaran_id'     => $ajaran_id,
+        'ekskul_id'     => $ekskul_id,
+        'kelas_id'      => $kelas_id,
+        'siswa_nis'     => $siswa,
+      ];
+
+      $nilai_ekskul = $this->db->get_where('nilai_ekskul',$where)->row();
+
+      if($nilai_ekskul){
+
+        $this->db->update('nilai_ekskul',[
+          'nilai'             => $_POST['nilai'][$key],
+          'deskripsi_ekskul' 	=> $_POST['deskripsi_ekskul'][$key],
+        ],$where);
+
+			} else {
+        $data = [
+          'ajaran_id'     => $ajaran_id,
+          'kelas_id'      => $kelas_id,
+          'ekskul_id'     => $ekskul_id,
+          'siswa_nis'     => $siswa,
+          'nilai'         => $_POST['nilai'][$key],
+          'deskripsi_ekskul'=> $_POST['deskripsi_ekskul'][$key],
+        ];
+
+        $this->db->insert('nilai_ekskul',$data);
+			}
+    }
+    
+    helper_log(uniqid(),'Mengubah nilai ekskul');
+    alertsuccess('message','Berhasil menambah nilai ekskul');
+    redirect('rapor/ekskul');
+  }
+
+  public function cetak_rapor()
+  {
+    $guru = get_my_info();
+
+    $kelas = $this->db->get_where('kelas',['guru_id' => $guru->id])->row();
+      
+    $kelas_id = isset($kelas->id) ? $kelas->id : 0;
+
+    $kurikulum_id = isset($kelas->kurikulum_id) ? $kelas->kurikulum_id : 0;
+      
+    $ajaran = get_ta();
+      
+		$data['query'] = 'wali';
+		$data['kelas_id'] = $kelas_id;
+    $data['ajaran_id'] = $ajaran->id;
+    $data['nama_kompetensi'] = 2013;
+
+    $kompetensi = $this->db->get_where('data_kurikulum',['kurikulum_id' => $kurikulum_id])->row();
+
+    $nama_kompetensi = isset($kompetensi->nama_kurikulum) ? $kompetensi->nama_kurikulum : 0;
+    
+    $this->template->load('template','cetak/rapor',$data);
+  }
   
 } 

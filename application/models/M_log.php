@@ -17,7 +17,7 @@ class M_log extends CI_Model
   public function retrieve_last_log($login_id)
   {
       $this->db->where('login_id', $login_id);
-      $this->db->order_by('id', 'desc');
+      $this->db->order_by('id', 'desc'); 
       $result = $this->db->get('login_log', 1);
       return $result->row_array();
   }

@@ -19,7 +19,7 @@
           </div>
           <div class="form-group">
             <label>Tingkat</label>
-            <select name="tingkat" class="form-control">
+            <select name="tingkat" class="form-control select2">
               <option value="10" <?= (set_value('tingkat') == 10) ? "selected" : "" ?>>10</option>
               <option value="11" <?= (set_value('tingkat') == 11) ? "selected" : "" ?>>11</option>
               <option value="12" <?= (set_value('tingkat') == 12) ? "selected" : "" ?>>12</option>
@@ -36,7 +36,7 @@
           </div>
           <div class="form-group">
             <label>Jurusan</label>
-            <select name="jurusan" class="form-control">
+            <select name="jurusan" class="form-control select2">
               <?php foreach($keahlians as $keahlian): ?>
                 <option value="<?= $keahlian->kurikulum_id ?>" <?= ($keahlian->kurikulum_id == set_value('jurusan')? "selected" : "") ?>><?= $keahlian->nama_kurikulum ?></option>
               <?php endforeach; ?>

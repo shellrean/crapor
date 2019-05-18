@@ -233,6 +233,44 @@ $('#myform').submit(function(e) {
  * 
  * --------------------------------------------------------------
  */ 
+$('#myform2').submit(function(e) {
+  e.preventDefault();
+
+  $.ajax({
+    url: $('#base_url').val(),
+    type: 'post',
+    data: $("form").serialize(),
+    success: function(response){
+      var view = $.parseJSON(response);
+      $.notify({
+        icon: 'fas fa-fw fa-clipboard-check',
+        message: view.text,
+      },{
+        animate: {
+          enter: 'animated fadeInRight',
+          exit: 'animated fadeOutUp'
+        },
+        type: view.type,
+        delay: 500, 
+      });
+      
+      $("#kelas").val('');
+      $("#rombel").val(''); 
+      $("#mapel").val('');
+      $("#kd_uraian").val('');
+      $("#kd_id").val('');
+      $("#kelas").trigger('change.select2');
+      $("#rombel").trigger('change.select2');
+      $("#mapel").trigger('change.select2');
+
+    }
+  });
+})
+/**
+ * Kompetensi dasar submit
+ * 
+ * --------------------------------------------------------------
+ */ 
 $('#formEditKd').submit(function(e) {
   e.preventDefault();
   var id_edited = $('#id_edited').val();
@@ -274,6 +312,32 @@ $('#siswa').change(function(){
   $('#rerata').hide();
   $.ajax({
     url: $('#base_url').val()+'asesmen/get_'+query,
+    type: 'post',
+    data: $('form').serialize(),
+    success: function(response){
+      $('.simpan').show();
+      $('.cancel').hide();
+      $('#form').fadeOut();
+      $('#result').html(response);
+      $('table.table').addClass("jarak1");
+      $('.add').show();
+      $('#rerata').show();
+    }
+  });
+});
+/**
+ * ekskul changed
+ * 
+ * --------------------------------------------------------------
+ */
+$('#ekskul').change(function(){
+  var query = $('#query').val();
+  var ini = $(this).val();
+  if(ini == ''){
+    return false;
+  }
+  $.ajax({
+    url: $('#base_url').val()+'/get_'+query,
     type: 'post',
     data: $('form').serialize(),
     success: function(response){
