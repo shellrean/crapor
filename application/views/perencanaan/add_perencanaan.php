@@ -2,21 +2,21 @@
     <?= $this->session->flashdata('message'); ?>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <a href="<?= base_url('perencanaan/add_pengetahuan') ?>" class="btn btn-sm btn-info btn-icon-split">
+          <a href="<?= base_url('perencanaan/pengetahuan') ?>" class="btn btn-sm btn-warning btn-icon-split">
             <span class="icon text-white-50">
-              <i class="fas fa-fw fa-plus"></i>
+              <i class="fas fa-fw fa-angle-double-left"></i> 
             </span>
-            <span class="text">Tambah rencana penilaian pengetahuan</span>
+            <span class="text">Kembali</span>
           </a>
         </div>
-        <form action="<?= base_url().$form_action ?>" >
+        <form action="<?= base_url().$form_action ?>" method="post">
         <?php
  
             $ajaran = get_ta();
             $tahun_ajaran = $ajaran->tahun. ' (SMT '. $ajaran->smt.')';
             $data_kompetensi = $this->db->get('keahlian')->result();
 
-        ?>
+        ?> 
         <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -54,15 +54,10 @@
               </div>
             </div>
         </div>
-        
     </div>
-      
-        <div class="card-footer">
-        <div class="box-footer table-responsive no-padding" id="result"> 
-			</div>  
-          
-
-
-        </div>
-        </form>
+    <div class="card-footer">
+      <div class="box-footer table-responsive no-padding" id="result"> 
+		</div>  
+    </div>
+  </form>
 </div> 

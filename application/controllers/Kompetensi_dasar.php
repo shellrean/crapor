@@ -107,6 +107,20 @@ class Kompetensi_dasar extends CI_Controller
     echo json_encode($status);
   }
 
+  /**
+   * Delete kompetensi dasar
+   * 
+   * 
+   * @return json
+   */
+  public function delete($id)
+  {
+    $this->db->delete('kd',['id' => $id]);
+
+    helper_log(uniqid(),'Menghapus kompetensi dasar');
+    alertsuccess('message','Berhasil menghapus kompetensi dasar');
+    redirect('kompetensi_dasar');
+  }
    
 
 }

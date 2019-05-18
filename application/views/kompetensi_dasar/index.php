@@ -18,6 +18,7 @@
                         <th style="width: 8%">Mata Pelajaran</th>
                         <th style="width: 5%">Kode</th>
                         <th style="width: 5%">Kelas</th>
+                        <th style="width: 5%">Aspek</th>
                         <th style="width: 20%">Isi Kompetensi</th>
                         <th style="width: 8%">Aksi</th>
                        </tr> 
@@ -28,6 +29,7 @@
                           <td><?= $kd->nama_mapel ?></td>
                           <td><?= $kd->id_mapel ?></td>
                           <td><?= $kd->tingkat ?></td>
+                          <td><?= $kd->aspek ?></td>
                           <td><?= $kd->kompetensi_dasar ?></td>
                           <td>
                             <div class="btn-group">
@@ -36,7 +38,7 @@
                               </button>
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="<?= base_url('kompetensi_dasar/edit/'.$kd->id) ?>">Edit</a>
-                                <a class="dropdown-item" href="#">Hapus</a>
+                                <a class="dropdown-item" href="<?= base_url('kompetensi_dasar/delete/'.$kd->id) ?>">Hapus</a>
                               </div>
                             </div>
                           </td>

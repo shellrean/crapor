@@ -1,36 +1,43 @@
 
 <link rel="stylesheet" href="<?= base_url('assets/') ?>css/tooltip-viewport.css">
-
 <script src="<?= base_url('assets/') ?>js/tooltip-viewport.js"></script>
+
+
 <?php
+
+# get id kelas selected
 $data_kelas = $this->db->get_where('kelas',['id' => $id_kelas])->row();
-// $join = "INNER JOIN matpel_komps a ON(kds.id_mapel= a.id_mapel AND a.kurikulum_id = $data_rombel->kurikulum_id)";
+
+# cek pengetahuan atau keterampilan
 if($kompetensi_id == 1){
 	$aspek = 'P';
 } else {
 	$aspek = 'K';
 }
-// $all_kd = Kd::find('all', array('conditions' => "kds.id_mapel  = '$id_mapel' AND kelas = $data_rombel->tingkat AND aspek = '$aspek'"));
+
+# ambil semua kd yang sesuai dengan mapel 
 $all_kd = $this->db->get_where('kd',[
   'id_mapel'      => $id_mapel,
   'tingkat'       => $data_kelas->tingkat,
   'aspek'         => $aspek
 ])->result();
 
+# jika tidak ditemukan kd
 if(!$all_kd){
-  $all_kd = Kd::find('all', array('conditions' => "kds.id_mapel  = '$id_mapel' AND kelas = $data_rombel->tingkat AND aspek = 'PK'"));
-  $all_kd = $this->db->get_where('kd',[
+	$all_kd = $this->db->get_where('kd',[
     'id_mapel'      => $id_mapel,
     'tingkat'       => $data_kelas->tingkat,
     'aspek'         => 'PK'
   ])->result();
 }  
 
+# cacah kd selected
 foreach($all_kd as $kd){
 	$get_kd[$kd->id] = $kd->id_kd;
 	$get_kd_alternatif[$kd->id] = $kd->id_kd;
 }
 
+# select motode dari database
 $bentuk_penilaian = $this->db->get_where('metode',[
   'ajaran_id'     => $ajaran_id,
   'kompetensi_id' => $kompetensi_id,
@@ -41,84 +48,84 @@ if($all_kd){
 <div class="card">
   <div class="card-body">
     
+	<table class="table table-bordered" id="clone">
+		<thead>
+			<tr>
+				<th class="text-center" style="min-width:110px">Aktifitas Penilaian</th>
+				<th class="text-center" style="min-width:110px;">Teknik</th>
+				<?php if($kompetensi_id == 1){ ?>
+				<th class="text-center" width="10">Bobot</th>
+				<?php } ?>
+				<?php
+				foreach($all_kd as $kd){
+				?> 
+				<th class="text-center"><a href="javascript:void(0)" class="tooltip-top" title="<?php echo $kd->kompetensi_dasar; ?>"><?php echo $kd->id_kd; ?></a></th>
+				<?php
+				} 
+				?>
+				<th class="text-center">Keterangan</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for ($i = 1; $i <= 5; $i++) {?>
+			<tr>
+				<td>
+					<input class="form-control input-sm" type="text" name="nama_penilaian[]" value="" placeholder="PH/PTS/PAS/PAT">
+				</td>
+				<td>
+					<select class="form-control input-sm" name="bentuk_penilaian[]">
+						<option value="">&#10147; Pilih </option>
+						<?php 
+						if($bentuk_penilaian){
+							foreach($bentuk_penilaian as $value){ ?>
+						<option value="<?php echo $value->id; ?>"><?php echo $value->nama_metode; ?></option>
+						<?php } 
+						} else {
+						?>
+						<option value="">Belum ada</option>
+						<?php } ?>
+					</select>
+				</td>
+				<?php if($kompetensi_id == 1){ ?>
+				<td>
+					<input class="form-control input-sm" type="text" name="bobot_penilaian[]" value="">
+				</td>
+				<?php } ?>
 
-<table class="table table-striped table-bordered" id="clone">
-	<thead>
-		<tr>
-			<th class="text-center" style="min-width:110px">Aktifitas Penilaian</th>
-			<th class="text-center" style="min-width:110px;">Teknik</th>
-			<?php //if($kompetensi_id == 1){ ?>
-			<th class="text-center" width="10">Bobot</th>
-			<?php //} ?>
-			<?php
-			foreach($all_kd as $kd){
-			?>
-			<th class="text-center"><a href="javascript:void(0)" class="tooltip-top" title="<?php echo $kd->kompetensi_dasar; ?>"><?php echo $kd->id_kd; ?></a></th>
-			<?php
-			} 
-			?>
-			<th class="text-center">Keterangan</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php for ($i = 1; $i <= 5; $i++) {?>
-		<tr>
-			<td>
-				<input class="form-control input-sm" type="text" name="nama_penilaian[]" value="" placeholder="UH/UTS/UAS dll...">
-			</td>
-			<td>
-				<select class="form-control input-sm" name="bentuk_penilaian[]">
-					<option value="">- Pilih -</option>
-					<?php 
-					if($bentuk_penilaian){
-						foreach($bentuk_penilaian as $value){ ?>
-					<option value="<?php echo $value->id; ?>"><?php echo $value->nama_metode; ?></option>
-					<?php } 
-					} else {
-					?>
-					<option value="">Belum ada</option>
-					<?php } ?>
-				</select>
-			</td>
-			<?php //if($kompetensi_id == 1){ ?>
-			<td>
-				<input class="form-control input-sm" type="text" name="bobot_penilaian[]" value="">
-			</td>
-			<?php //} ?>
-			<?php
-			if(isset($result)){
-			foreach($result as $key=>$kd_result){
-        $kd = $this->db->get_where('kd',['id' => $key])->row();
-			?>
-			<td style="vertical-align:middle;">
-				<input type="hidden" name="kd_id_<?php echo $i; ?>[]" value="<?php echo $kd->id; ?>" />
-				<div class="text-center"><input type="checkbox" name="kd_<?php echo $i; ?>[]" value="<?php echo $kd->id_kd; ?>|<?php echo $kd->id; ?>" /></div>
-			</td>
-			<?php } 
-			} else {
-			if(isset($get_kd_alternatif)){ 
-				foreach($get_kd_alternatif as $kd_alt => $value){
-        $kd = $this->db->get_where('kd',['id' => $kd_alt])->row();
-			 ?>
-			<td style="vertical-align:middle;">
-				<input type="hidden" name="kd_id_<?php echo $i; ?>[]" value="<?php echo $kd->id; ?>" />
-				<div class="text-center"><input type="checkbox" name="kd_<?php echo $i; ?>[]" value="<?php echo $kd->id_kd; ?>|<?php echo $kd->id; ?>" /></div>
-			</td>
-			<?php
+				<?php
+				if(isset($result)){
+				foreach($result as $key=>$kd_result){
+					$kd = $this->db->get_where('kd',['id' => $key])->row();
+				?>
+				<td style="vertical-align:middle;">
+					<input type="hidden" name="kd_id_<?php echo $i; ?>[]" value="<?php echo $kd->id; ?>" />
+					<div class="text-center"><input type="checkbox" name="kd_<?php echo $i; ?>[]" value="<?php echo $kd->id_kd; ?>|<?php echo $kd->id; ?>" /></div>
+				</td>
+				<?php } 
+				} else {
+				if(isset($get_kd_alternatif)){ 
+					foreach($get_kd_alternatif as $kd_alt => $value){
+					$kd = $this->db->get_where('kd',['id' => $kd_alt])->row();
+				?>
+				<td style="vertical-align:middle;">
+					<input type="hidden" name="kd_id_<?php echo $i; ?>[]" value="<?php echo $kd->id; ?>" />
+					<div class="text-center"><input type="checkbox" name="kd_<?php echo $i; ?>[]" value="<?php echo $kd->id_kd; ?>|<?php echo $kd->id; ?>" /></div>
+				</td>
+				<?php
+					}
 				}
-			}
 			} ?>
 			<td><input class="form-control input-sm" type="text" name="keterangan_penilaian[]" value=""></td>
 		</tr>
 		<?php } ?>
 	</tbody>
 </table>
-<a href="#" class="clone btn btn-sm btn-btn-icon-split btn-danger">
+<a href="javascript:0" class="clone btn btn-sm btn-btn-icon-split btn-danger">
   <span class="icon text-white-50">
     <i class="fas fa-fw fa-plus"></i>
   </span>
   <span class="text">Tambah aktifitas penilaian</span>
-</a>
+</a> 
 <!-- <button type="submit" class="btn btn-success pull-right">Simpan</button> -->
 <button type="submit" class="btn btn-sm btn-success btn-icon-split">
             <span class="icon text-white-50">
@@ -217,6 +224,3 @@ $("a.clone").click(function() {
 	i++;
 });
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/') ?>css/tooltip-viewport.css">
-
-<script src="<?= base_url('assets/') ?>js/tooltip-viewport.js"></script>

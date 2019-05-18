@@ -59,8 +59,8 @@ class Ajax extends CI_Controller
 		
 		$ajaran_id = $_POST['ajaran_id'];
 		$kelas_id = $_POST['kelas_id'];
-    $query		= $_POST['query'];
-    
+    $query		= $_POST['query']; 
+     
     $this->db->select('*');
     $this->db->from('kurikulum');
     $this->db->where(['ajaran_id' => $ajaran_id, 'kelas_id' => $kelas_id, 'guru_id' => $guru->id]);

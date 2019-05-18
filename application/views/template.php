@@ -39,6 +39,8 @@
     <script src="<?= base_url('assets') ?>/js/pace.min.js"></script>
 
     <script src="<?= base_url() ?>assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <!-- sweetalert -->
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendor/sweetalert2/sweetalert2.min.css">
 </head>
 
 <body id="page-top">
@@ -293,7 +295,7 @@
     <script src="<?= base_url('assets') ?>/js/jquery.fileupload.js"></script>
     <!-- Page for select2 -->
     <script src="<?= base_url('assets/') ?>vendor/select2/js/select2.min.js"></script>
-    
+    <script src="<?= base_url('assets/')?>vendor/sweetalert2/sweetalert2.min.js"></script>
     <script>
         $('#fileupload').fileupload({
             url: "<?= site_url('user/import'); ?>",

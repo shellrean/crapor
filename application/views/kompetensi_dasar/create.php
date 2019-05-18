@@ -42,7 +42,7 @@
  
                 <div class="form-group">
                   <label>Kelas</label>
-                  <select name="rombel_id" class="select2 form-control" id="rombel" required>
+                  <select name="kelas_id" class="select2 form-control" id="rombel" required>
                     <option value="">&#10147; Pilih kelas</option>
                   </select>
                 </div> 

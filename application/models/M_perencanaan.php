@@ -10,6 +10,8 @@ class M_perencanaan extends CI_Model
         $this->db->order_by('bentuk_penilaian','ASC');
         
         $result = $this->db->get()->result();
-        return $result;
+
+        var_dump($result);
+        // return $result; 
     }
 }

@@ -32,6 +32,7 @@
             <select class="form-control" name="role_id">
               <option value="1" <?= ($menu->role == 1 ?  "selected" : "") ?>>Admin</option>
               <option value="2" <?= ($menu->role == 2 ?  "selected" : "") ?>>User</option>
+              <option value="3" <?= ($menu->role == 3 ?  "selected" : "") ?>>Wali kelas</option>
             </select>
             <?= form_error('role','<small class="form-text text-danger">','</small>') ?>
           </div>

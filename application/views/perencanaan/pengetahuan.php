@@ -26,13 +26,37 @@
                     <tbody> 
                       <?php foreach($result as $d): ?>
                       <tr>
+                        <?php
+                          $this->db->from('rencana_penilaian');
+                          $this->db->group_by(['nama_penilaian']);
+                          $this->db->where(['rencana_id' => $d->id]);
+                          $rencana_penilaian_group = $this->db->get()->result();
+
+                          $this->db->from('rencana_penilaian');
+                          $this->db->group_by(['kd_id']);
+                          $this->db->where(['rencana_id' => $d->id]);
+
+                          $rencana_penilaian = $this->db->get()->result();
+                          $jumlah_rencana_penilaian = count($rencana_penilaian);
+                        ?>
+
                         <td><?= $ajaran->tahun ?></td>
                         <td><?= get_nama_kelas($d->kelas_id) ?></td>
                         <td><?= get_nama_mapel($ajaran->id,$d->kelas_id,$d->id_mapel) ?></td>
-                        <td><?= get_nama_guru($d->guru_id) ?></td>
-                        <td><?= count($this->M_perencanaan->get_all_rencana_penilaian($d->id)) ?></td>
-                        <td></td>
-                        <td></td>
+                        <td><?= get_nama_guru($d->guru_id) ?></td> 
+                        <td><?= count($rencana_penilaian_group) ?></td>
+                        <td><?= $jumlah_rencana_penilaian ?></td> 
+                        <td>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Aksi
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item toggle-modal" href="<?= base_url('perencanaan/edit/'.$d->kompetensi_id.'/'.$d->id) ?>">Edit</a>
+                              <a class="dropdown-item confirm" href="<?= base_url('perencanaan/delete/'.$d->id) ?>">Hapus</a>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <?php endforeach; ?>
                     </tbody>
@@ -41,3 +65,30 @@
         </div>
     </div>
 </div> 
+<script>
+$('a.confirm').bind('click',function(e) {
+	var ini = $(this).parents('tr');
+	e.preventDefault();
+	var url = $(this).attr('href');
+	swal({
+		title: "Anda Yakin?",
+		text: "Tindakan ini tidak bisa dikembalikan!",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "Hapus!",
+		showLoaderOnConfirm: true,
+		preConfirm: function() {
+			return new Promise(function(resolve) {
+				$.get(url)
+				.done(function(response) {
+					var data = $.parseJSON(response);
+					swal({title:data.title, html:data.text, type:data.type}).then(function() {
+						ini.remove();
+					});
+				})
+			})
+		}
+	});
+});
+</script>

@@ -32,6 +32,7 @@
             <select class="form-control" name="role_id">
               <option value="1">Admin</option>
               <option value="2">User</option>
+              <option value="3">Wali kelas</option>
             </select>
             <?= form_error('role','<small class="form-text text-danger">','</small>') ?>
           </div>

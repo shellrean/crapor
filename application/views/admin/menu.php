@@ -42,6 +42,8 @@
                                 <span class="badge badge-info">Admin</span>
                               <?php elseif($menu->role == 2): ?>
                                 <span class="badge badge-success">User</span>
+                              <?php elseif($menu->role == 3): ?>
+                                <span class="badge badge-success">Wali kelas</span>
                               <?php endif; ?>
                             </td> 
                             <td>

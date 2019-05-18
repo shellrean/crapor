@@ -160,12 +160,12 @@ $('#rombel').change(function(){
     get = 'kurikulum';
   } else {
     get = 'mapel';
-  }
+  } 
   $.ajax({
     url: $('#base_url').val()+'ajax/get_'+get,
     type: 'post',
     data: $("form").serialize(),
-    success: function(response){
+    success: function(response){ 
       result = checkJSON(response);
       if(result == true){
         var data = $.parseJSON(response);
