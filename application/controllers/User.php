@@ -336,4 +336,42 @@ class User extends CI_Controller
       redirect('errors/denied');
     }
   }
+  /**
+   * Show dashboard role khusus
+   */
+  public function khusus()
+  {
+    $data['users'] = $this->db->get('role_khusus')->result();
+    $this->template->load('template','user/khusus',$data);
+  }
+
+  /**
+   * Create new role khusus
+   */
+  public function add_khusus()
+  {
+    $data['users'] = $this->db->get_where('user')->result();
+    $this->template->load('template','user/add_khusus',$data);
+  }
+  /**
+   * Strore khusus role
+   */
+  public function create_khusus()
+  {
+    $data = [
+      'guru_id'     => $this->input->post('user_id',true),
+      'role_id'     => $this->input->post('role_id',true)
+    ];
+    $this->db->insert('role_khusus',$data);
+    helper_log(uniqid(),'Menambahkan user dengan role khusus');
+    alertsuccess('message','Berhasil menambahkan user dengan role khusus');
+    redirect('user/khusus');
+  }
+  public function delete_khusus($id)
+  {
+    $this->db->delete('role_khusus',['id' => $id]);
+    alertsuccess('message','Berhasil menghapus user dengan role khusus');
+    redirect('user/khusus');
+  }
 }
+ 

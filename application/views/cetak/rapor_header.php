@@ -16,7 +16,7 @@ $setting = $this->db->get('setting')->row();
 body{background:#FFFFFF !important; background-color:#FFFFFF;font-family:Times; font-size:12px;}
 h3{font-size:14px;}
 table tr td,table tr th{padding:5px;}
-.table th{background-color:#FFFFCC !important}
+.table th{background-color:#ffff8f !important}
 .strong {font-weight:bold;}
 </style>
 </head>

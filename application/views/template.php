@@ -146,6 +146,48 @@
             }
             ?>
             <?php endif; ?>
+            <?php 
+            $cek2 = $this->db->get_where('role_khusus',['guru_id' => $myinfo->id])->num_rows();
+            if($cek2): ?>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                 Navigasi role khusus
+            </div>
+            <?php 
+            $main_menu = $this->db->get_where('menus', ['is_main_menu' => 0, 'role' => 4])->result();
+            foreach ($main_menu as $main) {
+                $submenu = $this->db->get_where('menus', ['is_main_menu' => $main->id]);
+                if ($submenu->num_rows() > 0) {
+                    echo
+                        '<li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#' . $main->link . '" aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="' . $main->icon . '"></i>
+                            <span>' . $main->title . '</span>
+                        </a>
+                        <div id="' . $main->link . '" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">';
+
+                    foreach ($submenu->result() as $sub) {
+                        echo
+                            '<a class="collapse-item" href="'.base_url() . $sub->link . '">
+                                <i class="' . $sub->icon . '"></i> ' . $sub->title . '
+                            </a>';
+                    }
+                    echo
+                        '</div>
+                        </div>
+                        </li>';
+                } else {
+                    echo '<li class ="nav-item ">
+                            <a class="nav-link" href="'.base_url(). $main->link . '">
+                                <i class="' . $main->icon . '" ></i>
+                                <span>' . $main->title . '</span>
+                            </a>
+                         </li>';
+                }
+            }
+            ?>
+            <?php endif; ?>
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -276,6 +318,8 @@
     <div id="loading">
     <div class="lds-dual-ring"></div>
     </div>
+
+    
 
     
 

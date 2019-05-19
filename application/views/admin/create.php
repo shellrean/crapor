@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="card-footer text-muted">
-      <button type="submit" class="btn btn-success btn-icon-split">
+      <button type="submit" class="btn btn-success btn-sm btn-icon-split">
         <span class="icon text-white-50">
           <i class="far fa-save"></i>
         </span>

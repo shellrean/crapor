@@ -1,5 +1,4 @@
 <div class="container-fluid">
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header">
         <a href="<?= base_url('user') ?>" class="btn btn-sm btn-warning btn-icon-split">

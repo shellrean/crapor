@@ -14,7 +14,7 @@ $ajaran = $this->db->get('ajaran',['id' => $ajaran_id])->row();
 $rombel = $this->db->get('kelas',['id' => $kelas_id])->row();
 
 ?>
-<div class="strong">E.&nbsp;&nbsp;Ekstrakurikuler</div>
+<div class="strong">D.&nbsp;&nbsp;Ekstrakurikuler</div>
 <table <?php echo $atribute; ?>>
 	<thead>
 		<tr>

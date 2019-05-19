@@ -25,22 +25,22 @@
           </div>
           <div class="form-group">
             <label>Nip</label>
-            <input type="text" class="form-control" name="nip" id="nip" placeholder="Masukkan nama nip" value="<?= $users->nip; ?>">
+            <input type="text"  class="form-control" name="nip" id="nip" placeholder="Masukkan nama nip" value="<?= $users->nip; ?>">
             <?= form_error('nip','<small class="form-text text-danger">','</small>') ?>
           </div>  
 
           <div class="form-group">
             <label>Status</label>
-            <select name="is_active" id="is_active" class="form-control" value="<?= $users->is_active ?>">
-              <option value="0">Tidak aktif</option>
-              <option value="1">Aktif</option>
+            <select name="is_active" id="is_active" class="select2 form-control">
+              <option value="0" <?= ($users->is_active == 0) ? 'selected' : '' ?> >Tidak aktif</option>
+              <option value="1" <?= ($users->is_active == 1) ? 'selected' : '' ?> >Aktif</option>
             </select>
           </div>
         </div>
       </div>
     </div>
     <div class="card-footer text-muted">
-      <button type="submit" class="btn btn-success btn-icon-split">
+      <button type="submit" class="btn btn-success btn-sm btn-icon-split">
         <span class="icon text-white-50">
           <i class="far fa-save"></i>
         </span>

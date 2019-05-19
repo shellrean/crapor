@@ -421,4 +421,19 @@ class Asesmen extends CI_Controller
 		echo $html;
 	}
 
+	public function get_analisis_penilaian(){
+		$data['ajaran_id'] = $_POST['ajaran_id'];
+		$data['kelas_id'] = $_POST['kelas_id'];
+		$data['mapel_id'] = $_POST['id_mapel'];
+		$post	= $_POST['penilaian'];
+		$post = explode("#", $post);
+		$data['rencana_id'] = $post[0];
+		if(!isset($post[1])){
+			exit;
+		}
+		$data['nama_penilaian'] = $post[1];
+		$data['kompetensi_id'] = $post[2]; 
+		$this->load->view('monitoring/analisis_penilaian',$data);
+	}
+
 }

@@ -28,7 +28,7 @@
                 </div>
                 <div class="form-group">
                   <label>Jurusan</label>
-                  <select name="kurikulum_id" id="" class="form-control">
+                  <select name="kurikulum_id" id="" class="select2 form-control">
                     <?php foreach($jurusans as $jurusan): ?>
                     <option value="<?= $jurusan->kurikulum_id ?>"><?= get_kurikulum($jurusan->kurikulum_id) ?></option>
                     <?php endforeach; ?>
@@ -37,21 +37,21 @@
                 <div class="form-group">
                   <label>Kelompok mapel</label>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="A" checked>
+                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="A0" checked>
                     <label class="form-check-label" for="exampleRadios1">
                       A
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="B">
+                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="B0">
                     <label class="form-check-label" for="exampleRadios1">
                       B
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="C1">
+                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="C">
                     <label class="form-check-label" for="exampleRadios1">
-                      C1
+                      C
                     </label>
                   </div>
                   <div class="form-check">

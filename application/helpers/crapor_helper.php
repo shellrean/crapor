@@ -374,3 +374,145 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $kkm = isset($get_kkm->kkm) && $get_kkm->kkm ? $get_kkm->kkm : '-';
     return $kkm;
   }
+
+  /**
+   * Helper untuk mengambil menentukan predikat dari nilai
+   * @param integer $kkm
+   * @param integer $a
+   * @return array
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function predikat($kkm, $a)
+  {
+    $rumus = (100-$kkm) / 3;
+    $rumus = number_format($rumus,0);
+    $result = array(
+          'd'	=> $kkm - 1,
+          'c'	=> $kkm + $rumus,
+          'b'	=> $kkm + ($rumus * 2),
+          'a'	=> $kkm + ($rumus * 3),
+          );
+    if($result[$a] > 100)
+      $result[$a] = 100;
+    return $result[$a];
+  }
+
+  /**
+   * Helper untuk mengambil menentukan mengambil tooltip
+   * @param integer $input
+   * @param integer $a
+   * @param integer $b
+   * @return array
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function sebaran($input, $a,$b){
+    $range_data = range($a,$b);	
+    $output = array_intersect($input , $range_data);
+    return $output;
+  }
+  /**
+   * Helper untuk mengambil menentukan mengambil tooltip
+   * @param integer $input
+   * @param integer $a
+   * @param integer $b
+   * @param integer $c
+   * @return array
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function sebaran_tooltip($input, $a,$b,$c){
+    $CI = & get_instance();
+    $range_data = range($a,$b);
+    $output = array_intersect($input , $range_data);
+    $data = array();
+    $nama_siswa = '';
+    foreach($output as $k=>$v){
+      $siswa = $CI->db->get_where('siswa',['nis' => $k])->row();
+      if($siswa){
+        $nama_siswa = $siswa->nama;
+      }
+      $data[] = $nama_siswa;
+    }
+    if(count($output) == 0){
+      $result = count($output);
+    } else {
+      $result = '<a class="tooltip-'.$c.'" href="javascript:void(0)" title="'.implode('<br />',$data).'" data-html="true">'.count($output).'</a>';
+    }
+    return $result;
+  }
+
+
+  function filter_agama_mapel($ajaran_id,$rombel_id,$get_id_mapel, $all_mapel,$agama_siswa){
+	$kelompok_agama = preg_quote('A0', '~'); // don't forget to quote input string!
+	$normatif_1 = preg_quote('A-', '~'); // don't forget to quote input string!
+	$get_mapel_agama = preg_grep('~' . $kelompok_agama . '~', $get_id_mapel);
+	$get_mapel_agama_alias = preg_grep('~' . $normatif_1 . '~', $get_id_mapel);
+	foreach($get_mapel_agama as $agama){
+		$mapel_agama[$agama] = get_nama_mapel($ajaran_id,$rombel_id,$agama);
+	}
+	// foreach($get_mapel_agama_alias as $agama_alias){
+	// 	$mapel_agama_alias[$agama_alias] = get_nama_mapel($ajaran_id,$rombel_id,$agama_alias);
+	// }
+	if(isset($mapel_agama)){
+		foreach($mapel_agama as $key=>$m_agama){
+			if (strpos($m_agama,$agama_siswa) == false) {
+				$mapel_agama_jadi[] = $key;
+			}
+		}
+	}
+	if(isset($mapel_agama_alias)){
+		foreach($mapel_agama_alias as $key=>$m_agama_alias){
+			if (strpos($m_agama_alias,get_agama($agama_siswa)) == false) {
+				$mapel_agama_alias_jadi[] = $key;
+			}
+		}
+	}
+	if(isset($mapel_agama_jadi)){
+		$all_mapel = array_diff($all_mapel, $mapel_agama_jadi);
+	}
+	if(isset($mapel_agama_alias_jadi)){
+		$all_mapel = array_diff($all_mapel, $mapel_agama_alias_jadi);
+	}
+	return $all_mapel;
+}
+
+function konversi_huruf($kkm_value, $n,$show='predikat'){
+  $predikat	= 0;
+  $sikap		= 0;
+  $sikap_full	= 0;
+  $b = predikat($kkm_value,'b') + 1;
+  $c = predikat($kkm_value,'c') + 1;
+  $d = predikat($kkm_value,'d') - 1;
+    if($n == 0){
+      $predikat 	= '-';
+      $sikap		= '-';
+      $sikap_full	= '-';
+    } elseif($n >= $b){//$settings->a_min){ //86
+      $predikat 	= 'A';
+      $sikap		= 'SB';
+      $sikap_full	= 'Sangat Baik';
+    } elseif($n >= $c){ //71
+      $predikat 	= 'B';
+      $sikap		= 'B';
+      $sikap_full	= 'Baik';
+    } elseif($n >= $d){ //56
+      $predikat 	= 'C';
+      $sikap		= 'C';
+      $sikap_full	= 'Cukup';
+    } elseif($n < $d){ //56
+      $predikat 	= 'D';
+      $sikap		= 'K';
+      $sikap_full	= 'Kurang';
+    }
+    if($show == 'predikat'){
+      $html = $predikat;
+    } elseif($show == 'sikap'){
+      $html = $sikap;
+    } elseif($show == 'sikap_full'){
+      $html = $sikap_full;
+    } else {
+      $html = 'Unknow';
+    }
+    return $html;
+  }
+
+  

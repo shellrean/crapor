@@ -129,7 +129,7 @@ class Penilaian extends CI_Controller
         'kompetensi_id' => $get_rencana->kompetensi_id,
         'kelas_id'      => $kelas_id,
         'mapel_id'      => $id_mapel,
-        'siswa_nis'     => $siswa,
+        'data_siswa_nis'     => $siswa,
         'rencana_penilaian_id' => $rencana_penilaian_id
       ];
 
@@ -148,7 +148,7 @@ class Penilaian extends CI_Controller
           'kelas_id'        => $kelas_id,
           'mapel_id'        => $id_mapel,
           'rencana_penilaian_id'  => $rencana_penilaian_id,
-          'siswa_nis'       => $siswa,
+          'data_siswa_nis'       => $siswa,
           'rerata_nilai'    => $_POST['rerata'][$k],
           'nilai'           => $_POST['rerata_jadi'][$k],
         ];

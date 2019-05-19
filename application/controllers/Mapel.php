@@ -8,6 +8,7 @@ class Mapel extends CI_Controller
   {
     parent::__construct();
 
+    is_login();
     $this->load->library('form_validation');
   }
   /**
@@ -83,9 +84,6 @@ class Mapel extends CI_Controller
       $this->db->join('data_kurikulum', 'data_kurikulum.kurikulum_id = keahlian.kurikulum_id');
       $data['jurusans'] = $this->db->get()->result();
       $mapel = $this->db->get_where('data_mapel',['id_mapel' => $id_mapel])->row();
-      $ex = explode('-',$mapel->id_mapel);
-      $data['kelompok'] = $ex[0];
-      $data['id_mapel'] = $ex[1];
       $data['mapel'] = $mapel;
       $this->template->load('template','mapel/edit',$data);
 

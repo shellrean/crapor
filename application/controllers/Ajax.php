@@ -18,19 +18,41 @@ class Ajax extends CI_Controller
     $query = $this->input->post('query',true);
     $tingkat = $this->input->post('kelas',true);
 
-    $this->db->where('guru_id',$guru->id);
-    $this->db->group_by("kelas_id");
-    $data_mapel= $this->db->get('kurikulum')->result();
+		// var_dump($tingkat);
+		$qry1 = $this->db->from('kurikulum');
+    $qry1->where('guru_id',$guru->id);
+    $qry1->group_by("kelas_id");
+    $data_mapel= $qry1->get()->result();
 
     foreach($data_mapel as $datamapel) {
       $rombel_id[] = $datamapel->kelas_id;
     }
 
-    if($query == 'sikap'){
-      // $data_rombel = Datarombel::find('all', array('conditions' => array('id IN (?) AND tingkat = ?', $rombel_id, $tingkat)));
-    } else {
-      $data_rombel = $this->db->get_where('kelas',['tingkat' => $tingkat])->result();
-    }
+		# car di role khusus apakah dia termasuk role khusus
+		$qry2 = $this->db->from('role_khusus');
+		$qry2->where(['guru_id' => $guru->id]);
+		$datas = $qry2->get()->row();
+		// var_dump($datas);
+		if($datas) {
+			# jika role khusus adalah wakil kurikulum yaitu 4
+			if($datas->role_id == 4) {
+			
+				$qry3 = $this->db->from('kelas');
+				$qry3->where(['tingkat' => $tingkat]);
+				$data_rombel = $qry3->get()->result();
+			
+				// var_dump($data_rombel);
+			}
+		
+		} else {
+
+			$qry4 = $this->db->from('kelas');
+			$qry4->where_in('id',$rombel_id);
+			$qry4->where('tingkat',$tingkat);
+			$data_rombel = $qry4->get()->result();
+
+		}
+		
 		if($data_rombel){
 			foreach($data_rombel as $rombel){
 				$record= array();
@@ -171,5 +193,33 @@ class Ajax extends CI_Controller
 		$record[1]['text'] 	= 'Keterampilan';
 		$output['result'] = $record;
 		echo json_encode($output);
+  }
+  
+  public function get_rencana_id(){
+		$all_rencana = array(
+							array(
+								'id'	=> 1,
+								'nama'	=> 'Pengetahuan'
+							),
+							array(
+								'id'	=> 2,
+								'nama'	=>'Keterampilan'
+							)
+						);
+		foreach($all_rencana as $rencana){
+				$record= array();
+				$record['value'] 	= $rencana['id'];
+				$record['text'] 	= $rencana['nama'];
+				$output['result'][] = $record; 
+			}
+		echo json_encode($output);
 	}
+	public function get_rapor(){
+		$data['ajaran_id'] = $_POST['ajaran_id'];
+		$data['kelas_id'] = $_POST['kelas_id'];
+		
+		$data['nama_kompetensi'] = 2013;
+
+		$this->load->view('cetak/rapor',$data);
+	} 
 }

@@ -80,13 +80,27 @@ if(confirm('Seluruh data siswa akan dihapus?')) {
 
 }); 
 
-/**
+/** 
  * Instantiate select2 dan datatable
  * 
  * --------------------------------------------------------------
  */ 
 $(document).ready(function() {
-  $('#table').DataTable();
+  $('#table').DataTable({ 
+		"bLengthChange": false, 
+		"bSort": false,
+		"oLanguage": {
+			"oPaginate": {
+				"sNext": "Selanjutnya",
+				"sPrevious": "Sebelumnya",
+			},
+			"sInfo": "Menampilkan _START_ sampai _END_ dari total _TOTAL_ data",
+			"sSearch": "Cari:",
+			"sEmptyTable": "Tidak ada data untuk ditampilkan",
+			"sInfoEmpty": "Menampilkan 0 sampai 0 dari total 0 data",
+			"sLengthMenu": "_MENU_ entri",
+		}
+	});
   $( ".select2" ).select2({
     theme: 'bootstrap4',
   });
@@ -130,7 +144,7 @@ $('#kelas').change(function(){
             value: item.value,
             text : item.text
           }));
-        });
+        }); 
       }
     }
   });
@@ -520,4 +534,61 @@ $('#rerata').click(function(){
 });
 $('#rerata_remedial').click(function(){
   $('form').submit();
+});
+
+$('#kompetensi').change(function(){
+  var ini = $(this).val();
+  if(ini == ''){
+    return false;
+  }
+  var query = $('#query').val();
+  if(query == 'analisis_penilaian'){
+    query = 'rencana_penilaian';
+  }
+  $.ajax({ 
+    url: $('#base_url').val()+'ajax/get_'+query,
+    type: 'post',
+    data: $("form").serialize(),
+    success: function(response){
+      $('#penilaians').html('<option value="">&#10147 Pilih penilaian</option>');
+      result = checkJSON(response);
+      if(result == true){
+        var data = $.parseJSON(response);
+        if($.isEmptyObject(data.result)){
+        } else {
+          $.each(data.result, function (i, item) {
+            $('#siswa').append($('<option>', { 
+              value: item.value,
+              text : item.text,
+              }));
+            $('#penilaians').append($('<option>', { 
+              value: item.value,
+              text : item.text,
+              }));
+          });
+        }
+      } else {		
+        $('.simpan').show();
+        $('.cancel').hide();
+        $('#form').fadeOut();
+        var test =$('#result');
+        if(test.is('input')){
+          $('#result').val(response);
+        } else {
+          $('#result').html(response);
+        }
+        $('table.table').addClass("jarak1");
+        $('.add').show();
+      }
+    }
+  });
+});
+
+$('#ajarans').change(function(){
+  $("#kelas").val('');
+  $("#rombel").val('');
+  $("#mapel").val('');
+  $("#kelas").trigger('change.select2');
+  $("#rombel").trigger('change.select2');
+  $("#mapel").trigger('change.select2');
 });

@@ -14,7 +14,7 @@ $setting = $this->db->get('setting')->row();
 $ajaran = $this->db->get('ajaran',['id' => $ajaran_id])->row();
 $rombel = $this->db->get('kelas',['id' => $kelas_id])->row();
 ?>
-<div class="strong">D.&nbsp;&nbsp;Praktik Kerja Lapangan</div>
+<div class="strong">C.&nbsp;&nbsp;Praktik Kerja Lapangan</div>
 <table <?= $atribute; ?>>
 	<thead>
 		<tr>

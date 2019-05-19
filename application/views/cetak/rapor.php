@@ -1,6 +1,6 @@
 <?php
-
-$data_siswa = $this->db->get_where('siswa',['kelas_id' => $kelas_id])->result();
+$qry = $this->db->query("SELECT * FROM siswa s,anggota_kelas k WHERE s.nis=k.nis AND k.ajaran_id = '$ajaran_id' AND k.id_kelas='$kelas_id'")->result();
+$data_siswa = $qry;
 
 $kelas = $this->db->get_where('kelas',['id' => $kelas_id])->row();
 ?>
