@@ -348,4 +348,5 @@ class Rapor extends CI_Controller
     $this->template->load('template','cetak/rapor',$data);
   }
   
+  
 } 

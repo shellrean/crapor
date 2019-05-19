@@ -8,6 +8,7 @@ class Perencanaan extends CI_Controller
 	{
 		parent::__construct();
 
+		is_login();
 		$this->load->model('M_perencanaan');
 	}
   /**
@@ -17,7 +18,7 @@ class Perencanaan extends CI_Controller
    * @return perencanaan view
    */
   public function pengetahuan()
-  {
+  { 
     $guru 	= get_my_info();
 		$ajaran = get_ta();
 
@@ -28,7 +29,8 @@ class Perencanaan extends CI_Controller
     $this->db->where([
 			'b.ajaran_id' => $ajaran->id ,
 			'b.guru_id' => $guru->id,
-			'b.ajaran_id' => $ajaran->id
+			'b.ajaran_id' => $ajaran->id,
+			'rencana.kompetensi_id'	=> 1,
 		]);
 		$this->db->select('rencana.*,b.guru_id AS guru_id');
 		
@@ -38,7 +40,39 @@ class Perencanaan extends CI_Controller
 
 		# load view
     $this->template->load('template','perencanaan/pengetahuan',$data);
-  }
+	}
+  /**
+   * Show perencanaan dashboard
+   * 
+   * 
+   * @return perencanaan view
+   */
+  public function keterampilan()
+  { 
+    $guru 	= get_my_info();
+		$ajaran = get_ta();
+
+		# make query to result 
+    $this->db->from('rencana');
+    $this->db->join('kelas a','rencana.kelas_id = a.id','inner');
+    $this->db->join('kurikulum b','rencana.id_mapel = b.id_mapel','inner');
+    $this->db->where([
+			'b.ajaran_id' => $ajaran->id ,
+			'b.guru_id' => $guru->id,
+			'b.ajaran_id' => $ajaran->id,
+			'rencana.kompetensi_id'	=> 2,
+		]);
+		$this->db->select('rencana.*,b.guru_id AS guru_id');
+		
+		# set data will send to view
+		$data['result'] = $this->db->get()->result();
+		$data['ajaran'] = $ajaran;
+ 
+		# load view
+    $this->template->load('template','perencanaan/keterampilan',$data);
+	}
+	
+	
 
   /**
    * Show create page perencanaan pengetahuan
@@ -83,6 +117,49 @@ class Perencanaan extends CI_Controller
 		$data['query']				= 'kd';
 		$this->template->load('template','perencanaan/add_perencanaan',$data);
 	} 
+  /**
+   * Show create page perencanaan pengetahuan
+   * 
+   * 
+   * 
+   * @return true arg
+   */
+  public function add_keterampilan()
+  {
+    $data['ajarans'] = $this->db->get('ajaran')->result();
+		
+		$guru 	= get_my_info();
+		  
+		$this->db->from('kurikulum');
+		$this->db->group_by(['kelas_id']);
+		$this->db->order_by('kelas_id','ASC');
+		$this->db->where(['guru_id' => $guru->id]);
+		$data_mapel = $this->db->get()->result();
+			
+			
+
+    foreach($data_mapel as $datamapel){
+			$rombel_id[] = $datamapel->kelas_id;
+		}
+		if(isset($rombel_id)){
+			$id_rombel = $rombel_id;
+		} else {
+			$id_rombel = array();
+		}
+
+		$this->db->from('kelas');
+		$this->db->where_in('id',$id_rombel);
+		$data['rombels'] = $this->db->get()->result();
+		 
+		$this->db->from('kelas');
+		$this->db->group_by(['tingkat']);
+		$this->db->order_by('tingkat','ASC');
+		$data['kelas'] = $this->db->get()->result();
+
+		$data['form_action'] 	= 'perencanaan/simpan_perencanaan';
+		$data['query']				= 'kd';
+		$this->template->load('template','perencanaan/add_keterampilan',$data);
+	} 
 	
 	/**
 	 * Save perencanaan
@@ -114,12 +191,6 @@ class Perencanaan extends CI_Controller
 				$kd_id[]	= isset($_POST['kd_id_'.$i]) ? $_POST['kd_id_'.$i] : '';
 			}
 
-			// $rencana = new Rencana();
-			// $rencana->ajaran_id			= $ajaran_id;
-			// $rencana->id_mapel			= $id_mapel;
-			// $rencana->rombel_id			= $rombel_id;
-			// $rencana->kompetensi_id		= $kompetensi_id;
-			// $rencana->save();
 			$data = [
 				'ajaran_id'			=> $ajaran_id,
 				'id_mapel'			=> $id_mapel,
@@ -143,16 +214,6 @@ class Perencanaan extends CI_Controller
 						$get_post_kd = explode("|", $vs);
 						$id_kompetensi = $get_post_kd[0];
 						$id_kd = $get_post_kd[1];
-						// $new_rencana_penilaian					= new Rencanapenilaian();
-						// $new_rencana_penilaian->rencana_id		= $rencana->id;
-						// $new_rencana_penilaian->kompetensi_id	= $kompetensi_id;
-						// $new_rencana_penilaian->nama_penilaian	= $nama_penilaian[$k];
-						// $new_rencana_penilaian->bentuk_penilaian= $bentuk_penilaian[$k];
-						// $new_rencana_penilaian->bobot_penilaian	= $bobot_penilaian_result;
-						// $new_rencana_penilaian->keterangan_penilaian	= $keterangan_penilaian[$k];
-						// $new_rencana_penilaian->kd_id			= $id_kd;
-						// $new_rencana_penilaian->kd				= $id_kompetensi;
-						// $new_rencana_penilaian->save();
 
 						$data = [
 							'rencana_id'			=> $rencana_id,
@@ -180,11 +241,7 @@ class Perencanaan extends CI_Controller
 		$data['rencana'] = $this->db->get_where('rencana',['id' => $id])->row();
 		$data['ajarans'] = $this->db->get('ajaran')->result();
 		$data['kelases'] = $this->db->get('kelas')->result();
-		// $this->template->title('Administrator Panel')
-		// ->set_layout($this->admin_tpl)
-		// ->set('form_action', 'admin/perencanaan/')
-		// ->set('page_title', 'Edit Perencanaan Penilaian')
-		// ->build($this->admin_folder.'/perencanaan/edit',$data);
+
 		$data['form_action'] = 'perencanaan/';
 		$this->template->load('template','perencanaan/edit',$data);
 	}
@@ -219,7 +276,6 @@ class Perencanaan extends CI_Controller
 							$get_post_kd = explode("|", $vs);
 							$id_kompetensi = $get_post_kd[0];
 							$id_kd = $get_post_kd[1];
-							// $rencana_penilaian = Rencanapenilaian::find_all_by_rencana_id_and_nama_penilaian_and_kompetensi_id_and_kd_id($rencana->id,$nama_penilaian[$k],$kompetensi_id,$id_kd);
 							$rencana_penilaian = $this->db->get_where('rencana_penilaian',[
 								'rencana_id'			=> $rencana->id,
 								'nama_penilaian'	=> $nama_penilaian[$k],
@@ -232,9 +288,6 @@ class Perencanaan extends CI_Controller
 								}
 								foreach($rencana_penilaian as $rp){
 									$id_rp[] = $rp->id;
-									// $rp->update_attributes(
-										
-									// 	);
 										$data = array(
 											'nama_penilaian' => $nama_penilaian[$k], 
 											'bentuk_penilaian' => $bentuk_penilaian[$k], 
@@ -245,16 +298,6 @@ class Perencanaan extends CI_Controller
 										$this->db->update('rencana_penilaian',$data,['id' => $rp->id]);
 								}
 							} else {
-								// $new_rencana_penilaian					= new Rencanapenilaian();
-								// $new_rencana_penilaian->rencana_id		= $rencana->id;
-								// $new_rencana_penilaian->kompetensi_id	= $kompetensi_id;
-								// $new_rencana_penilaian->nama_penilaian	= $nama_penilaian[$k];
-								// $new_rencana_penilaian->bentuk_penilaian= $bentuk_penilaian[$k];
-								// $new_rencana_penilaian->bobot_penilaian	= $bobot_penilaian[$k];
-								// $new_rencana_penilaian->kd_id			= $id_kd;
-								// $new_rencana_penilaian->kd				= $id_kompetensi;
-								// $new_rencana_penilaian->save();
-
 								$data = [
 									'rencana_id'				=> $rencana->id,
 									'kompetensi_id'			=> $kompetensi_id,
@@ -275,8 +318,6 @@ class Perencanaan extends CI_Controller
 					if(isset($new_rp)){
 						$id_rp = array_merge($id_rp,$new_rp);
 					}
-					// $del_rp = Rencanapenilaian::find('all', array('conditions' => array('rencana_id = ? AND id not in(?)',$rencana->id,$id_rp)));
-					
 					$this->db->from('rencana_penilaian');
 					$this->db->where([
 						'rencana_id'	=> $rencana->id,
@@ -286,18 +327,10 @@ class Perencanaan extends CI_Controller
 
 					foreach($del_rp as $drp){
 						
-						// $drp->delete();
 						$this->db->delete('rencana_penilaian',['id' => $drp->id]);
 					}
 				}
 			} else {
-				//echo $ajaran_id.'=>'.$rombel_id.'=>'.$id_mapel.'=>no_4<br />';
-				// $rencana = new Rencana();
-				// $rencana->ajaran_id			= $ajaran_id;
-				// $rencana->id_mapel			= $id_mapel;
-				// $rencana->rombel_id			= $rombel_id;
-				// $rencana->kompetensi_id		= $kompetensi_id;
-				// $rencana->save();
 				$data = [
 					'ajaran_id'			=> $ajaran_id,
 					'id_mapel'			=> $id_mapel,
@@ -316,15 +349,6 @@ class Perencanaan extends CI_Controller
 							$id_kompetensi = $get_post_kd[0];
 							$id_kd = $get_post_kd[1];
 
-							// $new_rencana_penilaian					= new Rencanapenilaian();
-							// $new_rencana_penilaian->rencana_id		= $rencana->id;
-							// $new_rencana_penilaian->kompetensi_id	= $kompetensi_id;
-							// $new_rencana_penilaian->nama_penilaian	= $nama_penilaian[$k];
-							// $new_rencana_penilaian->bentuk_penilaian= $bentuk_penilaian[$k];
-							// $new_rencana_penilaian->bobot_penilaian	= $bobot_penilaian_result;
-							// $new_rencana_penilaian->kd_id			= $id_kd;
-							// $new_rencana_penilaian->kd				= $id_kompetensi;
-							// $new_rencana_penilaian->save();
 							$data = [
 								'rencana_id'			=> $rencana->id,
 								'kompetensi_id'		=> $kompetensi_id,
@@ -335,7 +359,6 @@ class Perencanaan extends CI_Controller
 								'kd'							=> $id_kompetensi,
 							];
 							$this->db->insert('rencana_penilaian',$data);
-							//print_r($kd);
 						}
 					}
 				}
@@ -348,9 +371,7 @@ class Perencanaan extends CI_Controller
 
 	public function delete_rp($id)
 	{
-		// $rp = Rencanapenilaian::find($id);
 		$rp = $this->db->get_where('rencana_penilaian',['id' => $id])->row();
-		// $all_rencana = Rencanapenilaian::find_all_by_rencana_id_and_kompetensi_id_and_nama_penilaian($rp->rencana_id,$rp->kompetensi_id, $rp->nama_penilaian);
 		$all_rencana = $this->db->get_where('rencana_penilaian',[
 			'rencana_id'			=> $rp->rencana_id,
 			'kompetensi_id'		=> $rp->kompetensi_id,

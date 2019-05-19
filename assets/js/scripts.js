@@ -167,7 +167,7 @@ $('#rombel').change(function(){
     data: $("form").serialize(),
     success: function(response){ 
       result = checkJSON(response);
-      if(result == true){
+      if(result == true){ 
         var data = $.parseJSON(response);
         $('#mapel').html('<option value="">&#10147; Pilih mata pelajaran</option>');
         if($.isEmptyObject(data.mapel)){
@@ -395,7 +395,7 @@ $('#mapel').change(function(){
 	}
 	if(query == 'analisis_kompetensi'){
 		query = 'all_kd';
-	}
+	} 
 	if(query == 'sikap'){
 		query = 'undefined';
 	}
@@ -404,10 +404,10 @@ $('#mapel').change(function(){
 		url: url_get+query,
 		type: 'post',
 		data: $("form").serialize(),
-		success: function(response){
-			$('#kompetensi').html('<option value="">== Pilih Kompetensi Penilaian ==</option>');
-			$('#penilaian').html('<option value="">== Pilih Penilaian ==</option>');
-			$('#kd').html('<option value="">== Pilih KD ==</option>');
+		success(response){
+			$('#kompetensi').html('<option value="">&#10147; Pilih kompetensi penilaian </option>');
+			$('#penilaians').html('<option value="">&#10147; Pilih penilaian </option>');
+			$('#kd').html('<option value="">&#10147; Pilih KD </option>');
 			result = checkJSON(response);
 			if(result == true){
 				var data = $.parseJSON(response);
@@ -422,14 +422,14 @@ $('#mapel').change(function(){
 							value: item.value,
 							text : item.text,
 							}));
-						$('#penilaian').append($('<option>', { 
+						$('#penilaians').append($('<option>', { 
 							value: item.value,
 							text : item.text,
 							}));
 						$('#kd').append($('<option>', { 
 							value: item.value,
 							text : item.text,
-							}));
+							})); 
 					});
 				}
 			} else {		
@@ -447,4 +447,77 @@ $('#mapel').change(function(){
 			}
 		}
 	});
+});
+
+
+
+$('#penilaians').change(function(){
+  var query = $('#query_2').val();
+  if(typeof query == 'undefined'){
+    var query = $('#query').val();
+  }
+  var ini = $(this).val();
+  if(ini == ''){
+    return false;
+  }
+  $('#result').html('');
+  $('.simpan').hide();
+  $('.cancel').hide();
+  $('#rerata').hide();
+  $('#rerata_remedial').hide();
+  $.ajax({
+    url: $('#base_url').val()+'asesmen/get_'+query,
+    type: 'post',
+    data: $('form').serialize(),
+    success: function(response){
+      $('#rerata_remedial').show();
+      result = checkJSON(response);
+      if(result == true){
+        $('#kd').html('<option value="">&#10147 Pilih KD </option>');
+        var data = $.parseJSON(response);
+        if($.isEmptyObject(data.result)){
+        } else {
+          $.each(data.result, function (i, item) {
+            $('#kd').append($('<option>', { 
+              value: item.value, 
+              text : item.text,
+              }));
+          });
+        }
+      } else {
+        $('.simpan').hide();
+        $('.cancel').hide();
+        $('#form').fadeOut();
+        $('#result').html(response);
+        $('table.table').addClass("jarak1");
+        $('.add').show();
+        $('#rerata').show();
+      }
+    }
+  });
+});
+
+$('#rerata').click(function(){
+  var form_data = $('form').serialize();
+  $.ajax({
+    url: $('#base_url').val()+'penilaian/get_rerata',
+    type: 'post',
+    data: form_data,
+    success: function(response){
+      var data = $.parseJSON(response);
+      $('.simpan').show();
+      $('#rumus').html(data.rumus);
+      if($.isEmptyObject(data.rerata)){
+      } else { 
+        $.each(data.rerata, function (i, item) {
+          $('#rerata_'+i).val(item.value);
+          $('#rerata_jadi_'+i).val(item.rerata_jadi);
+          $('#rerata_text_'+i).html(item.rerata_text);
+        });
+      }
+    }
+  });
+});
+$('#rerata_remedial').click(function(){
+  $('form').submit();
 });

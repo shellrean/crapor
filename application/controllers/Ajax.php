@@ -102,4 +102,74 @@ class Ajax extends CI_Controller
     
     $this->load->view('perencanaan/form_perencanaan',$data);
   }
+
+  /**
+   * Get rencana penilaian
+   * 
+   * 
+   */
+  public function get_rencana_penilaian()
+  {
+    $ajaran_id	    = $_POST['ajaran_id'];
+    $kelas_id	      = $_POST['kelas_id'];
+    $id_mapel	      = $_POST['id_mapel'];
+    $kompetensi_id  = $_POST['kompetensi_id'];
+    
+    $rencana = $this->db->get_where('rencana',[
+      'ajaran_id'   => $ajaran_id,
+      'id_mapel'    => $id_mapel,
+      'kelas_id'    => $kelas_id,
+      'kompetensi_id'=> $kompetensi_id,
+    ])->result();
+
+    if($rencana){
+			foreach($rencana as $ren){
+				$id_rencana[] = $ren->id;
+      }
+      
+      $this->db->from('rencana_penilaian');
+      $this->db->group_by('nama_penilaian');
+      $this->db->order_by('id','ASC');
+      $this->db->where_in('rencana_id',$id_rencana);
+      
+      $all_pengetahuan = $this->db->get()->result();
+
+			$i=1;
+			ksort($all_pengetahuan);
+			if($all_pengetahuan){
+				foreach($all_pengetahuan as $allpengetahuan){
+					$record= array();
+					$record['value'] 	= $allpengetahuan->rencana_id.'#'.$allpengetahuan->nama_penilaian.'#'.$allpengetahuan->id.'#'.$allpengetahuan->bobot_penilaian;
+					if($kompetensi_id == 1){
+					$record['text'] 	= 'Penilaian '.$i.' ('.$allpengetahuan->nama_penilaian.') || Bobot = '.$allpengetahuan->bobot_penilaian;
+					} else {
+					$record['text'] 	= 'Penilaian '.$i.' ('.$allpengetahuan->nama_penilaian.')';
+					}
+					$output['result'][] = $record;
+					$i++;
+				}
+			} else {
+				$record['value'] 	= '';
+				$record['text'] 	= 'Tidak ditemukan rencana penilaian di mata pelajaran terpilih';
+				$output['result'][] = $record;
+			}
+		} else {
+			$record['value'] 	= '';
+			$record['text'] 	= 'Tidak ditemukan rencana penilaian di mata pelajaran terpilih';
+			$output['result'][] = $record;
+		}
+		echo json_encode($output);
+  }
+  
+  /**
+   * Get remedial value
+   */
+  public function get_remedial(){
+		$record[0]['value'] 	= 'P';
+		$record[0]['text'] 	= 'Pengetahuan';
+		$record[1]['value'] 	= 'K';
+		$record[1]['text'] 	= 'Keterampilan';
+		$output['result'] = $record;
+		echo json_encode($output);
+	}
 }

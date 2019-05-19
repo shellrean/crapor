@@ -29,7 +29,7 @@
           </div>
           <div class="form-group">
             <label>Role</label>
-            <select class="form-control" name="role_id">
+            <select class="select2 form-control" name="role_id">
               <option value="1">Admin</option>
               <option value="2">User</option>
               <option value="3">Wali kelas</option>
@@ -38,7 +38,7 @@
           </div>
           <div class="form-group">
             <label>Parent menu</label>
-            <select class="form-control" name="is_main_menu" id="is_main_menu">
+            <select class="select2 form-control" name="is_main_menu" id="is_main_menu">
               <option value="0">Singgle menu</option>
               <?php foreach($menus as $m): ?>
               <option value="<?= $m->id ?>"><?= $m->title ?></option>

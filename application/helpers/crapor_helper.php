@@ -328,3 +328,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
     return $kelas;
   }
 
+  /**
+   * Helper untuk mengambil data siswa agama
+   * @param integer $nama_mapel
+   * @param integer $kelas_id
+   * @return object
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function filter_agama_siswa($nama_mapel,$kelas_id)
+  {
+    $CI =& get_instance();
+    $agamas = array(1=>'Islam',2=>'Kristen',3=>'Katolik',4=>'Hindu',5=>'Buddha',6=>'Konghucu',98=>'Tidak diisi',99=>'Lainnya');
+    foreach($agamas as $key=>$value){
+      if (strpos($nama_mapel, $value) !== false) {
+        var_dump('ini');
+        // $data_siswa = Datasiswa::find('all',array('conditions' => array("data_rombel_id = ? AND agama = ? OR data_rombel_id = ? AND agama = ?",$rombel_id, $value, $rombel_id, $key)));
+        $data_siswa = $this->db->get_where('data_siswa',[
+          'data_kelas_id'   => $kelas_id,
+          'agama'           => $value,
+        ])->reulst();
+        break;
+      } else {
+        $data_siswa = $CI->db->get_where('siswa',['kelas_id' => $kelas_id])->result();
+      }
+    }
+    return $data_siswa;
+  }
+
+  /**
+   * Helper untuk mengambil nilai kkm
+   * @param integer $ajaran_id
+   * @param integer $kelas_id
+   * @param integer $id
+   * @return object
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function get_kkm($ajaran_id, $kelas_id, $id)
+  {
+    $CI =& get_instance();
+    $get_kkm = $CI->db->get_where('kurikulum',[
+      'ajaran_id'     => $ajaran_id,
+      'kelas_id'      => $kelas_id,
+      'id_mapel'      => $id,
+    ])->row();
+    $kkm = isset($get_kkm->kkm) && $get_kkm->kkm ? $get_kkm->kkm : '-';
+    return $kkm;
+  }

@@ -126,7 +126,6 @@ if($all_kd){
   </span>
   <span class="text">Tambah aktifitas penilaian</span>
 </a> 
-<!-- <button type="submit" class="btn btn-success pull-right">Simpan</button> -->
 <button type="submit" class="btn btn-sm btn-success btn-icon-split">
             <span class="icon text-white-50">
               <i class="fas fa-save"></i>
@@ -134,8 +133,7 @@ if($all_kd){
             <span class="text">Simpan</span>
     </button>
 <?php } elseif($all_kd){
-// $all_kd = Kd::find('all', array('conditions' => "kds.id_mapel = '$id_mapel' AND kelas = $data_rombel->tingkat AND id_kompetensi = $kompetensi_id OR kds.id_mapel = '$id_mapel' AND kelas = $data_rombel->tingkat AND id_kompetensi = 0"));
-$all_kd = $this->db->get_where('kd',[
+	$all_kd = $this->db->get_where('kd',[
   'id_mapel'      => $id_mapel,
   'tingkat'       => $data_kelas->tingkat,
   'id_kd'         => $kompetensi_id,
@@ -193,7 +191,6 @@ if($all_kd){?>
 </table>
 </div>
 </div>
-<!-- <a class="clone btn btn-danger btn-sm pull-left">Tambah Aktivitas Penilaian</a> -->
 <a href="#" class="clone btn btn-sm btn-btn-icon-split btn-danger">
   <span class="icon text-white-50">
     <i class="fas fa-fw fa-plus"></i>
@@ -202,18 +199,14 @@ if($all_kd){?>
 </a>
 <button type="submit" class="btn btn-success pull-right">Simpan</button>
 <?php } else { ?>
-<h3 class="text-center">Kompetensi Dasar belum tersedia <br />
-<a class="btn btn-sm btn-success" href="<?php echo site_url('admin/referensi/add_kd/'.$kompetensi_id.'/'.$id_rombel.'/'.$id_mapel.'/'.$kelas); ?>" target="_blank">Tambah Data Kompetensi Dasar</a></h3>
+<h5><i>Kompetensi Dasar belum tersedia</i> <br />
+<a class="btn btn-sm btn-success" href="<?php echo site_url('kompetensi_dasar/create/'.$kompetensi_id.'/'.$id_kelas.'/'.$id_mapel.'/'.$kelas); ?>" target="_blank">Tambah Data Kompetensi Dasar</a></h5>
 <?php } ?>
 <?php } else { ?>
-<h3 class="text-center">Kompetensi Dasar belum tersedia <br />
-<a class="btn btn-sm btn-success" href="<?php echo site_url('admin/referensi/add_kd/'.$kompetensi_id.'/'.$id_rombel.'/'.$id_mapel.'/'.$kelas); ?>" target="_blank">Tambah Data Kompetensi Dasar</a></h3>
+<h5><i>Kompetensi Dasar belum tersedia</i>  <br />
+<a class="btn btn-sm btn-success" href="<?php echo site_url('kompetensi_dasar/create/'.$kompetensi_id.'/'.$id_kelas.'/'.$id_mapel.'/'.$kelas); ?>" target="_blank">Tambah Data Kompetensi Dasar</a></h5>
 <?php } ?>
 <script>
-//$('.iCheck').iCheck({
-//	checkboxClass: 'icheckbox_square-blue',
-//	increaseArea: '20%' // optional
-//});
 $('button.simpan').remove();
 var i = <?php echo isset($i) ? $i : 0; ?>;
 $("a.clone").click(function() {
