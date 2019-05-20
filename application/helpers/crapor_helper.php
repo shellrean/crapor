@@ -1,17 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/** 
- * ########################################################################################
- * Herlper crapor
- * ########################################################################################
- * @package   crapor
- * @author    Kuswandi <wandinak17@gmail.com>
- * @copyright Copyright (c) 2018 - 2019
- * @since     1.0
- *
- * #######################################################################################
- */
+/* 
+| -------------------------------------------------------------------
+| Herlper crapor
+| -------------------------------------------------------------------
+| @package   crapor
+| @author    Kuswandi <wandinak17@gmail.com>
+| @copyright Copyright (c) 2018 - 2019
+| @since     1.0
+|
+| -------------------------------------------------------------------
+*/
 
   /**
    * Helper untuk membuat flash message sukses
@@ -410,6 +410,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $output = array_intersect($input , $range_data);
     return $output;
   }
+
   /**
    * Helper untuk mengambil menentukan mengambil tooltip
    * @param integer $input
@@ -441,47 +442,68 @@ defined('BASEPATH') or exit('No direct script access allowed');
   }
 
 
-  function filter_agama_mapel($ajaran_id,$rombel_id,$get_id_mapel, $all_mapel,$agama_siswa){
-	$kelompok_agama = preg_quote('A0', '~'); // don't forget to quote input string!
-	$normatif_1 = preg_quote('A-', '~'); // don't forget to quote input string!
-	$get_mapel_agama = preg_grep('~' . $kelompok_agama . '~', $get_id_mapel);
-	$get_mapel_agama_alias = preg_grep('~' . $normatif_1 . '~', $get_id_mapel);
-	foreach($get_mapel_agama as $agama){
-		$mapel_agama[$agama] = get_nama_mapel($ajaran_id,$rombel_id,$agama);
-	}
-	// foreach($get_mapel_agama_alias as $agama_alias){
-	// 	$mapel_agama_alias[$agama_alias] = get_nama_mapel($ajaran_id,$rombel_id,$agama_alias);
-	// }
-	if(isset($mapel_agama)){
-		foreach($mapel_agama as $key=>$m_agama){
-			if (strpos($m_agama,$agama_siswa) == false) {
-				$mapel_agama_jadi[] = $key;
-			}
-		}
-	}
-	if(isset($mapel_agama_alias)){
-		foreach($mapel_agama_alias as $key=>$m_agama_alias){
-			if (strpos($m_agama_alias,get_agama($agama_siswa)) == false) {
-				$mapel_agama_alias_jadi[] = $key;
-			}
-		}
-	}
-	if(isset($mapel_agama_jadi)){
-		$all_mapel = array_diff($all_mapel, $mapel_agama_jadi);
-	}
-	if(isset($mapel_agama_alias_jadi)){
-		$all_mapel = array_diff($all_mapel, $mapel_agama_alias_jadi);
-	}
-	return $all_mapel;
-}
+  /**
+   * Helper untuk mengambil memfilter apakah list termasuk kedalam 
+   * mata pelajaran agama 
+   * 
+   * @param integer $ajaran_id
+   * @param integer $kelas_id
+   * @param integer $get_id_mapel
+   * @param object $all_mapel
+   * @param string $agama_siswa
+   * @return array
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function filter_agama_mapel($ajaran_id,$rombel_id,$get_id_mapel, $all_mapel,$agama_siswa)
+  {
+    $kelompok_agama = preg_quote('A0', '~');
+    $normatif_1 = preg_quote('A-', '~');
+    $get_mapel_agama = preg_grep('~' . $kelompok_agama . '~', $get_id_mapel);
+    $get_mapel_agama_alias = preg_grep('~' . $normatif_1 . '~', $get_id_mapel);
+    
+    foreach($get_mapel_agama as $agama){
+		  $mapel_agama[$agama] = get_nama_mapel($ajaran_id,$rombel_id,$agama);
+    }
+    
+    if(isset($mapel_agama)){
+      foreach($mapel_agama as $key=>$m_agama){
+        if (strpos($m_agama,$agama_siswa) == false) {
+          $mapel_agama_jadi[] = $key;
+        }
+      }
+    }
+    if(isset($mapel_agama_alias)){
+      foreach($mapel_agama_alias as $key=>$m_agama_alias){
+        if (strpos($m_agama_alias,get_agama($agama_siswa)) == false) {
+          $mapel_agama_alias_jadi[] = $key;
+        }
+      }
+    }
+    if(isset($mapel_agama_jadi)){
+      $all_mapel = array_diff($all_mapel, $mapel_agama_jadi);
+    }
+    if(isset($mapel_agama_alias_jadi)){
+      $all_mapel = array_diff($all_mapel, $mapel_agama_alias_jadi);
+    }
+	  return $all_mapel;
+  }
 
-function konversi_huruf($kkm_value, $n,$show='predikat'){
-  $predikat	= 0;
-  $sikap		= 0;
-  $sikap_full	= 0;
-  $b = predikat($kkm_value,'b') + 1;
-  $c = predikat($kkm_value,'c') + 1;
-  $d = predikat($kkm_value,'d') - 1;
+  /**
+   * Helper untuk menkonversi angka ke huruf
+   * @param integer $kkm_value
+   * @param integer $n
+   * @param integer $show <option>
+   * @return array
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function konversi_huruf($kkm_value, $n,$show='predikat'){
+    $predikat	= 0;
+    $sikap		= 0;
+    $sikap_full	= 0;
+    $b = predikat($kkm_value,'b') + 1;
+    $c = predikat($kkm_value,'c') + 1;
+    $d = predikat($kkm_value,'d') - 1;
+    
     if($n == 0){
       $predikat 	= '-';
       $sikap		= '-';
