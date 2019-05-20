@@ -44,19 +44,21 @@ class Install extends CI_Controller
   public function index($step = '')
   {
     switch ($step) {
-      case '1':
-      default:
+      case '3': 
+
+      break;
+      case '2':
         if (empty($this->db_error)) {
           # cek tabel pengaturan, jika sudah ada lanjut ke step 2
           if ($this->db->table_exists('setting')) {
-            redirect('setup/index/2');
+            redirect('install/index/3');
           }
 
           $this->db->trans_start();
 
           $this->M_config->create_default_table("all");
-            redirect('setup/index/2');
-          }
+            redirect('install/index/3');
+        }
 
         $set_base_url = explode('index.php', current_url());
         $data['set_base_url'] = $set_base_url[0];
@@ -67,6 +69,11 @@ class Install extends CI_Controller
         }
         $data['error'] = $ambil_error; 
         $this->template->load('install','install/step1', $data);
+      break;
+
+      case '1':
+      default:
+        $this->template->load('install','setup');
       break;
     }
   }

@@ -17,8 +17,8 @@ class M_config extends CI_Model
   {
     $default_table = array(
         "absen",
-        // "ajaran",
-        // "anggota_kelas",
+        "ajaran",
+        "anggota_kelas",
         // "catatan",
         // "data_kurikulum",
         // "data_mapel",
@@ -74,6 +74,30 @@ class M_config extends CI_Model
       `alpa` int(11) NOT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-    
+  }
+  /**
+   * Method untuk membuat table ajaran
+   */
+  public function create_tb_ajaran()
+  {
+    $this->db->query("CREATE TABLE `{$this->db->dbprefix}ajaran` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `tahun` varchar(128) NOT NULL,
+      `smt` varchar(128) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+  }
+  /**
+   * Method untuk membuat table anggota kelas
+   */
+  public function create_tb_anggota_kelas()
+  {
+    $this->db->query("CREATE TABLE `anggota_kelas` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `nis` int(11) DEFAULT NULL,
+      `id_kelas` int(11) UNSIGNED DEFAULT NULL,
+      `ajaran_id` int(11) UNSIGNED DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
   }
 }

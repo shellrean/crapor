@@ -3,7 +3,7 @@
 	<div class="col-8">
 		<div class="card my-5">
 			<div class="card-header">
-				Installasi <strong>Step 1</strong>
+				Setting database
 			</div>
 			<div class="card-body">
 				<li>Rename file <b>application/config/database.sample.php</b> menjadi <b>application/config/database.php</b></li>
