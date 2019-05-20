@@ -9,10 +9,86 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | @author    Kuswandi <wandinak17@gmail.com>
 | @copyright Copyright (c) 2018 - 2019
 | @since     1.0
-|
+| 
 | -------------------------------------------------------------------
 */
+  /**
+   * Method untuk ngecek instal sudah berhasil atau berlum
+   * @return true kalo sudah berhasil
+   */
+  function install_success()
+  {
+    check_db_connection();
+  
+    return check_success_install();
+  }
 
+  /**
+   * Cek apakah sudah berhasil install
+   * @return boolean
+   */
+  function check_success_install()
+  {
+      $CI =& get_instance();
+      $CI->load->database();
+
+      if ($CI->db->table_exists('pengaturan')) {
+          # cek record install-success
+          $success = get_pengaturan('install-success', 'value');
+          if (empty($success)) {
+              return false;
+          }
+      } else {
+          return false;
+      }
+
+      return true;
+  }
+  /**
+   * Fungsi untuk cek koneksi, kalo error throw new
+   * @return boolean
+   */
+  function check_db_connection()
+  {
+    $db_file = APPPATH . 'config/database.php';
+    if (!is_file($db_file)) {
+        throw new Exception('File database.php in application/config/ not exists');
+    }
+
+    # cek pengaturan database
+    include APPPATH . 'config/database.php';
+
+    $link = @mysqli_connect("{$db['default']['hostname']}", "{$db['default']['username']}", "{$db['default']['password']}");
+    if (!$link) {
+        throw new Exception('Failed to connect to the server: ' . mysqli_connect_error());
+    }
+
+    $select_db = @mysqli_select_db($link, "{$db['default']['database']}");
+    if (!$select_db) {
+        throw new Exception('Failed to connect to the database: ' . mysqli_error($link));
+    }
+
+    # ciptakan variable global supaya driver ci tidak melakukan konek-konek lagi
+    $GLOBALS['el_mysqli_connect']   = $link;
+    $GLOBALS['el_mysqli_select_db'] = $select_db;
+
+    return true;
+  }
+
+  /**
+   * Helper untuk mengecek apakah aplikasi sudah terinstall
+   * 
+   * @author Kuswandi <wandinak17@gmail.com>
+   */
+  function check_installer()
+  {
+    $CI = & get_instance(); 
+    $CI->load->database();
+  
+    if ($CI->db->database == "") {
+			redirect('install');  
+		}
+  }
   /**
    * Helper untuk membuat flash message sukses
    * @param  string $name
@@ -537,4 +613,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
     return $html;
   }
 
-  
+  /**
+   * Method untuk mendapatkan css alert
+   *
+   * @param  string $notif
+   * @param  string $msg
+   * @return string
+   */
+  function get_alert($notif = 'success', $msg = '')
+  {
+      return '<div class="alert alert-'.$notif.'" fade show>'.$msg.'</div>';
+  }
