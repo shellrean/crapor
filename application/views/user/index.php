@@ -53,24 +53,17 @@
                               <?php endif; ?>
                             </td>
                             <td>
-                              <a href="<?= base_url('user/edit/'.$user->id) ?>" class="btn btn-sm btn-warning btn-icon-split">
-                                <span class="icon text-white-50">
-                                  <i class="far fa-edit"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                              </a>
-                              <a href="<?= base_url('user/delete/'.$user->id) ?>" class="btn btn-sm btn-danger btn-icon-split" onclick=" return confirm(`Data Ini akan dihapus?`) ">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-user-slash"></i> 
-                                </span>
-                                <span class="text">Hapus</span>
-                              </a>
-                              <a href="<?= base_url('user/reset/'.$user->id) ?>" class="btn btn-sm btn-info btn-icon-split" onclick=" return confirm(`Password user ini akan direset?`) ">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-sync"></i> 
-                                </span>
-                                <span class="text">Reset password</span>
-                              </a>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Aksi
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="<?= base_url('user/edit/'.$user->id) ?>">Edit</a>
+                                  <a class="dropdown-item" href="<?= base_url('user/delete/'.$user->id) ?>">Hapus</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="<?= base_url('user/reset/'.$user->id) ?>">Reset password</a>
+                                </div>
+                              </div>
                             </td>
                         </tr>
                         <?php $no++;

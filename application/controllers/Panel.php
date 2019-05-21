@@ -40,7 +40,7 @@ class Panel extends MY_Controller
     alertsuccess('message','Data berhasil dihapus');
     redirect("panel/menu");  
   }
-
+ 
   public function create()
   {
     $this->form_validation->set_rules('title','Nama menu','required');

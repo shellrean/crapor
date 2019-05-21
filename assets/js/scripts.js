@@ -86,21 +86,7 @@ if(confirm('Seluruh data siswa akan dihapus?')) {
  * --------------------------------------------------------------
  */ 
 $(document).ready(function() {
-  $('#table').DataTable({ 
-		"bLengthChange": false, 
-		"bSort": false,
-		"oLanguage": {
-			"oPaginate": {
-				"sNext": "Selanjutnya",
-				"sPrevious": "Sebelumnya",
-			},
-			"sInfo": "Menampilkan _START_ sampai _END_ dari total _TOTAL_ data",
-			"sSearch": "Cari:",
-			"sEmptyTable": "Tidak ada data untuk ditampilkan",
-			"sInfoEmpty": "Menampilkan 0 sampai 0 dari total 0 data",
-			"sLengthMenu": "_MENU_ entri",
-		}
-	});
+  $('#table').DataTable();
   $( ".select2" ).select2({
     theme: 'bootstrap4',
   });

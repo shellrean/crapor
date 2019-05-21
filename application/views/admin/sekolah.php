@@ -91,8 +91,18 @@
             <input type="text" name="email" class="form-control" placeholder="Email" value="<?= $sekolah->email ?>">
             <?= form_error('email','<small class="form-text text-danger">','</small>') ?>
           </div>
+          <div class="form-group">
+            <label>Nama kepala sekolah</label>
+            <input type="text" name="kepsek" class="form-control" placeholder="Nama kepala sekolah" value="<?= $setting->kepsek ?>">
+            <?= form_error('kepsek','<small class="form-text text-danger">','</small>') ?>
+          </div>
+          <div class="form-group">
+            <label>Nip Kepala sekolah</label>
+            <input type="text" name="nip_kepsek" class="form-control" placeholder="Nip kepala sekolah" value="<?= $setting->nip_kepsek ?>">
+            <?= form_error('nip_kepsek','<small class="form-text text-danger">','</small>') ?>
+          </div>
         </div>
-      </div>
+      </div> 
     </div>
     <div class="card-footer text-muted">
       <button type="submit" class="btn btn-sm btn-success btn-icon-split">

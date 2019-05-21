@@ -86,10 +86,10 @@ class Mapel extends MY_Controller
       $mapel = $this->db->get_where('data_mapel',['id_mapel' => $id_mapel])->row();
       $data['mapel'] = $mapel;
       $this->template->load('template','mapel/edit',$data);
-
+ 
     }
     else {
-      $id_mapel = $this->input->post('kelompok',true).'-'.$this->input->post('id_mapel');
+      $id_mapel = $this->input->post('id_mapel',true);
       $this->db->where('id_mapel',$id_mapel);
       $data = [
         'id_mapel'    => $id_mapel,

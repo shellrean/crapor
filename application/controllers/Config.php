@@ -103,6 +103,7 @@ class Config extends MY_Controller
     if($this->form_validation->run() == false) {
 
       $data['sekolah'] = $this->db->get('data_sekolah')->row();
+      $data['setting'] = $this->db->get('setting')->row();
       $this->template->load('template','admin/sekolah',$data);
 
     } else {
@@ -120,6 +121,10 @@ class Config extends MY_Controller
         'provinsi'        => $this->input->post('provinsi'),
         'website'         => $this->input->post('website'),
         'email'           => $this->input->post('email'),
+      ];
+      $setting = [
+        'kepsek'          => $this->input->post('kepsek'),
+        'nip_kepsek'      => $this->input->post('nip_kepsek'),
       ];
 
       $data_keahlian = $this->input->post('kompetensi_keahlian');
@@ -139,7 +144,7 @@ class Config extends MY_Controller
         ];
         $this->db->insert('keahlian',$keahlian);
       }
-      
+      $this->db->update('setting',$setting,['id' => '1']);
       $this->db->update('data_sekolah',$data,['id' => '1']);
 
       # finaly code

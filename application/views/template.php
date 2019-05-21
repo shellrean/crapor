@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendor/select2/css/select2.min.css">
     
     <link rel="stylesheet" href="<?= base_url('assets') ?>/css/select2-bootstrap4.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     
     <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
@@ -256,17 +255,7 @@
                     </ul>
 
                 </nav>
-                <!-- End of Topbar --> 
-
-                <!-- Begin Page Content -->
-                <!-- <div class="container-fluid">
-
-                    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
-
-                </div> -->
                 <?= $content_view; ?>
-                <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -328,7 +317,6 @@
 
     <!-- Core plugin JavaScript-->
     <script src="<?= base_url('assets') ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets') ?>/js/sb-admin-2.min.js"></script>
 
@@ -341,6 +329,7 @@
     <script src="<?= base_url('assets/') ?>vendor/select2/js/select2.min.js"></script>
     <script src="<?= base_url('assets/')?>vendor/sweetalert2/sweetalert2.min.js"></script>
     <script>
+
         $('#fileupload').fileupload({
             url: "<?= site_url('user/import'); ?>",
             done(e,data) {

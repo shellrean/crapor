@@ -62,18 +62,15 @@
                                 <span class="text">Mapel</span>
                               </a>
 
-                              <a href="<?= base_url('kelas/edit/'.$kelas->slug) ?>" class="btn btn-sm btn-warning btn-icon-split">
-                                <span class="icon text-white-50">
-                                  <i class="far fa-edit"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                              </a>
-                              <a href="<?= base_url('kelas/delete/'.$kelas->slug) ?>" class="btn btn-sm btn-danger btn-icon-split" onclick=" return confirm(`Data Ini akan dihapus?`) ">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-backspace"></i> 
-                                </span>
-                                <span class="text">Hapus</span>
-                              </a>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Aksi
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="<?= base_url('kelas/edit/'.$kelas->slug) ?>">Edit</a>
+                                  <a class="dropdown-item" href="<?= base_url('kelas/edit/'.$kelas->slug) ?>">Hapus</a>
+                                </div>
+                              </div>
 
                             </td>
                           </tr>

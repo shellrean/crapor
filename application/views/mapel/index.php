@@ -33,18 +33,15 @@
                             <td><?= ($mapel->kelas_XI == 1 ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Tidak</span>' ) ?></td>
                             <td><?= ($mapel->kelas_XII == 1 ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Tidak</span>' ) ?></td>
                             <td>
-                              <a href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>" class="btn btn-sm btn-warning btn-icon-split">
-                                <span class="icon text-white-50">
-                                  <i class="far fa-edit"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                              </a>
-                              <a href="<?= base_url('mapel/delete/'.$mapel->id_mapel) ?>" class="btn btn-sm btn-danger btn-icon-split" onclick=" return confirm(`Data Ini akan dihapus?`) ">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-trash-alt"></i> 
-                                </span>
-                                <span class="text">Hapus</span>
-                              </a>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Aksi
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Edit</a>
+                                  <a class="dropdown-item" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Hapus</a>
+                                </div>
+                              </div>
                             </td>
                           </tr>
                         <?php $no++; endforeach; ?>
