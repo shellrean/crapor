@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Siswa extends CI_Controller
+class Siswa extends MY_Controller
 {
 
   public function __construct()
   {
     parent::__construct();
 
+    is_login();
     $this->load->model('M_siswa');
   }
   /**

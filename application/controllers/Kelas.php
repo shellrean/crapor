@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kelas extends CI_Controller
+class Kelas extends MY_Controller
 {
 
   /**

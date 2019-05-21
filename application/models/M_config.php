@@ -20,30 +20,30 @@ class M_config extends CI_Model
         "ajaran",
         "anggota_kelas",
         "catatan",
-        // "data_kurikulum",
-        // "data_mapel",
-        // "data_sekolah",
-        // "ekskul",
-        // "kd",
-        // "keahlian",
-        // "kelas",
-        // "kurikulum",
-        // "log",
-        // "login",
-        // "login_log",
-        // "menus",
-        // "metode",
-        // "nilai",
-        // "nilaiakhir",
-        // "nilai_ekskul",
-        // "pkl",
-        // "remedial",
-        // "rencana",
-        // "rencana_penilaian",
-        // "role_khusus",
-        // "setting",
-        // "siswa",
-        // "user",
+        "data_kurikulum",
+        "data_mapel",
+        "data_sekolah",
+        "ekskul",
+        "kd",
+        "keahlian",
+        "kelas",
+        "kurikulum",
+        "log",
+        "login",
+        "login_log",
+        "menus",
+        "metode",
+        "nilai",
+        "nilaiakhir",
+        "nilai_ekskul",
+        "pkl",
+        "remedial",
+        "rencana",
+        "rencana_penilaian",
+        "role_khusus",
+        "setting",
+        "siswa",
+        "user",
     );
 
     if ($table == "all") {
@@ -292,13 +292,13 @@ class M_config extends CI_Model
   public function create_tb_menus()
   {
     $this->db->query("CREATE TABLE `{$this->db->dbprefix}menus` (
-      `id` int(11) UNSIGNED NOT NULL AUTO_ICREMENT,
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `title` varchar(50) DEFAULT NULL,
       `link` varchar(50) DEFAULT NULL,
       `icon` varchar(50) DEFAULT NULL,
       `is_main_menu` int(2) DEFAULT NULL,
       `role` int(1) DEFAULT NULL,
-      PRIMARY id_key (`id`)
+      PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
     $this->db->query("INSERT INTO `{$this->db->dbprefix}menus` (`id`, `title`, `link`, `icon`, `is_main_menu`, `role`) VALUES
@@ -493,6 +493,8 @@ class M_config extends CI_Model
       `nip_kepsek` varchar(255) DEFAULT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+    $this->db->query("INSERT INTO `setting` (`id`, `periode`, `rumus`, `kepsek`, `nip_kepsek`) VALUES
+    (1, '2018/2019 | Semester Ganjil', 1, '- ', '-');");
   }
   /**
    * Method untuk membuat tabel siswa

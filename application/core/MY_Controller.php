@@ -15,13 +15,17 @@ class MY_Controller extends CI_Controller
       check_db_connection();
     } catch (Exception $e) {
       redirect('install');
-    }
+    } 
+
+    $this->load->database();
+
+    # load library
+    $this->load->library(array('session', 'email','template','user_agent'));
 
     # cek apakah sudah berhasil install
     if (check_success_install() == false) {
       redirect('install');
     }
-
   }
 
 

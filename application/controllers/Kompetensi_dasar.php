@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kompetensi_dasar extends CI_Controller
+class Kompetensi_dasar extends MY_Controller
 {
   public function __construct()
   {

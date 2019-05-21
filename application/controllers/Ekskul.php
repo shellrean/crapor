@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Ekskul extends CI_Controller
+class Ekskul extends MY_Controller
 {
 
   public function __construct()

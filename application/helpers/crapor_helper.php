@@ -26,23 +26,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
   /**
    * Cek apakah sudah berhasil install
    * @return boolean
-   */
+   */ 
   function check_success_install()
   {
       $CI =& get_instance();
       $CI->load->database();
 
-      if ($CI->db->table_exists('pengaturan')) {
-          # cek record install-success
-          $success = get_pengaturan('install-success', 'value');
-          if (empty($success)) {
-              return false;
+      if ($CI->db->table_exists('data_sekolah')) {
+      
+        if($CI->db->get('data_sekolah')->row()) {
+          if($CI->db->get('user')->row()) {
+            return true;
           }
-      } else {
+        } else {
           return false;
+        }
+
+      } else {
+        return false;
       }
 
-      return true;
   }
   /**
    * Fungsi untuk cek koneksi, kalo error throw new
@@ -622,5 +625,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
    */
   function get_alert($notif = 'success', $msg = '')
   {
-      return '<div class="alert alert-'.$notif.'" fade show>'.$msg.'</div>';
+      return '<div class="alert alert-'.$notif.'" fade show'.$msg.'</div>';
+  }
+
+  /**
+   * Method untuk mendapatkan data site config
+   *
+   * @param  string $id
+   * @param  string $get   nama atau value
+   * @return string data
+   */
+  function get_pengaturan($id, $get = null)
+  {
+      $result = get_row_data('config_model', 'retrieve', array($id), $get);
+      return $result;
+  }
+
+  /**
+   * Fungsi yang berguna untuk mendapatkan data tertentu dari model tertentu
+   *
+   * @param  string $model
+   * @param  string $func
+   * @param  array  $args
+   * @param  string $field_name
+   * @return array|string
+   */
+  function get_row_data($model, $func, $args = array(), $field_name = '')
+  {
+      $CI =& get_instance();
+      $CI->load->model($model);
+
+      $retrieve = call_user_func_array(array($CI->$model, $func), $args);
+
+      if (empty($field_name)) {
+          return $retrieve;
+      } else {
+          return isset($retrieve[$field_name]) ? $retrieve[$field_name] : '';
+      }
   }

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Config extends CI_Controller
+class Config extends MY_Controller
 {
   
   /**

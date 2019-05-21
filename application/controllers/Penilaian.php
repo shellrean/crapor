@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Penilaian extends CI_Controller
+class Penilaian extends MY_Controller
 {
 
   public function __construct()

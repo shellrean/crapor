@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Perencanaan extends CI_Controller
+class Perencanaan extends MY_Controller
 {
 
 	public function __construct()

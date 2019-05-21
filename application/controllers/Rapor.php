@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Rapor extends CI_Controller
+class Rapor extends MY_Controller
 {
 
   /**
