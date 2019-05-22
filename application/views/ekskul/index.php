@@ -8,7 +8,7 @@
             </span>
             <span class="text">Tambah ekskul</span>
           </a>
-      
+
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -47,18 +47,15 @@
                         <td><?= $d->nomor_kontak ?></td>
                         <td>
 
-                          <a href="<?= base_url('ekskul/edit/'.$d->id) ?>" class="btn btn-sm btn-warning btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="far fa-edit"></i>
-                            </span>
-                            <span class="text">Edit</span>
-                          </a>
-                          <a href="<?= base_url('ekskul/delete/'.$d->id) ?>" class="btn btn-sm btn-danger btn-icon-split" onclick=" return confirm(`Data Ini akan dihapus?`) ">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-backspace"></i> 
-                            </span>
-                            <span class="text">Hapus</span>
-                          </a>
+						  <div class="btn-group">
+                              <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Aksi
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="<?= base_url('ekskul/edit/'.$d->id) ?>">Edit</a>
+                                <a class="dropdown-item" href="<?= base_url('ekskul/delete/'.$d->id) ?>">Hapus</a>
+                              </div>
+                          </div>
 
                         </td>
                       </tr>
@@ -68,4 +65,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

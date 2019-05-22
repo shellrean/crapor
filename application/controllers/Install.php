@@ -15,7 +15,7 @@ class Install extends CI_Controller
 		$this->load->helper(array('url', 'file','log','crapor'));
 
 		# laod library
-		$this->load->library(array('session', 'template','user_agent'));
+		$this->load->library(array('session', 'template','user_agent','form_validation'));
 
 
 		try {
@@ -50,7 +50,8 @@ class Install extends CI_Controller
         if (!empty($this->db_error)) {
           redirect('install/index/2');
         }
-        $this->load->library('form_validation');
+
+		# validate form input
         $this->form_validation->set_rules('username','Username','trim|required|is_unique[user.username]');
         $this->form_validation->set_rules('name','Name','required');
         $this->form_validation->set_rules('password1','Password','trim|required|matches[password2]|min_length[3]');
@@ -78,6 +79,7 @@ class Install extends CI_Controller
           redirect('install/index/2');
         }
 
+		# validate form input
 		$this->form_validation('nama','Nama sekolah','required');
 		$this->form_validation('nss','Nss','required');
 		$this->form_validation('npsn','Npsn','required');

@@ -12,12 +12,12 @@
                     <input type="text" name="nama" class="form-control" placeholder="Nama sekolah">
                 </div>
                 <div class="fom-group">
-                    <label>NPSN/NSS</label>
-                    <input type="text" name="nss" class="form-control" placeholder="NPSN/NSS">
+                    <label>NSS</label>
+                    <input type="text" name="nss" class="form-control" placeholder="NSS">
                 </div>
                 <div class="fom-group">
                     <label>NPSN</label>
-                    <input type="text" name="npsn" class="form-control" placeholder="NPSN/NSS">
+                    <input type="text" name="npsn" class="form-control" placeholder="NPSN">
                 </div>
                 <div class="fom-group">
                     <label>Alamat sekolah</label>

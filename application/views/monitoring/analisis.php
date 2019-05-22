@@ -6,12 +6,12 @@
         </div>
         <form action="" method="post">
         <?php
- 
+
             $ajaran = get_ta();
             $tahun_ajaran = $ajaran->tahun. ' (SMT '. $ajaran->smt.')';
             $data_kompetensi = $this->db->get('keahlian')->result();
 
-        ?> 
+        ?>
         <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -22,7 +22,7 @@
                   <input type="hidden" name="ajaran_id" id="ajaran_id" value="<?= $ajaran->id; ?>" />
                   <input type="text" class="form-control" value="<?= $tahun_ajaran ?>" readonly>
                 </div>
- 
+
                 <div class="form-group">
                   <label>Tingkat</label>
                   <select name="kelas" class="select2 form-control" id="kelas">
@@ -32,7 +32,7 @@
                     <?php } ?>
                   </select>
                 </div>
- 
+
                 <div class="form-group">
                   <label>Kelas</label>
                   <select name="kelas_id" class="select2 form-control" id="rombel">
@@ -43,25 +43,25 @@
                 <div class="form-group">
                   <label>Mata pelajaran</label>
                   <select name="id_mapel" class="select2 form-control" id="mapel">
-						        <option value="">&#10147; Pilih mata pelajaran</option>
-					        </select>
+						<option value="">&#10147; Pilih mata pelajaran</option>
+				  </select>
                 </div>
                 <div class="form-group">
                   <label>Kompetensi Penilaian</label>
                   <select name="kompetensi_id" class="select2 form-control" id="kompetensi">
-						        <option value="">&#10147; Pilih kompetensi penilaian</option>
-					        </select>
+						<option value="">&#10147; Pilih kompetensi penilaian</option>
+				  </select>
                 </div>
                 <div class="form-group">
                   <label>Nama penilaian</label>
                   <select name="penilaian" class="select2 form-control" id="penilaians">
-						        <option value="">&#10147; Pilih penilaian</option>
-					        </select>
-                </div> 
+						<option value="">&#10147; Pilih penilaian</option>
+				  </select>
+                </div>
             </div>
         </div>
     </div>
     </div>
     <div id="result"></div>
   </form>
-</div> 
+</div>

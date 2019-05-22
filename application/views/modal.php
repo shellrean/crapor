@@ -1,7 +1,7 @@
 <div class="modal-dialog <?= isset($modal_s) ? $modal_s : 'modal-lg'; ?>">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title"><?= $modal_title; ?></h5>
+      <h5 class="modal-title"><?= isset($modal_title) ? $modal_title : 'Modal Title'; ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

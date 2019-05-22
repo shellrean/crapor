@@ -14,8 +14,13 @@
             <?= form_error('nama','<small class="form-text text-danger">','</small>') ?>
           </div>
           <div class="fom-group">
-            <label>NPSN/NSS</label>
-            <input type="text" name="nss" class="form-control" placeholder="NPSN/NSS" value="<?= $sekolah->nss ?>">
+            <label>NSS</label>
+            <input type="text" name="nss" class="form-control" placeholder="NSS" value="<?= $sekolah->nss ?>">
+            <?= form_error('NSS','<small class="form-text text-danger">','</small>') ?>
+          </div>
+          <div class="fom-group">
+            <label>NPSN</label>
+            <input type="text" name="npsn" class="form-control" placeholder="NPSN" value="<?= $sekolah->nss ?>">
             <?= form_error('NSS','<small class="form-text text-danger">','</small>') ?>
           </div>
           <div class="fom-group">
@@ -56,7 +61,7 @@
             <?php
               endforeach;
             ?>
-            
+
             </select>
           </div>
         </div>
@@ -102,7 +107,7 @@
             <?= form_error('nip_kepsek','<small class="form-text text-danger">','</small>') ?>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
     <div class="card-footer text-muted">
       <button type="submit" class="btn btn-sm btn-success btn-icon-split">

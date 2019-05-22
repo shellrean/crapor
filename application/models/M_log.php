@@ -1,6 +1,11 @@
 <?php
 class M_log extends CI_Model
-{ 
+{
+  /**
+   * Method untuk menyimpan log log dari apliaksi
+   * @param array $param
+   * @return integer
+   */
   public function save_log($param)
   {
       $sql        = $this->db->insert_string('log',$param);
@@ -12,12 +17,12 @@ class M_log extends CI_Model
    * Method untuk mendapatkan login log terahir berdasarkan login_id
    * @param  integer $login_id
    * @return array
-   * @author kuswandi 
+   * @author kuswandi <wandinak17@gmail.com>
    */
   public function retrieve_last_log($login_id)
   {
       $this->db->where('login_id', $login_id);
-      $this->db->order_by('id', 'desc'); 
+      $this->db->order_by('id', 'desc');
       $result = $this->db->get('login_log', 1);
       return $result->row_array();
   }
@@ -25,8 +30,8 @@ class M_log extends CI_Model
   /**
      * Method untuk menambahkan riwayat log
      * @param  integer $login_id
-     * @return integer insert id
-     * @author kuswandi
+	 * @return integer
+     * @author kuswandi <wandinak17@gmail.com>
      */
     public function create_log($login_id)
     {
