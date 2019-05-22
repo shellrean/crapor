@@ -13,16 +13,16 @@ class Perencanaan extends MY_Controller
 	}
   /**
    * Show perencanaan dashboard
-   * 
-   * 
+   *
+   *
    * @return perencanaan view
    */
   public function pengetahuan()
-  { 
+  {
     $guru 	= get_my_info();
 		$ajaran = get_ta();
 
-		# make query to result 
+	# make query to result
     $this->db->from('rencana');
     $this->db->join('kelas a','rencana.kelas_id = a.id','inner');
     $this->db->join('kurikulum b','rencana.id_mapel = b.id_mapel','inner');
@@ -33,7 +33,7 @@ class Perencanaan extends MY_Controller
 			'rencana.kompetensi_id'	=> 1,
 		]);
 		$this->db->select('rencana.*,b.guru_id AS guru_id');
-		
+
 		# set data will send to view
 		$data['result'] = $this->db->get()->result();
 		$data['ajaran'] = $ajaran;
@@ -43,16 +43,16 @@ class Perencanaan extends MY_Controller
 	}
   /**
    * Show perencanaan dashboard
-   * 
-   * 
+   *
+   *
    * @return perencanaan view
    */
   public function keterampilan()
-  { 
+  {
     $guru 	= get_my_info();
 		$ajaran = get_ta();
 
-		# make query to result 
+		# make query to result
     $this->db->from('rencana');
     $this->db->join('kelas a','rencana.kelas_id = a.id','inner');
     $this->db->join('kurikulum b','rencana.id_mapel = b.id_mapel','inner');
@@ -63,37 +63,37 @@ class Perencanaan extends MY_Controller
 			'rencana.kompetensi_id'	=> 2,
 		]);
 		$this->db->select('rencana.*,b.guru_id AS guru_id');
-		
+
 		# set data will send to view
 		$data['result'] = $this->db->get()->result();
 		$data['ajaran'] = $ajaran;
- 
+
 		# load view
     $this->template->load('template','perencanaan/keterampilan',$data);
 	}
-	
-	
+
+
 
   /**
    * Show create page perencanaan pengetahuan
-   * 
-   * 
-   * 
+   *
+   *
+   *
    * @return true arg
    */
   public function add_pengetahuan()
   {
     $data['ajarans'] = $this->db->get('ajaran')->result();
-		
+
 		$guru 	= get_my_info();
-		  
+
 		$this->db->from('kurikulum');
 		$this->db->group_by(['kelas_id']);
 		$this->db->order_by('kelas_id','ASC');
 		$this->db->where(['guru_id' => $guru->id]);
 		$data_mapel = $this->db->get()->result();
-			
-			
+
+
 
     foreach($data_mapel as $datamapel){
 			$rombel_id[] = $datamapel->kelas_id;
@@ -107,7 +107,7 @@ class Perencanaan extends MY_Controller
 		$this->db->from('kelas');
 		$this->db->where_in('id',$id_rombel);
 		$data['rombels'] = $this->db->get()->result();
-		 
+
 		$this->db->from('kelas');
 		$this->db->group_by(['tingkat']);
 		$this->db->order_by('tingkat','ASC');
@@ -116,27 +116,27 @@ class Perencanaan extends MY_Controller
 		$data['form_action'] 	= 'perencanaan/simpan_perencanaan';
 		$data['query']				= 'kd';
 		$this->template->load('template','perencanaan/add_perencanaan',$data);
-	} 
+	}
   /**
    * Show create page perencanaan pengetahuan
-   * 
-   * 
-   * 
+   *
+   *
+   *
    * @return true arg
    */
   public function add_keterampilan()
   {
     $data['ajarans'] = $this->db->get('ajaran')->result();
-		
+
 		$guru 	= get_my_info();
-		  
+
 		$this->db->from('kurikulum');
 		$this->db->group_by(['kelas_id']);
 		$this->db->order_by('kelas_id','ASC');
 		$this->db->where(['guru_id' => $guru->id]);
 		$data_mapel = $this->db->get()->result();
-			
-			
+
+
 
     foreach($data_mapel as $datamapel){
 			$rombel_id[] = $datamapel->kelas_id;
@@ -150,7 +150,7 @@ class Perencanaan extends MY_Controller
 		$this->db->from('kelas');
 		$this->db->where_in('id',$id_rombel);
 		$data['rombels'] = $this->db->get()->result();
-		 
+
 		$this->db->from('kelas');
 		$this->db->group_by(['tingkat']);
 		$this->db->order_by('tingkat','ASC');
@@ -159,13 +159,13 @@ class Perencanaan extends MY_Controller
 		$data['form_action'] 	= 'perencanaan/simpan_perencanaan';
 		$data['query']				= 'kd';
 		$this->template->load('template','perencanaan/add_keterampilan',$data);
-	} 
-	
+	}
+
 	/**
 	 * Save perencanaan
 	 *
-	 *  
-	 * @return 
+	 *
+	 * @return
 	 */
 	public function simpan_perencanaan()
 	{
@@ -178,7 +178,7 @@ class Perencanaan extends MY_Controller
 			$bentuk_penilaian	= $_POST['bentuk_penilaian'];
 			$bobot_penilaian	= isset($_POST['bobot_penilaian']) ? $_POST['bobot_penilaian'] : '';
 			$keterangan_penilaian	= $_POST['keterangan_penilaian'];
-			
+
 			$bobot_penilaian_result = 1;
 			if($kompetensi_id == 1){
 				$redirect = 'pengetahuan';
@@ -195,12 +195,12 @@ class Perencanaan extends MY_Controller
 				'ajaran_id'			=> $ajaran_id,
 				'id_mapel'			=> $id_mapel,
 				'kelas_id'			=> $kelas_id,
-				'kompetensi_id'	=> $kompetensi_id
+				'kompetensi_id'		=> $kompetensi_id
 			];
 			$this->db->insert('rencana',$data);
 
 			$rencana_id =  $this->db->insert_id();
-			
+
 			foreach($kd as $k=>$v){
 				if($bobot_penilaian){
 					if($bobot_penilaian[$k] != 0 || $bobot_penilaian[$k] != ''){
@@ -267,7 +267,6 @@ class Perencanaan extends MY_Controller
 				$kd[]		= isset($_POST['kd_'.$i]) ? $_POST['kd_'.$i] : '';
 				$kd_id[]	= isset($_POST['kd_id_'.$i]) ? $_POST['kd_id_'.$i] : '';
 			}
-			// $rencana			= Rencana::find($rencana_id);
 			$rencana = $this->db->get_where('rencana',['id' => $rencana_id])->row();
 			if($rencana){
 				foreach($kd as $k=>$v){
@@ -289,10 +288,10 @@ class Perencanaan extends MY_Controller
 								foreach($rencana_penilaian as $rp){
 									$id_rp[] = $rp->id;
 										$data = array(
-											'nama_penilaian' => $nama_penilaian[$k], 
-											'bentuk_penilaian' => $bentuk_penilaian[$k], 
-											'bobot_penilaian' => $bobot_penilaian_result, 
-											'kd_id' => $id_kd, 
+											'nama_penilaian' => $nama_penilaian[$k],
+											'bentuk_penilaian' => $bentuk_penilaian[$k],
+											'bobot_penilaian' => $bobot_penilaian_result,
+											'kd_id' => $id_kd,
 											'kd' => $id_kompetensi
 										);
 										$this->db->update('rencana_penilaian',$data,['id' => $rp->id]);
@@ -326,7 +325,7 @@ class Perencanaan extends MY_Controller
 					$del_rp = $this->db->get()->result();
 
 					foreach($del_rp as $drp){
-						
+
 						$this->db->delete('rencana_penilaian',['id' => $drp->id]);
 					}
 				}
@@ -367,7 +366,7 @@ class Perencanaan extends MY_Controller
 			alertsuccess('message','Berhasil mengubah rencana penilaian '.$redirect);
 			redirect('perencanaan/'.$redirect);
 		}
-	} 
+	}
 
 	public function delete_rp($id)
 	{

@@ -7,8 +7,8 @@ class Ajax extends MY_Controller
 
   /**
    * Get rombel all indentifier with session
-   * 
-   * 
+   *
+   *
    * @return json
    */
   public function get_rombel()
@@ -18,8 +18,7 @@ class Ajax extends MY_Controller
     $query = $this->input->post('query',true);
     $tingkat = $this->input->post('kelas',true);
 
-		// var_dump($tingkat);
-		$qry1 = $this->db->from('kurikulum');
+	$qry1 = $this->db->from('kurikulum');
     $qry1->where('guru_id',$guru->id);
     $qry1->group_by("kelas_id");
     $data_mapel= $qry1->get()->result();
@@ -32,18 +31,16 @@ class Ajax extends MY_Controller
 		$qry2 = $this->db->from('role_khusus');
 		$qry2->where(['guru_id' => $guru->id]);
 		$datas = $qry2->get()->row();
-		// var_dump($datas);
 		if($datas) {
 			# jika role khusus adalah wakil kurikulum yaitu 4
 			if($datas->role_id == 4) {
-			
+
 				$qry3 = $this->db->from('kelas');
 				$qry3->where(['tingkat' => $tingkat]);
 				$data_rombel = $qry3->get()->result();
-			
-				// var_dump($data_rombel);
+
 			}
-		
+
 		} else {
 
 			$qry4 = $this->db->from('kelas');
@@ -52,7 +49,7 @@ class Ajax extends MY_Controller
 			$data_rombel = $qry4->get()->result();
 
 		}
-		
+
 		if($data_rombel){
 			foreach($data_rombel as $rombel){
 				$record= array();
@@ -70,19 +67,19 @@ class Ajax extends MY_Controller
 
   /**
    * Get mapel from ajax
-   * 
-   * 
-   * 
+   *
+   *
+   *
    * @return json
    */
   public function get_mapel()
   {
 		$guru = get_my_info();
-		
+
 		$ajaran_id = $_POST['ajaran_id'];
 		$kelas_id = $_POST['kelas_id'];
-    $query		= $_POST['query']; 
-     
+    $query		= $_POST['query'];
+
     $this->db->select('*');
     $this->db->from('kurikulum');
     $this->db->where(['ajaran_id' => $ajaran_id, 'kelas_id' => $kelas_id, 'guru_id' => $guru->id]);
@@ -106,37 +103,37 @@ class Ajax extends MY_Controller
 
   /**
    * GEt kd
-   * 
-   * 
+   *
+   *
    * @return ajax
    */
   public function get_kd()
   {
     $guru = get_my_info();
-    
-    $data['guru_id'] = $guru->id;
-    
-		$data['kelas'] = $_POST['kelas'];
-		$data['kompetensi_id'] = $_POST['kompetensi_id'];
-		$data['ajaran_id'] = $_POST['ajaran_id'];
-		$data['id_mapel'] = $_POST['id_mapel'];
-    $data['id_kelas'] = $_POST['kelas_id'];
-    
+
+    $data['guru_id'] 		= $guru->id;
+
+	$data['kelas'] 			= $_POST['kelas'];
+	$data['kompetensi_id'] 	= $_POST['kompetensi_id'];
+	$data['ajaran_id'] 		= $_POST['ajaran_id'];
+	$data['id_mapel'] 		= $_POST['id_mapel'];
+    $data['id_kelas'] 		= $_POST['kelas_id'];
+
     $this->load->view('perencanaan/form_perencanaan',$data);
   }
 
   /**
    * Get rencana penilaian
-   * 
-   * 
+   *
+   *
    */
   public function get_rencana_penilaian()
   {
-    $ajaran_id	    = $_POST['ajaran_id'];
-    $kelas_id	      = $_POST['kelas_id'];
-    $id_mapel	      = $_POST['id_mapel'];
-    $kompetensi_id  = $_POST['kompetensi_id'];
-    
+    $ajaran_id	    	= $_POST['ajaran_id'];
+    $kelas_id	      	= $_POST['kelas_id'];
+    $id_mapel	      	= $_POST['id_mapel'];
+    $kompetensi_id  	= $_POST['kompetensi_id'];
+
     $rencana = $this->db->get_where('rencana',[
       'ajaran_id'   => $ajaran_id,
       'id_mapel'    => $id_mapel,
@@ -148,12 +145,12 @@ class Ajax extends MY_Controller
 			foreach($rencana as $ren){
 				$id_rencana[] = $ren->id;
       }
-      
+
       $this->db->from('rencana_penilaian');
       $this->db->group_by('nama_penilaian');
       $this->db->order_by('id','ASC');
       $this->db->where_in('rencana_id',$id_rencana);
-      
+
       $all_pengetahuan = $this->db->get()->result();
 
 			$i=1;
@@ -182,7 +179,7 @@ class Ajax extends MY_Controller
 		}
 		echo json_encode($output);
   }
-  
+
   /**
    * Get remedial value
    */
@@ -194,7 +191,7 @@ class Ajax extends MY_Controller
 		$output['result'] = $record;
 		echo json_encode($output);
   }
-  
+
   public function get_rencana_id(){
 		$all_rencana = array(
 							array(
@@ -210,16 +207,16 @@ class Ajax extends MY_Controller
 				$record= array();
 				$record['value'] 	= $rencana['id'];
 				$record['text'] 	= $rencana['nama'];
-				$output['result'][] = $record; 
+				$output['result'][] = $record;
 			}
 		echo json_encode($output);
 	}
 	public function get_rapor(){
 		$data['ajaran_id'] = $_POST['ajaran_id'];
 		$data['kelas_id'] = $_POST['kelas_id'];
-		
+
 		$data['nama_kompetensi'] = 2013;
 
 		$this->load->view('cetak/rapor',$data);
-	} 
+	}
 }

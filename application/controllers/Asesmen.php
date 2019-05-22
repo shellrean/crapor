@@ -12,8 +12,8 @@ class Asesmen extends MY_Controller
   }
   /**
    * Get page for add prakerin with ajax
-   * 
-   * 
+   *
+   *
    * @return
    */
   public function get_prakerin()
@@ -21,35 +21,35 @@ class Asesmen extends MY_Controller
 		$data['ajaran_id'] = $_POST['ajaran_id'];
 		$data['kelas_id'] = $_POST['kelas_id'];
 		$data['siswa_nis'] = $_POST['siswa_nis'];
-    $this->load->view('rapor/add_pkl',$data);
+    	$this->load->view('rapor/add_pkl',$data);
   }
-  
+
   /**
    * Get page for ekstrakukikuler with ajax
-   * 
-   * 
-   * @return 
+   *
+   *
+   * @return
    */
   public function get_ekskul()
   {
-    $data['ajaran_id'] = $_POST['ajaran_id'];
+    	$data['ajaran_id'] = $_POST['ajaran_id'];
 		$data['ekskul_id'] = $_POST['ekskul_id'];
-    $data['kelas_id'] = $_POST['kelas_id'];
-    
-    
-    $this->load->view('rapor/add_ekskul',$data);
+    	$data['kelas_id'] = $_POST['kelas_id'];
+
+
+    	$this->load->view('rapor/add_ekskul',$data);
   }
 
   /**
    * Get page for kd_penilaian with ajax
-   * 
-   * 
-   * @return 
+   *
+   *
+   * @return
    */
   public function get_kd_penilaian()
   {
 		$html = '';
-    $settings   = $this->db->get('setting')->row();
+    	$settings   = $this->db->get('setting')->row();
 		$ajaran_id = $_POST['ajaran_id'];
 		$post	= $_POST['rencana_id'];
 		$post = explode("#", $post);
@@ -59,11 +59,11 @@ class Asesmen extends MY_Controller
 		$bobot_kd = ($bobot_kd > 0) ? $bobot_kd : 1;
 		$kelas_id	= $_POST['kelas_id'];
 		$id_mapel = $_POST['id_mapel'];
-    $kompetensi_id = $_POST['kompetensi_id'];
-    
-    $rencana = $this->db->get_where('rencana',['id' => $rencana_id])->row();
+    	$kompetensi_id = $_POST['kompetensi_id'];
+
+    	$rencana = $this->db->get_where('rencana',['id' => $rencana_id])->row();
 		$html .= '<input type="hidden" name="bobot_kd" value="'.$bobot_kd.'" />';
-    
+
     $all_rencana = $this->db->get_where('rencana',[
       'ajaran_id'     => $ajaran_id,
       'kelas_id'      => $kelas_id,
@@ -72,8 +72,8 @@ class Asesmen extends MY_Controller
     ])->result();
     foreach($all_rencana as $ren){
 			$id_rencana[] = $ren->id;
-    } 
-    
+    }
+
     $this->db->from('rencana_penilaian');
     $this->db->group_by('nama_penilaian');
     $this->db->order_by('id','ASC');
@@ -86,25 +86,25 @@ class Asesmen extends MY_Controller
 		} else {
 			$nama_mapel = '';
     }
-    
+
     $this->db->from('rencana_penilaian');
     $this->db->group_by('nama_penilaian');
     $this->db->where('rencana_id',$rencana->id);
     $get_all_bobot = $this->db->get()->result();
 
-    
+
     $all_pengetahuan = $this->db->get_where('rencana_penilaian',[
       'rencana_id'      => $rencana_id,
       'nama_penilaian'  => $nama_penilaian,
     ])->result();
     $html .= '<link rel="stylesheet" href="'.base_url('assets/').'css/tooltip-viewport.css">';
 		$html .= '<script src="'.base_url('assets/').'js/tooltip-viewport.js"></script>';
-    $data_siswa = filter_agama_siswa($nama_mapel,$rencana->kelas_id);  
+    $data_siswa = filter_agama_siswa($nama_mapel,$rencana->kelas_id);
 		foreach($get_all_bobot_new as $getbobot){
 			$set_bobot = ($getbobot->bobot_penilaian > 0) ? $getbobot->bobot_penilaian : 1;
 			$html .= '<input type="hidden" name="all_bobot[]" value="'.$set_bobot.'" />';
 			$html .= '<input type="hidden" name="rencana_penilaian_id[]" value="'.$getbobot->id.'" />';
-		} 
+		}
 		if($all_pengetahuan){
 			$jumlah_kd = count($all_pengetahuan);
 			$html .= '<input type="hidden" name="jumlah_kd" value="'.$jumlah_kd.'" />';
@@ -116,7 +116,7 @@ class Asesmen extends MY_Controller
 			$html .= '<th rowspan="2" style="vertical-align: middle;">Nama Siswa</th>';
 			$html .= '<th class="text-center" colspan="'.$jumlah_kd.'">Kompetensi Dasar</th>';
 			$html .= '<th rowspan="2" style="vertical-align: middle;" class="text-center">Rerata Nilai</th>';
-			
+
 			if($settings->rumus == 1){
 				$html .= '<th rowspan="2" style="vertical-align: middle;" class="text-center">Rumus</th>';
 				$html .= '<th rowspan="2" style="vertical-align: middle;" class="text-center">Nilai Akhir<br />Per Penilaian</th>';
@@ -156,9 +156,9 @@ class Asesmen extends MY_Controller
 					$html .= '<td><input type="text" name="kd_'.$i.'[]" size="10" class="form-control" value="'.$nilai_value.'" autocomplete="off" maxlength="3" required /></td>';
 					$i++;
         }
-        
+
         $html .= '<td><input type="text" name="rerata[]" id="rerata_'.$no.'" size="10" class="form-control" value="'.$rerata.'" readonly /></td>';
-          
+
 				if($settings->rumus == 1){
 					$html .= '<td class="text-center"><strong><span id="rerata_text_'.$no.'"></span></strong></td>';
 					$html .= '<td><input type="text" name="rerata_jadi[]" id="rerata_jadi_'.$no.'" size="10" class="form-control" value="'.$rerata_jadi.'" readonly /></td>';
@@ -174,12 +174,12 @@ class Asesmen extends MY_Controller
 		} else {
 			$html .= '<h5 class="text-danger"><i>Tidak ada KD terpilih di Perencanaan Penilaian</i></h5>';
     }
-    
 
-	
+
+
 		echo $html;
 	}
-	public function get_remedial(){ 
+	public function get_remedial(){
 		$html = '';
 		$settings = $this->db->get('setting')->row();
 
@@ -187,7 +187,7 @@ class Asesmen extends MY_Controller
 		$kelas_id	= $_POST['kelas_id'];
 		$id_mapel = $_POST['id_mapel'];
 		$kelas = $_POST['kelas'];
-		$aspek = $_POST['aspek']; 
+		$aspek = $_POST['aspek'];
 		$kompetensi_id = ($aspek == 'P') ? 1 : 2;
 
 		$data_siswa = $this->db->get_where('siswa',['kelas_id' => $kelas_id])->result();
@@ -243,7 +243,7 @@ class Asesmen extends MY_Controller
 		$html .= '</div></div>';
 		$html .= '<div class="card"><div class="card-body">';
 		$html .= '<table class="table table-bordered table-hover">';
-		$html .= '<thead>'; 
+		$html .= '<thead>';
 		$html .= '<tr>';
 		$html .= '<th rowspan="2" style="vertical-align: middle;">Nama Siswa</th>';
 		$html .= '<th class="text-center" colspan="'.count($get_all_kd).'">Kompetensi Dasar</th>';
@@ -432,7 +432,7 @@ class Asesmen extends MY_Controller
 			exit;
 		}
 		$data['nama_penilaian'] = $post[1];
-		$data['kompetensi_id'] = $post[2]; 
+		$data['kompetensi_id'] = $post[2];
 		$this->load->view('monitoring/analisis_penilaian',$data);
 	}
 
