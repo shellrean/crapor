@@ -17,7 +17,7 @@ class Config extends MY_Controller
     
     is_login();
     is_admin();
-  }
+  } 
 
   /**
    * Get the setting and show ours dashboard config.php
@@ -28,7 +28,7 @@ class Config extends MY_Controller
    */
   public function index()
   {
-    $this->form_validation->set_rules('periode','required');
+    $this->form_validation->set_rules('periode','Periode','required');
 
     if( $this->form_validation->run() == false ) {
 
@@ -37,7 +37,6 @@ class Config extends MY_Controller
 
     }
     else {
-
       $this->_save();
 
     }
@@ -56,7 +55,7 @@ class Config extends MY_Controller
     $setting = [
       'periode' 		=> $this->input->post('periode'),
     ];
-
+ 
     # define semester
     $strings = $setting['periode'];
     $strings = explode('|',$strings);
@@ -71,14 +70,15 @@ class Config extends MY_Controller
     # get count where condition
     $ajarans = $this->db->get_where('ajaran',['tahun' => $tapel,'smt'=>$smt])->num_rows();
 
+    var_dump($ajarans);
     # if where condition is not found
     if(!$ajarans){
       $data_ajarans = array(
         'tahun'				=> $tapel,
         'smt' 				=> $smt
-      );
+      ); 
       $this->db->insert('ajaran',$data_ajarans);
-    }
+    } 
 
     # update setting table
     $this->db->update('setting',$setting,['id' => 1]);
@@ -86,7 +86,7 @@ class Config extends MY_Controller
     # executed last code
     helper_log('update','Mengubah configurasi umum');
     alertsuccess('message','Configurasi berhasil diubah');
-    redirect('config');
+    redirect('config'); 
   }
 
   /**
