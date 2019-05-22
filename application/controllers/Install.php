@@ -8,37 +8,39 @@ class Install extends CI_Controller
 
     function __construct()
     {
-      parent::__construct();
+		parent::__construct();
 
 
-      # load helper
-      $this->load->helper(array('url', 'file','log','crapor'));
+		# load helper
+		$this->load->helper(array('url', 'file','log','crapor'));
 
-      $this->load->library(array('session', 'template','user_agent'));
+		# laod library
+		$this->load->library(array('session', 'template','user_agent'));
 
-    try {
-        $success = install_success();
-        if ($success) {
-            redirect('Auth');
-        }
-    } catch (Exception $e) {
-        $this->db_error = $e->getMessage();
-    }
- 
-    if (empty($this->db_error)) {
-        $this->load->database();
 
-            include APPPATH . 'config/database.php';
+		try {
+			$success = install_success();
+			if ($success) {
+				redirect('Auth');
+			}
+		} catch (Exception $e) {
+			$this->db_error = $e->getMessage();
+		}
 
-            $this->prefix = $db['default']['dbprefix'];
+		if (empty($this->db_error)) {
+			$this->load->database();
 
-            # load model
-            $this->load->model([
-              'M_config'
-            ]);
-            # load session
-            $this->load->library('session');
-        }
+			include APPPATH . 'config/database.php';
+
+			$this->prefix = $db['default']['dbprefix'];
+
+			# load model
+			$this->load->model([
+				'M_config'
+			]);
+			# load session
+			$this->load->library('session');
+		}
     }
 
   public function index($step = '')
@@ -71,26 +73,39 @@ class Install extends CI_Controller
           redirect('Auth');
         }
       break;
-      case '3': 
+      case '3':
         if (!empty($this->db_error)) {
           redirect('install/index/2');
         }
 
-        if($_POST) 
+		$this->form_validation('nama','Nama sekolah','required');
+		$this->form_validation('nss','Nss','required');
+		$this->form_validation('npsn','Npsn','required');
+		$this->form_validation('alamat_sekolah','Alamat sekolah','required');
+		$this->form_validation('kode_pos','Kode pos','required');
+		$this->form_validation('telp','Telp','required');
+		$this->form_validation('faks','Faks','required');
+		$this->form_validation('kecamatan','Kecamatan','required');
+		$this->form_validation('kota','Kota','required');
+		$this->form_validation('provinsi','Provinsi','required');
+		$this->form_validation('website','Website','required');
+		$this->form_validation('email','Email','required');
+
+        if($this->form_valition->run() == false)
         {
           $data = [
-            'nama'      => $this->input->post('nama'),
-            'nss'       => $this->input->post('nss'),
-            'npsn'      => $this->input->post('npsn'),
-            'alamat_sekolah' => $this->input->post('alamat_sekolah'),
-            'kode_pos'  => $this->input->post('kode_pos'),
-            'telp'      => $this->input->post('telp'),
-            'faks'      => $this->input->post('faks'),
-            'kecamatan' => $this->input->post('kecamatan'),
-            'kabupaten' => $this->input->post('kota'),
-            'provinsi'  => $this->input->post('provinsi'),
-            'website'   => $this->input->post('website'),
-            'email'     => $this->input->post('email'), 
+            'nama'      => $this->input->post('nama',true),
+            'nss'       => $this->input->post('nss',true),
+            'npsn'      => $this->input->post('npsn',true),
+            'alamat_sekolah' => $this->input->post('alamat_sekolah',true),
+            'kode_pos'  => $this->input->post('kode_pos',true),
+            'telp'      => $this->input->post('telp',true),
+            'faks'      => $this->input->post('faks',true),
+            'kecamatan' => $this->input->post('kecamatan',true),
+            'kabupaten' => $this->input->post('kota',true),
+            'provinsi'  => $this->input->post('provinsi',true),
+            'website'   => $this->input->post('website',true),
+            'email'     => $this->input->post('email',true),
           ];
           $this->db->insert('data_sekolah',$data);
           redirect('install/index/4');
@@ -118,8 +133,8 @@ class Install extends CI_Controller
         if (!empty($this->db_error)) {
             $ambil_error = get_alert('danger', $this->db_error);
         }
-        $data['error'] = $ambil_error; 
-        $this->template->load('install','install/step1', $data); 
+        $data['error'] = $ambil_error;
+        $this->template->load('install','install/step1', $data);
       break;
 
       case '1':
