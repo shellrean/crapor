@@ -17,9 +17,10 @@ class User extends MY_Controller
 
     $this->_cekLogin();
 
+    $this->load->library('excel');
     $this->load->library('form_validation');
     $this->load->model('M_user');
-  }
+  } 
 
   /**
    * Show our dashboard 
@@ -216,6 +217,166 @@ class User extends MY_Controller
     helper_log("upload", "Mengupload data user");
     alertsuccess('message','Data berhasil diimport');
      
+  }
+  public function import2()
+  {
+    // $loggeduser = $this->ion_auth->user()->row();
+		// $sekolah = Datasekolah::find($loggeduser->data_sekolah_id);
+    $jumlah_guru = $this->db->get_where('user')->num_rows();
+    
+    $status=array(); 
+    
+		$importdata = $_REQUEST['data'];
+		$date   = new DateTime;
+    
+    $fileName = $_FILES['import']['name'];
+		$config['upload_path'] = './uploads/files/';
+		$config['file_name'] = $fileName;
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['overwrite'] = TRUE; 
+    $this->load->library('upload');
+    
+    $this->upload->initialize($config);
+		if(!$this->upload->do_upload('import')){
+			$status['type'] = 'error';
+			$status['text'] = $this->upload->display_errors();
+			$status['title'] = 'Upload file error!';
+			echo json_encode($status);
+			exit();
+    }
+    
+    // $media = $this->upload->data('import');
+    // var_dump($media);
+		$inputFileName = './uploads/files/'.$fileName;
+		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+		foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+			$worksheetTitle = $worksheet->getTitle();
+			$highestRow = $worksheet->getHighestRow(); // e.g. 10
+			$highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
+			$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+    }
+    
+		$nrColumns = ord($highestColumn) - 64;
+		$sheet = $objPHPExcel->getSheet(0);
+		$highestRow = $sheet->getHighestRow();
+		$highestColumn = $sheet->getHighestColumn();
+		$status['highestColumn'] = $highestColumn;
+		$status['highestRow'] = $highestRow;
+		$status['sheet'] = $sheet;
+    $status['nrColumns'] = $nrColumns;
+    
+		if($highestColumn == 'C') { // Import data guru
+			$row = $objPHPExcel->getActiveSheet()->getRowIterator(1)->current();
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(false);
+			foreach ($cellIterator as $k=>$cell) {
+				$key[] = $cell->getValue();
+			}
+			for ($row = 2; $row <= $highestRow; ++ $row) {
+				$val = array();
+				for ($col = 0; $col < $highestColumnIndex; ++ $col) {
+					$cell = $worksheet->getCellByColumnAndRow($col, $row);
+					$val[] = $cell->getValue();
+				}
+				$i=0;
+				foreach($val as $k=>$v){
+					$InsertData[] = array(
+						"$key[$i]"=> $v
+						);
+					$i++;
+				}
+				$flat = call_user_func_array('array_merge', $InsertData);
+				// $data_sekolah_id = array("data_sekolah_id"=>$loggeduser->data_sekolah_id);
+				// $active = array("active"=> 1);
+        // $photo = array("photo"=>'');
+        $slug = array("slug" => uniqid().generateRandomString(20));
+				$password	= array("password"=>12345678);
+				// $petugas = array("petugas"=> $loggeduser->username);
+				$masukkan[] = array_merge($flat,$slug,$password);
+			}
+			$jumlah_data_import = count($masukkan);
+			$sum=0;
+			$data_sudah_ada = array();
+      $gagal_insert_user = array();
+      
+		foreach($masukkan as $k=>$v){
+		// if($v['nuptk'] == ''){
+    // 	$a = Dataguru::all(array('conditions' => array('nama = ? AND tanggal_lahir = ?', $v['nama'], $v['tanggal_lahir'])));
+      $a = $this->db->get_where('user',['username' => $v['username']])->result();
+		// } else {
+		// 	$a = Dataguru::all(array('conditions' => array('nuptk = ? AND nama = ?', $v['nuptk'], $v['nama'])));
+		// }
+      $sum+=count($a);
+      
+			if(!$a){
+				// $GenerateNUPTK = $this->custom_fuction->GenerateID();
+				// if($v['nuptk'] == ''){
+				// 	$v['nuptk'] = $GenerateNUPTK;
+				// } else {
+				// 	$v['nuptk'] = $v['nuptk'];
+				// }
+				$username 	= $v['username'];
+        $password 	= $v['password'];
+        $name =   $v['name'];
+				// $email		= ($v['email'] ? $v['email'] : $this->custom_fuction->GenerateEmail().'@cybereducation.co.id');
+				// $additional_data = array(
+				// 	"data_sekolah_id"=> $v['data_sekolah_id'],
+				// 	"nuptk"=> $v['nuptk'],
+				// );
+				// $group = array('3');
+        // $user_id = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $this->db->insert('user',[
+          'username'  => $username,
+          'name'      => $name,
+          'password'   => password_hash($password,PASSWORD_DEFAULT),
+        ]);
+        // $user_id = $this->db->insert_id();
+				// if($user_id){
+				// 	$id_guru = array('user_id'=>$user_id,'data_sekolah_id'=>$loggeduser->data_sekolah_id,'email'=>$email);
+				// 	$insert_guru = array_merge($id_guru,$v);
+				// 	$dataguru = Dataguru::create($insert_guru);
+				// 	$updatedata = array('data_guru_id'=>$dataguru->id);
+				// 	$this->db->where('id', $user_id);
+				// 	$this->db->update('users', $updatedata); 
+				// } else {
+				// 	$gagal_insert_user[] .= (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+				// }
+			} else {
+				$data_sudah_ada[] .= 'Data sudah ada';
+			}
+		}
+		// $jml_gagal_insert_user = count($gagal_insert_user);
+		$jml_data_sudah_ada = count($data_sudah_ada);
+		$kolom = ($highestRow - 1);
+		$disimpan = ($kolom - $sum);
+		$ditolak = ($kolom - $jml_data_sudah_ada);
+		// if (array_key_exists(0, $gagal_insert_user)) {
+		// 	$status_gagal_insert_user = $gagal_insert_user[0];
+		// } else {
+		// 	$status_gagal_insert_user = '';
+		// }
+		$status['text']	= '<table width="100%" class="table table-bordered">
+				<tr>
+					<td class="text-center">Jumlah data</td>
+					<td class="text-center">Status</td>
+				</tr>
+				<tr>
+					<td>'.$disimpan.'</td>
+					<td><span class="badge badge-success">sukses disimpan</span></td>
+				<tr>
+					<td>'.$jml_data_sudah_ada.'</td>
+					<td><span class="badge badge-danger">data sudah ada</span></td>
+				</tr>
+				</table>';
+      $status['type'] = 'success';
+      $status['title'] = 'Import data sukses!';
+    } else {
+      $status['type'] = 'error';
+      $status['text'] = 'Format Import tidak sesuai. Silahkan download template yang telah disediakan.';
+      $status['title'] = 'Import Data Gagal!';
+    }
+    unlink($inputFileName);
+	echo json_encode($status);
   }
   /**
    * Show profile page

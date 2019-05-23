@@ -328,21 +328,5 @@
     <!-- Page for select2 -->
     <script src="<?= base_url('assets/') ?>vendor/select2/js/select2.min.js"></script>
     <script src="<?= base_url('assets/')?>vendor/sweetalert2/sweetalert2.min.js"></script>
-    <script>
 
-        $('#fileupload').fileupload({
-            url: "<?= site_url('user/import'); ?>",
-            done(e,data) {
-                alert('Upload success');
-                window.location.href="<?= base_url('user') ?>"
-            },
-	    }).on('fileuploadprogress', function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress-bar').css('width',progress + '%');
-            $('#status').html(progress+'%');
-	    }).on('fileuploadsubmit', function (e, data) {
-	    });
- 
-           
-    </script>
     <script src="<?= base_url('assets/') ?>/js/scripts.js"></script>

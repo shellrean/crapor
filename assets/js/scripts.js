@@ -622,3 +622,28 @@ $('a.confirm').bind('click',function(e) {
 		}
 	});
 });
+
+$('#fileupload').fileupload({
+
+  url: $('#url').val(),
+  dataType: 'json',
+
+}).on('fileuploadprogress', function (e, data) {
+  var progress = parseInt(data.loaded / data.total * 100, 10);
+  $('#progress-bar').css('width',progress + '%');
+}).on('fileuploadsubmit', function (e, data) {
+  $('#gagal').hide();
+  var mapel = $('#category_id_upload').val();
+  data.formData = {data: mapel};
+  if(data.formData.mapel == ''){
+    return false;
+  }else{
+    $('#progress').show();
+  }
+}).on('fileuploaddone', function (e, data) {
+  window.setTimeout(function() { 
+    $('#progress-bar').css('width','0%');
+  }, 1000);
+  swal({title:data.result.title,type:data.result.type,html:data.result.text}).done();
+}).prop('disabled', !$.support.fileInput)
+  .parent().addClass($.support.fileInput ? undefined : 'disabled');
