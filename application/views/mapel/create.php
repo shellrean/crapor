@@ -35,6 +35,14 @@
                   </select>
                 </div>
                 <div class="form-group">
+                  <label>Bobot (P:K)</label>
+                  <select name="bobot" id="" class="select2 form-control">
+                    <option value="50:50">50:50</option>
+                    <option value="60:40">60:40</option>
+                    <option value="40:60">40:60</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label>Kelompok mapel</label>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="A0" checked>

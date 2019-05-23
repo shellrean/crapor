@@ -36,10 +36,7 @@ class Mapel extends MY_Controller
    */
   public function create()
   {
-    $this->form_validation->set_rules('id_mapel','Kede mapel','required|is_unique[data_mapel.id_mapel]');
-    $this->form_validation->set_rules('nama_mapel','Nama mapel','required|trim');
-
-    if($this->form_validation->run() == false) {
+    if($this->form_validation->run('mapel') == false) {
       
       $this->db->select('*');
       $this->db->from('keahlian');
@@ -51,11 +48,12 @@ class Mapel extends MY_Controller
     else {
       $id_mapel = $this->input->post('kelompok',true).'-'.$this->input->post('id_mapel');
       $data = [
-        'id_mapel'    => $id_mapel,
-        'nama_mapel'  => $this->input->post('nama_mapel'),
-        'kurikulum_id' => $this->input->post('kurikulum_id'),
-        'kelas_X'     => $this->input->post('kelas_X'),
-        'kelas_XI'     => $this->input->post('kelas_XI'), 
+        'id_mapel'      => $id_mapel,
+        'nama_mapel'    => $this->input->post('nama_mapel'),
+        'kurikulum_id'  => $this->input->post('kurikulum_id'),
+        'bobot'         => $this->input->post('bobot'),
+        'kelas_X'       => $this->input->post('kelas_X'),
+        'kelas_XI'      => $this->input->post('kelas_XI'), 
         'kelas_XII'     => $this->input->post('kelas_XII'),
       ];
 
@@ -74,10 +72,7 @@ class Mapel extends MY_Controller
    */
   public function edit($id_mapel)
   {
-    $this->form_validation->set_rules('id_mapel','Kede mapel','required');
-    $this->form_validation->set_rules('nama_mapel','Nama mapel','required|trim');
-
-    if( $this->form_validation->run() == false) {
+    if( $this->form_validation->run('mapel') == false) {
 
       $this->db->select('*');
       $this->db->from('keahlian');
@@ -92,11 +87,12 @@ class Mapel extends MY_Controller
       $id_mapel = $this->input->post('id_mapel',true);
       $this->db->where('id_mapel',$id_mapel);
       $data = [
-        'id_mapel'    => $id_mapel,
-        'nama_mapel'  => $this->input->post('nama_mapel'),
-        'kurikulum_id' => $this->input->post('kurikulum_id'),
-        'kelas_X'     => $this->input->post('kelas_X'),
-        'kelas_XI'     => $this->input->post('kelas_XI'), 
+        'id_mapel'      => $id_mapel, 
+        'nama_mapel'    => $this->input->post('nama_mapel'),
+        'kurikulum_id'  => $this->input->post('kurikulum_id'),
+        'bobot'         => $this->input->post('bobot'),
+        'kelas_X'       => $this->input->post('kelas_X'),
+        'kelas_XI'      => $this->input->post('kelas_XI'), 
         'kelas_XII'     => $this->input->post('kelas_XII'),
       ];
 

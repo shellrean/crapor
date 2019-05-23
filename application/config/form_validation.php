@@ -52,3 +52,16 @@ $config['config/sekolah'] = [
     'rules'   => 'required'
   ]
 ];
+
+$config['mapel'] = [
+  [
+    'field'   => 'id_mapel',
+    'label'   => 'Kode mapel',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'nama_mapel',
+    'label'   => 'Nama mapel',
+    'rules'   => 'required'
+  ]
+];

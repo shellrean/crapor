@@ -33,6 +33,14 @@
                     <?php endforeach; ?>
                   </select>
                 </div>
+                <div class="form-group">
+                  <label>Bobot (P:K)</label>
+                  <select name="bobot" id="" class="select2 form-control">
+                    <option value="50:50" <?= ($mapel->bobot == '50:50') ? 'selected' : ''?> >50:50</option>
+                    <option value="60:40" <?= ($mapel->bobot == '60:40') ? 'selected' : ''?>>60:40</option>
+                    <option value="40:60" <?= ($mapel->bobot == '40:60') ? 'selected' : ''?>>40:60</option>
+                  </select>
+                </div>
               
                 <div class="form-group">
                   <label>Kelas 10 </label>
