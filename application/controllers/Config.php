@@ -54,6 +54,8 @@ class Config extends MY_Controller
     # set the setting field
     $setting = [
       'periode' 		=> $this->input->post('periode'),
+      'rumus'       => $this->input->post('rumus'),
+      'url_api'     => $this->input->post('api_url')
     ];
  
     # define semester
@@ -70,7 +72,6 @@ class Config extends MY_Controller
     # get count where condition
     $ajarans = $this->db->get_where('ajaran',['tahun' => $tapel,'smt'=>$smt])->num_rows();
 
-    var_dump($ajarans);
     # if where condition is not found
     if(!$ajarans){
       $data_ajarans = array(
@@ -97,10 +98,8 @@ class Config extends MY_Controller
    */
   public function sekolah()
   {
-    # call method
-    $this->_validate();
 
-    if($this->form_validation->run() == false) {
+    if($this->form_validation->run('config/sekolah') == false) {
 
       $data['sekolah'] = $this->db->get('data_sekolah')->row();
       $data['setting'] = $this->db->get('setting')->row();
@@ -154,25 +153,86 @@ class Config extends MY_Controller
     }
   }
 
-  /**
-   * Call this method for validate the data sekolah field 
-   * 
-   * 
-   * @return boolean
-   */
-  private function _validate()
+  public function sync()
   {
-    $this->form_validation->set_rules('nama','Nama sekolah','required|trim');
-    $this->form_validation->set_rules('nss','NPSN/NSS','required');
-    $this->form_validation->set_rules('alamat_sekolah','Alamat sekolah','required');
-    $this->form_validation->set_rules('kode_pos','Kode pos','required');
-    $this->form_validation->set_rules('telp','No telp','required');
-    $this->form_validation->set_rules('faks','No faks','required');
-    $this->form_validation->set_rules('kecamatan','Kecamatan','required');
-    $this->form_validation->set_rules('kota','Kabupaten/Kota','required');
-    $this->form_validation->set_rules('provinsi','Provinsi','required');
-    $this->form_validation->set_rules('website','Website','required');
-    $this->form_validation->set_rules('email','Email','required');
+    $this->load->model('M_siswa');
+    $this->db->truncate('siswa');
+    $siswas = $this->M_siswa->sync();
+    
+    $no = 1; 
+    foreach($siswas as $siswa) {
+      $data = [
+        'id'    => $siswa->id_siswa,
+        'nis'   => $siswa->nis,
+        'nisn'  => $siswa->nisn,
+        'nama' => $siswa->nama_siswa,
+        'jk'    => $siswa->jk,
+        'temp_lahir' => $siswa->temp_lahir,
+        'tgl_lahir' => $siswa->tgl_lahir,
+        'agama' => $siswa->agama,
+        'status_keluarga' => $siswa->status_keluarga,
+        'anak_ke' => $siswa->anak_ke,
+        'alamat' => $siswa->alamat,
+        'telp'    => $siswa->telp, 
+        'asal_sekolah' => $siswa->asal_sekolah,
+        'kelas_diterima' => $siswa->kelas_diterima,
+        'tgl_diterima' => $siswa->tgl_diterima,
+        'nama_ayah' => $siswa->nama_ayah,
+        'nama_ibu'  => $siswa->nama_ibu,
+        'alamat_orangtua' => $siswa->alamat_orangtua,
+        'tlp_ortu' => $siswa->tlp_ortu,
+        'pekerjaan_ayah' => $siswa->pekerjaan_ayah,
+        'pekerjaan_ibu' => $siswa->pekerjaan_ibu,
+        'nama_wali' => $siswa->nama_wali,
+        'telp_wali' => $siswa->telp_wali,
+        'pekerjaan_wali' => $siswa->pekerjaan_wali,
+        'kelas_id' => $siswa->kelas_id
+      ];
+      $this->db->insert('siswa',$data);
+      $no ++;
+    }
+
+    $db2 = $this->load->database('database_kedua', TRUE);
+    $this->db->truncate('anggota_kelas');
+    $anggotas = $db2->get('anggota_kelas')->result();
+    foreach($anggotas as $anggota) {
+      $data = [
+        'id'    => $anggota->id,
+        'nis'   => $anggota->nis,
+        'id_kelas'=> $anggota->id_kelas,
+        'ajaran_id' => $anggota->ajaran_id
+      ];
+      $this->db->insert('anggota_kelas',$data);
+    }
+
+    $this->db->truncate('kelas');
+    $kelases = $db2->get('kelas')->result();
+    foreach($kelases as $kelas) {
+      $data = [
+        'id'    => $kelas->id,
+        'guru_id' => $kelas->guru_id,
+        'tingkat' => $kelas->tingkat,
+        'jurusan_id' => $kelas->jurusan_id,
+        'nama'      => $kelas->nama,
+        'slug'    => $kelas->slug
+      ];
+      $this->db->insert('kelas',$data);
+    }
+    $this->db->truncate('ajaran');
+    $ajarans = $db2->get('ajaran')->result();
+    foreach($ajarans as $ajaran) {
+      $data = [
+        'id'    => $ajaran->id,
+        'tahun' => $ajaran->tahun,
+        'smt'   => $ajaran->smt
+      ];
+      $this->db->insert('ajaran',$data);
+    }
+
+    $result['status'] = 'oke';
+    echo json_encode($result);
+    
   }
+
 
 }

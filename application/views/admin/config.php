@@ -1,3 +1,4 @@
+<?php $url_api =  $setting->url_api ?>
 <div class="container-fluid">
   <?= $this->session->flashdata('message'); ?>
   <div class="card">
@@ -10,7 +11,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Semester sekarang</label>
-            <select name="periode" id="" class="form-control">
+            <select name="periode" id="" class="select2 form-control">
             <?php
 
               $tahun = [0,0,1,1,2,2]; 
@@ -35,6 +36,17 @@
             ?>
             </select>
           </div>
+          <div class="form-group">
+            <label>Tampilkan rumus</label>
+            <select name="rumus" id="" class="select2 form-control">
+              <option value="1" <?= ($setting->rumus == 1) ? 'selected' : ''; ?>>Ya</option>
+              <option value="0" <?= ($setting->rumus == 0) ? 'selected' : ''; ?>>Tidak</option>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label>Url api server</label>
+            <input name="api_url" class="form-control" placeholder="Masukkan url api server" value="<?= $setting->url_api ?>">
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +57,12 @@
         </span>
         <span class="text">Simpan pengaturan</span>
       </button>
+      <a href="<?= base_url('config/sync') ?>" id="sync" class="btn btn-sm btn-warning btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-sync"></i>
+        </span>
+        <span class="text">Sinkron dengan api server pusat</span>
+      </a>
     </div>
     </form>
   </div>

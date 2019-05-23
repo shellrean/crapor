@@ -19,7 +19,7 @@
           </div>
           <div class="form-group">
             <label>Tingkat</label>
-            <select name="tingkat" class="form-control">
+            <select name="tingkat" class="select2 form-control">
               <option value="10" <?= ($kelas->tingkat == 10) ? "selected" : "" ?>>10</option>
               <option value="11" <?= ($kelas->tingkat == 11) ? "selected" : "" ?>>11</option>
               <option value="12" <?= ($kelas->tingkat == 12) ? "selected" : "" ?>>12</option>
@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label>Wali kelas</label>
-            <select name="wali_kelas" class="form-control ">
+            <select name="wali_kelas" class="select2 form-control ">
               <?php foreach($gurus as $guru): ?>
                 <option value="<?= $guru->id ?>" <?= ($guru->id == $kelas->guru_id? "selected" : "") ?>><?= $guru->name ?></option>
               <?php endforeach; ?>
@@ -36,7 +36,7 @@
           </div>
           <div class="form-group">
             <label>Jurusan</label>
-            <select name="jurusan" class="form-control">
+            <select name="jurusan" class="select2 form-control">
               <?php foreach($keahlians as $keahlian): ?>
                 <option value="<?= $keahlian->kurikulum_id ?>" <?= ($keahlian->kurikulum_id == $kelas->jurusan_id? "selected" : "") ?>><?= $keahlian->nama_kurikulum ?></option>
               <?php endforeach; ?>

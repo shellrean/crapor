@@ -342,7 +342,7 @@
             $('#status').html(progress+'%');
 	    }).on('fileuploadsubmit', function (e, data) {
 	    });
-
+ 
            
     </script>
     <script src="<?= base_url('assets/') ?>/js/scripts.js"></script>

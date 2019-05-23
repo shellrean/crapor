@@ -19,32 +19,50 @@ $(document).ajaxStart(function() {
   Pace.restart();
 })
 
+window.setTimeout(function() {
+  $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove(); 
+  });
+}, 4000);
 /**
  * ---------------------------------------------
  */
 $("#sync").on('click',function(e){
   var URL = $(this).attr('href')
   e.preventDefault();
-  $.ajax({
-    url: URL,
-    type: 'GET',     
-    contentType: false,
-    cache: false, 
-    processData:false,
-    beforeSend: function (){
-      $("#loading").css('display','block');                   
-    },
-    success: function(data, textStatus, jqXHR){
-      $("#result").html(data);
-      $("#loading").css('display','none');
-      var enc = JSON.parse(data);
-      alert('Total '+enc.jumlah+ ' siswa');
-      window.location.href="siswa";
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      alert("Error");
-    }         
-  });
+  swal({
+		title: "Anda yakin?",
+		text: "Perubahan di aplikasi ini akan dihapus dan digantikan oleh data pusat",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "Sinkron!",
+		showLoaderOnConfirm: true,
+		preConfirm: function() {
+			return new Promise(function(resolve) {
+        $.ajax({
+          url: URL,
+          type: 'GET',     
+          contentType: false,
+          cache: false,  
+          processData:false,
+          beforeSend: function (){
+            $("#loading").css('display','block');                   
+          },
+          success: function(data, textStatus, jqXHR){
+            $("#loading").css('display','none');
+            var enc = JSON.parse(data);
+            swal({title:'Sukses',type:'success'}).then(function() {
+            })
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert("Error");
+          }         
+        });
+				
+			})
+		}
+	});
   
 });    
 

@@ -20,7 +20,7 @@
           </div>
           <div class="fom-group">
             <label>NPSN</label>
-            <input type="text" name="npsn" class="form-control" placeholder="NPSN" value="<?= $sekolah->nss ?>">
+            <input type="text" name="npsn" class="form-control" placeholder="NPSN" value="<?= $sekolah->npsn ?>">
             <?= form_error('NSS','<small class="form-text text-danger">','</small>') ?>
           </div>
           <div class="fom-group">

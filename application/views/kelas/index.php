@@ -11,12 +11,11 @@
           </a>
       
         </div>
-        <div class="card-body">
+        <div class="card-body"> 
             <div class="table-responsive">
                 <table class="table table-bordered " id="table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Tingkat</th>
                             <th>Jurusan</th>
                             <th>Kenaikan</th>
@@ -24,9 +23,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no=1; foreach ($kelases as $kelas) : ?>
-                          <tr> 
-                            <td><?= $no ?></td>
+                        <?php foreach ($kelases as $kelas) : ?>
+                          <tr>
                             <td><?= $kelas->tingkat ?></td>
                             <td><?= get_kurikulum($kelas->jurusan_id) ?></td>
                             <td>
@@ -74,7 +72,7 @@
 
                             </td>
                           </tr>
-                        <?php $no++; endforeach; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

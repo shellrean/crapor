@@ -15,7 +15,7 @@ class Siswa extends MY_Controller
    * Show all database siswa and create datatable
    * 
    * @return view
-   */
+   */ 
   public function index()
   {
     $data['siswas'] = $this->db->get('siswa')->result();
@@ -32,7 +32,7 @@ class Siswa extends MY_Controller
 
     $siswas = $this->M_siswa->sync();
     
-    $no = 1;
+    $no = 1; 
     foreach($siswas as $siswa) {
       $data = [
         'id'    => $siswa->id_siswa,

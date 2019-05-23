@@ -219,4 +219,39 @@ class Ajax extends MY_Controller
 
 		$this->load->view('cetak/rapor',$data);
 	}
+
+	public function get_chart(){
+		$ajaran = get_ta();
+		// $join = "INNER JOIN data_rombels a ON(rencanas.rombel_id = a.id)";
+		// $join .= "INNER JOIN kurikulums b ON(rencanas.id_mapel = b.id_mapel)";
+		// $sel = 'rencanas.*, b.guru_id AS guru_id';
+		// $query = Rencana::find('all', array('include'=>array('rencanapenilaian'), 'conditions' => "rencanas.ajaran_id = $ajaran->id", 'joins'=> $join, 'select'=>$sel, 'group'=> 'id_mapel'));
+		
+		$this->db->from('rencana');
+		$this->db->select('rencana.* , b.guru_id as guru_id');
+		$this->db->group_by('id_mapel');
+		$this->db->join('kelas a ','rencana.kelas_id = a.id','inner');
+		$this->db->join('kurikulum b' ,'rencana.id_mapel = b.id_mapel','inner');
+		$this->db->where(['rencana.ajaran_id' => $ajaran->id]);
+		$query = $this->db->get()->result();
+		if($query){
+			$rp = 0;
+			foreach($query as $q){
+				$mapel = $this->db->get_where('data_mapel',['id' => $q->id_mapel])->row();
+				$record= array();
+				$record['value'] 	= count($q->rencanapenilaian);
+				$record['color'] 	= "#".random_color();
+				$record['highlight'] = "#".random_color();
+				$record['label'] = isset($mapel->nama_mapel) ? $mapel->nama_mapel : '';
+				$output['result'][] = $record;
+			}
+		} else {
+			$record['value'] = '1e-10';
+        	$record['color'] = "#f56954";
+    	    $record['highlight'] = "#f56954";
+	        $record['label'] = "Belum ada penilaian";
+			$output['result'][] = $record;
+		}
+		echo json_encode($output);
+	}
 }
