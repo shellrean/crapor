@@ -46,14 +46,7 @@ class Kelas extends MY_Controller
    */
   public function create()
   {
-    # make form validation
-    $this->form_validation->set_message('is_unique', 'Teacher is already taken');
-    $this->form_validation->set_rules('name','Name','required|trim');
-    $this->form_validation->set_rules('wali_kelas','Wali kelas','required|is_unique[kelas.guru_id]|trim');
-    $this->form_validation->set_rules('jurusan','Jurusan','required|trim');
-    $this->form_validation->set_rules('tingkat','Tingkat','required|in_list[10,11,12]|trim');
-
-    if($this->form_validation->run() == false)
+    if($this->form_validation->run('kelas/create') == false)
     {
       $data =  [
         'gurus'     => $this->db->get_where('user',['role_id' => 2])->result(),
@@ -87,15 +80,9 @@ class Kelas extends MY_Controller
    */
   public function edit($slug_kelas)
   {
-    # make form validation
-    $this->form_validation->set_rules('name','Name','required|trim');
-    $this->form_validation->set_rules('wali_kelas','Wali kelas','required|trim');
-    $this->form_validation->set_rules('jurusan','Jurusan','required|trim');
-    $this->form_validation->set_rules('tingkat','Tingkat','required|in_list[10,11,12]|trim');
-
-    if($this->form_validation->run() == false) 
+    if($this->form_validation->run('kelas/edit') == false) 
     {
-
+ 
       $data = [
         'gurus'     => $this->db->get_where('user',['role_id' => 2])->result(),
         'keahlians' => $this->M_kelas->getAllKeahlian(),
@@ -556,8 +543,13 @@ class Kelas extends MY_Controller
   {
     $this->db->delete('kelas',['slug' => $slug_kelas]);
     helper_log("delete", "Menghapus data kelas");
-    alertsuccess('message','Data berhasil dihapus');
-    redirect('kelas');
+
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
+    
   }
 
 

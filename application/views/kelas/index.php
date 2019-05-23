@@ -66,7 +66,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="<?= base_url('kelas/edit/'.$kelas->slug) ?>">Edit</a>
-                                  <a class="dropdown-item" href="<?= base_url('kelas/edit/'.$kelas->slug) ?>">Hapus</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('kelas/delete/'.$kelas->slug) ?>">Hapus</a>
                                 </div>
                               </div>
 

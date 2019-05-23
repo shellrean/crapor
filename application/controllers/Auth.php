@@ -27,10 +27,7 @@ class Auth extends MY_Controller
   {
     $this->_cekLogin();
 
-    $this->form_validation->set_rules('username', 'Username', 'required|trim');
-    $this->form_validation->set_rules('password', 'Password', 'required|trim');
-
-    if ($this->form_validation->run() == false) {
+    if ($this->form_validation->run('auth') == false) {
       $this->load->view('auth/login');
     } else {
       $this->_login();
@@ -74,19 +71,17 @@ class Auth extends MY_Controller
           $this->session->set_userdata($data);
           
           # set user agent
-          $ip     = get_client_ip_env();
           $device = $this->agent->platform();
-          $agent  = agent();
 
           # check type role of the user
           if ($user->role_id == 1) {
 
-            helper_log("login", "Login | ".$ip." | ".$device." | ".$agent);
+            helper_log("login", "Login | ".$device);
             redirect('panel');
             
           } else {
 
-            helper_log("login", "Login | ".$ip." | ".$device." | ".$agent);
+            helper_log("login", "Login | ".$device);
             redirect('dashboard');
             
           }

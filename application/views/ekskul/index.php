@@ -47,13 +47,13 @@
                         <td><?= $d->nomor_kontak ?></td>
                         <td>
 
-						  <div class="btn-group">
+						              <div class="btn-group">
                               <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Aksi
                               </button>
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="<?= base_url('ekskul/edit/'.$d->id) ?>">Edit</a>
-                                <a class="dropdown-item" href="<?= base_url('ekskul/delete/'.$d->id) ?>">Hapus</a>
+                                <a class="dropdown-item confirm" href="<?= base_url('ekskul/delete/'.$d->id) ?>">Hapus</a>
                               </div>
                           </div>
 

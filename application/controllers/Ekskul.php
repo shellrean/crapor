@@ -81,8 +81,11 @@ class Ekskul extends MY_Controller
     $this->db->delete('ekskul',['id' => $id]);
     helper_log(uniqid(),'Menghapus ekskul');
 
-    alertsuccess('message','Berhasil menghapus  data ekskul');
-    redirect('ekskul');
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
   }
 
   /**

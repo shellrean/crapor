@@ -596,3 +596,29 @@ $('#ajarans').change(function(){
   $("#rombel").trigger('change.select2');
   $("#mapel").trigger('change.select2');
 });
+
+$('a.confirm').bind('click',function(e) {
+	var ini = $(this).parents('tr');
+	e.preventDefault();
+	var url = $(this).attr('href');
+	swal({
+		title: "Anda Yakin?",
+		text: "Tindakan ini tidak bisa dikembalikan!",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#ff2a00b3",
+		confirmButtonText: "Hapus!",
+		showLoaderOnConfirm: true,
+		preConfirm: function() {
+			return new Promise(function(resolve) {
+				$.get(url)
+				.done(function(response) {
+					var data = $.parseJSON(response);
+					swal({title:data.title, html:data.text, type:data.type}).then(function() {
+						ini.remove();
+					});
+				})
+			})
+		}
+	});
+});

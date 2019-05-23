@@ -33,7 +33,7 @@
                     <option value="<?= $jurusan->kurikulum_id ?>"><?= get_kurikulum($jurusan->kurikulum_id) ?></option>
                     <?php endforeach; ?>
                   </select>
-                </div>
+                </div> 
                 <div class="form-group">
                   <label>Bobot (P:K)</label>
                   <select name="bobot" id="" class="select2 form-control">
