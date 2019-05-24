@@ -39,7 +39,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Edit</a>
-                                  <a class="dropdown-item confirm" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Hapus</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('mapel/delete/'.$mapel->id_mapel) ?>">Hapus</a>
                                 </div>
                               </div>
                             </td>
@@ -47,7 +47,7 @@
                         <?php $no++; endforeach; ?>
                     </tbody>
                 </table>
-            </div>
+            </div> 
         </div>
     </div>
 </div> 

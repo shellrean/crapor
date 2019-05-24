@@ -125,3 +125,86 @@ $config['kelas/edit'] = [
     'rules'   => 'required|in_list[10,11,12]|trim',
   ]
 ];
+
+$config['siswa/create'] = [
+  [
+    'field'   => 'nis',
+    'label'   => 'Nis',
+    'rules'   => 'required|numeric'
+  ],
+  [
+    'field'   => 'nisn',
+    'label'   => 'Nisn',
+    'rules'   => 'required|numeric'
+  ],
+  [
+    'field'   => 'nama',
+    'label'   => 'Nama',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'jk',
+    'label'   => 'Jenis Kelamin',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'temp_lahir',
+    'label'   => 'Tempat lahir',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'agama',
+    'label'   => 'Agama',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'status_keluarga',
+    'label'   => 'Status dalam keluarga',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'anak_ke',
+    'label'   => 'Anak ke',
+    'rules'   => 'required|numeric'
+  ],
+  [
+    'field'   => 'alamat',
+    'label'   => 'Alamat',
+    'rules'   => 'required|min_length[10]'
+  ],
+  [
+    'field'   => 'telp_rumah',
+    'label'   => 'Telp rumah',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'asal_sekolah',
+    'label'   => 'Asal sekolah',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'kelas_diterima',
+    'label'   => 'Diterima dikelas',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'nama_ayah',
+    'label'   => 'Nama ayah',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'nama_ibu',
+    'label'   => 'Nama ibu',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'alamat_ortu',
+    'label'   => 'Alamat ortu',
+    'rules'   => 'required'
+  ],
+  [
+    'field'   => 'telp_ortu',
+    'label'   => 'Alamat ortu',
+    'rules'   => 'required'
+  ]
+];

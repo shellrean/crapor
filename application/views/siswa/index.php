@@ -3,22 +3,12 @@
     <?= $this->session->flashdata('message'); ?>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <?php  if(!$this->db->get('siswa')->row()): ?>
-          <a href="<?= base_url('siswa/sync') ?>" id="sync" class="btn btn-sm btn-success btn-icon-split">
+          <a href="<?= base_url('siswa/create') ?>" class="btn btn-sm btn-info btn-icon-split">
             <span class="icon text-white-50">
-              <i class="fas fa-sync"></i>
+              <i class="fas fa-plus"></i>
             </span>
-            <span class="text">Sinkron dinasti</span>
+            <span class="text">Tambah data siswa</span> 
           </a>
-          <?php else: ?>
-          <a href="<?= base_url('siswa/drop') ?>" id="delet" class="btn btn-sm btn-info btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-trash"></i>
-            </span>
-            <span class="text">Hapus seluruh data siswa</span>
-          </a>
-          <?php endif; ?>
-
       
         </div>
         <div class="card-body">
@@ -31,6 +21,7 @@
                             <th>Nisn</th>
                             <th>Nama lengkap</th>
                             <th>L/P</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +32,18 @@
                             <td><?= $siswa->nisn ?></td>
                             <td><?= $siswa->nama ?></td>
                             <td><?= $siswa->jk ?></td>
+                            <td>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Aksi
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item toggle-modal" href="<?= base_url('siswa/detail/'.$siswa->id) ?>">Detail</a>
+                                  <a class="dropdown-item" href="<?= base_url('siswa/edit/'.$siswa->id) ?>">Edit</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('siswa/delete/'.$siswa->id) ?>">Hapus</a>
+                                </div>
+                              </div>
+                            </td>
                           </tr>
                         <?php $no++; endforeach; ?>
                     </tbody>
