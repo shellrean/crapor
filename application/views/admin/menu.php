@@ -53,7 +53,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="<?= base_url('panel/edit/'.$menu->id) ?>">Edit</a>
-                                  <a class="dropdown-item" href="<?= base_url('panel/delete/'.$menu->id) ?>">Hapus</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('panel/delete/'.$menu->id) ?>">Hapus</a>
                                 </div>
                               </div>
                             </td>

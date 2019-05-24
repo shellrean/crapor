@@ -38,7 +38,7 @@
                               </button>
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="<?= base_url('kompetensi_dasar/edit/'.$kd->id) ?>">Edit</a>
-                                <a class="dropdown-item" href="<?= base_url('kompetensi_dasar/delete/'.$kd->id) ?>">Hapus</a>
+                                <a class="dropdown-item confirm" href="<?= base_url('kompetensi_dasar/delete/'.$kd->id) ?>">Hapus</a>
                               </div>
                             </div>
                           </td>

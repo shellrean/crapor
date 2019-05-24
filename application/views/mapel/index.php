@@ -39,7 +39,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Edit</a>
-                                  <a class="dropdown-item" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Hapus</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('mapel/edit/'.$mapel->id_mapel) ?>">Hapus</a>
                                 </div>
                               </div>
                             </td>

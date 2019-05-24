@@ -59,7 +59,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="<?= base_url('user/edit/'.$user->id) ?>">Edit</a>
-                                  <a class="dropdown-item" href="<?= base_url('user/delete/'.$user->id) ?>">Hapus</a>
+                                  <a class="dropdown-item confirm" href="<?= base_url('user/delete/'.$user->id) ?>">Hapus</a>
                                   <div class="dropdown-divider"></div>
                                   <a class="dropdown-item" href="<?= base_url('user/reset/'.$user->id) ?>">Reset password</a>
                                 </div>
