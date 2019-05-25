@@ -52,11 +52,7 @@
                   <div class="text-center"><?= $i; ?></div>
                 </td>
                 <td>
-                  <input type="hidden" name="nama_mapel_alias" id="nama_mapel_alias" value="<?= get_nama_mapel_alias($ajaran_id,$data_kelas->id,$mapel->id_mapel); ?>">
-
-                  <a class="nama_mapel" href="javascript:void(0)" data-name="nama_mapel_alias" data-value="<?= get_nama_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel); ?>" data-title="Edit nama mapel" title="Edit nama mapel"><?= (get_nama_mapel_alias($ajaran_id,$data_kelas->id,$mapel->id_mapel)) ? get_nama_mapel_alias($ajaran_id,$data_kelas->id,$mapel->id_mapel) : get_nama_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel); ?> (<?= $mapel->id_mapel; ?>)</a>
-
-                  <input type="hidden" name="mapel" id="mapel" value="<?= $mapel->id_mapel; ?>">
+                  <?= get_nama_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel); ?>
                 </td>
                 <td>
                 <input type="hidden" class="guru" name="guru" value="<?= get_guru_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel,'id') ?>">
@@ -77,7 +73,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <a href="#" class="simpan_pembelajaran btn btn-sm btn-success btn-icon-split">
+          <a href="javascript:void(0)" class="simpan_pembelajaran btn btn-sm btn-success btn-icon-split">
             <span class="icon text-white-50">
               <i class="far fa-save"></i>
             </span>
@@ -86,6 +82,7 @@
         </div>
     </div>
 </div> 
+</form>
 
 <script src="<?= base_url('assets') ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -98,7 +95,7 @@
 
 
 <script src="<?= base_url(); ?>assets/js/jquery.noty.packaged.js"></script>
-    <script>
+<script>
 
 $.fn.serializeObject = function(){
     var o = {};
@@ -143,6 +140,7 @@ $(function(){
   });
   
 	$('a.simpan_pembelajaran').click(function(){
+    console.log('oke');
     var data = $("form#pembelajaran").serializeObject();
 
     var result = $.parseJSON(JSON.stringify(data));
@@ -152,7 +150,7 @@ $(function(){
 				url: '<?= base_url('kelas/simpan_pembelajaran'); ?>',
 				type: 'post',
 				data: {keahlian_id:result.keahlian_id, rombel_id:result.rombel_id, query:result.query, guru_id:item, mapel_id:result.mapel[i],},
-				success: function(response){
+				success(response){
 					var view = $.parseJSON(response);
 					noty({
 						text        : view.text,

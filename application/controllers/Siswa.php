@@ -173,6 +173,7 @@ class Siswa extends MY_Controller
   {
     $data['siswa'] = $this->db->get_where('siswa',['id' => $id_siswa])->row();
     $this->template->set('modal_title','Detail siswa');
+    $this->template->set('modal_s','modal-xl');
     $this->template->load('modal','siswa/view',$data);
   }
   /**
