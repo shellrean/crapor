@@ -141,7 +141,7 @@ $(document).ready(function(){
 	var PieData = [];
 	$.ajax({
 		url: "<?php echo site_url('ajax/get_chart');?>", 
-		method: "GET",
+		method: "GET", 
 		success: function(response) {
 			var result = $.parseJSON(response);
 			$.each(result.result, function (i, item) {
@@ -150,7 +150,7 @@ $(document).ready(function(){
 					color: item.color,
 					highlight: item.highlight,
 					label: item.label
-				});
+				}); 
 			});
 			var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
 			var pieChart = new Chart(pieChartCanvas);
@@ -183,5 +183,5 @@ $(document).ready(function(){
 			pieChart.Pie(PieData, pieOptions);
 		}
 	});
-});
+}); 
 </script>

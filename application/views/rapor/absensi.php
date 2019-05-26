@@ -18,7 +18,7 @@
           <input type="hidden" name="ajaran_id" value="<?= $ajaran->id; ?>" />
           <input type="hidden" name="kelas_id" value="<?= $kelas->id; ?>" />
           <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="table" width="100%" cellspacing="0">
+            <table class="table table-bordered table-hover" width="100%" cellspacing="0">
               <thead>
                 <tr> 
                   <th width="70%">Nama Siswa</th>

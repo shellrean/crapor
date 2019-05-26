@@ -1,22 +1,20 @@
 <div class="container-fluid">
   <?= $this->session->flashdata('message'); ?>
-  <div class="card" style="width: 30rem;">
+  <div class="card" style="width: 40rem;">
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
           <img class="card-img-top" src="<?= base_url('assets/img/profile/'.$user->image) ?>" alt="Card image cap">
         </div>
-        <div class="col-md-8">
-        <table class="table table-striped">
+        <div class="col-md-10">
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <td>Nama</td>
-              <td>:</td>
               <td><?= $user->name ?></td>
             </tr>
             <tr>
               <td>User login</td>
-              <td>:</td>
               <td><?= $user->username ?></td>
             </tr>
           </thead>
@@ -32,7 +30,7 @@
     </form>
   </div>
   
-  <div class="card mt-3" style="width: 30rem;">
+  <div class="card mt-3" style="width: 40rem;">
     <div class="card-body">
       <div class="row">
         <div class="col">

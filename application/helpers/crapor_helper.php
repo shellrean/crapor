@@ -663,3 +663,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
           return isset($retrieve[$field_name]) ? $retrieve[$field_name] : '';
       }
   }
+  /**
+   * Fungsi untuk mengecek apakah parameter lebih dari 00
+   * @param integer $val
+   * @return redirect 
+   */
+  function check_great_than_one_fn($val){
+    $CI = & get_instance();
+    if($val > 100){
+      alerterror('message','Tambah data nilai remedial gagl. Nilai tidak boleh lebih dari 100');
+      redirect('penilaian/remedial');
+    }
+  }
+  function random_color_part() {
+    return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+  }
+  function random_color() {
+      return random_color_part() . random_color_part() . random_color_part();
+  }

@@ -2,7 +2,7 @@
     <?= $this->session->flashdata('message'); ?>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <a href="<?= base_url('perencanaan/pengetahuan') ?>" class="btn btn-sm btn-warning btn-icon-split">
+          <a href="<?= base_url('perencanaan/keterampilan') ?>" class="btn btn-sm btn-warning btn-icon-split">
             <span class="icon text-white-50">
               <i class="fas fa-fw fa-angle-double-left"></i> 
             </span>

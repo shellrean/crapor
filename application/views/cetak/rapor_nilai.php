@@ -16,7 +16,7 @@ $sekolah = $this->db->get('data_sekolah')->row();
 $setting = $this->db->get('setting')->row();
 $ajaran = $this->db->get_where('ajaran',['id' => $ajaran_id])->row();
 $kelas = $this->db->get_where('kelas',['id' => $kelas_id])->row();
-
+ 
 $kelompok_a = preg_quote('A0', '~'); // don't forget to quote input string!
 $kelompok_b = preg_quote('B0', '~'); // don't forget to quote input string!
 $kelompok_c = preg_quote('C', '~'); // don't forget to ro input string!
@@ -109,7 +109,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
             'data_siswa_nis'			=> $s->nis
           ])->row();
           if($all_nilai_keterampilan_remedial){
-            $nilai_pengetahuan_value = $all_nilai_keterampilan_remedial->rerata_remedial;
+            $nilai_keterampilan_value = $all_nilai_keterampilan_remedial->rerata_remedial;
           } 
           else {
             $all_nilai_keterampilan = $this->db->get_where('nilaiakhir',[
@@ -120,7 +120,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
               'data_siswa_nis'			=> $s->nis,
             ])->result();
             if($all_nilai_keterampilan){
-              $nilai_pengetahuan = 0;
+              $nilai_keterampilan = 0;
               foreach($all_nilai_keterampilan as $allnilaiketerampilan){
                 $nilai_keterampilan += $allnilaiketerampilan->nilai;
               }
@@ -129,6 +129,18 @@ $all_mapel = $this->db->get_where('kurikulum',[
               $nilai_keterampilan_value = '-';
             }
           }
+          if($nilai_pengetahuan_value != '-' && $nilai_keterampilan_value != '-') {
+            $bobot = $this->db->get_where('data_mapel',['id_mapel' => $mapela])->row()->bobot;
+            $ex = explode(':',$bobot);
+            $bobot_p = $ex[0];
+            $bobot_k = $ex[1];
+            
+            $n1 = ($nilai_pengetahuan_value*$bobot_p)/100;
+            $n2 = ($nilai_keterampilan_value*$bobot_k)/100;
+            $n_f = $n1+$n2;
+          } else {
+            $n_f = '-';
+          }
         
       ?>
 		  <tr>
@@ -136,8 +148,8 @@ $all_mapel = $this->db->get_where('kurikulum',[
         <td valign="top"><?= get_nama_mapel($ajaran_id,$kelas_id,$mapela); ?></td>
         <td valign="top"><?= $nilai_pengetahuan_value; ?></td>
         <td valign="top"><?= $nilai_keterampilan_value; ?></td>
-        <td>fdf</td>
-        <td>fdfd</td>
+        <td><?= $n_f ?></td>
+        <td><?= ($n_f != '-') ? konversi_huruf(get_kkm($ajaran_id,$kelas_id,$mapela),$n_f) : '-' ?></td>
 
 		  </tr>
       
@@ -192,7 +204,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
             'data_siswa_nis'			=> $s->nis
           ])->row();
           if($all_nilai_keterampilan_remedial){
-            $nilai_pengetahuan_value = $all_nilai_keterampilan_remedial->rerata_remedial;
+            $nilai_keterampilan_value = $all_nilai_keterampilan_remedial->rerata_remedial;
           } 
           else {
             $all_nilai_keterampilan = $this->db->get_where('nilaiakhir',[
@@ -203,7 +215,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
               'data_siswa_nis'			=> $s->nis,
             ])->result();
             if($all_nilai_keterampilan){
-              $nilai_pengetahuan = 0;
+              $nilai_keterampilan = 0;
               foreach($all_nilai_keterampilan as $allnilaiketerampilan){
                 $nilai_keterampilan += $allnilaiketerampilan->nilai;
               }

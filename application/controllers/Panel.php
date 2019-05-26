@@ -11,7 +11,7 @@ class Panel extends MY_Controller
 
     is_login();
     is_admin();
-    
+     
   }
 
   public function index()

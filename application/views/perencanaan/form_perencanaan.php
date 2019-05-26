@@ -53,9 +53,7 @@ if($all_kd){
 			<tr>
 				<th class="text-center" style="min-width:110px">Aktifitas Penilaian</th>
 				<th class="text-center" style="min-width:110px;">Teknik</th>
-				<?php if($kompetensi_id == 1){ ?>
 				<th class="text-center" width="10">Bobot</th>
-				<?php } ?>
 				<?php
 				foreach($all_kd as $kd){
 				?> 
@@ -70,7 +68,7 @@ if($all_kd){
 			<?php for ($i = 1; $i <= 5; $i++) {?>
 			<tr>
 				<td>
-					<input class="form-control input-sm" type="text" name="nama_penilaian[]" value="" placeholder="PH/PTS/PAS/PAT">
+					<input class="form-control input-sm" type="text" name="nama_penilaian[]" value="" placeholder="PH/PTS/PAS/PAT/DLL....">
 				</td>
 				<td>
 					<select class="form-control input-sm" name="bentuk_penilaian[]">
@@ -86,11 +84,9 @@ if($all_kd){
 						<?php } ?>
 					</select>
 				</td>
-				<?php if($kompetensi_id == 1){ ?>
 				<td>
 					<input class="form-control input-sm" type="text" name="bobot_penilaian[]" value="">
 				</td>
-				<?php } ?>
 
 				<?php
 				if(isset($result)){
