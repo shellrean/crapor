@@ -9,7 +9,7 @@ class User extends MY_Controller
    * Make Construct method for load parent 
    * and call library can will use
    * 
-   * @return view
+   * @return view 
    */
   public function __construct()
   {
@@ -54,7 +54,7 @@ class User extends MY_Controller
    * 
    * @return boolean
    */
-  public function delete($id)
+  public function delete($id) 
   {
     $user = $this->db->get_where('user',['id' => $id])->row();
 
@@ -64,9 +64,14 @@ class User extends MY_Controller
     }
     $this->_isadmin();
     $this->db->delete('user', ['id' => $id]);
-    helper_log("delete", "Menghapus data user");
-    alertsuccess('message','Data berhasil dihapus');
-    redirect('user');
+
+    helper_log(uniqid(),'Menghapus user');
+
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
   }
 
   /**
@@ -488,8 +493,13 @@ class User extends MY_Controller
   public function delete_khusus($id)
   {
     $this->db->delete('role_khusus',['id' => $id]);
-    alertsuccess('message','Berhasil menghapus user dengan role khusus');
-    redirect('user/khusus');
+    helper_log(uniqid(),'Menghapus user di role khusus');
+
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
   }
 }
  

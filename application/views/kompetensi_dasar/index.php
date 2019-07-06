@@ -22,7 +22,7 @@
                         <th style="width: 20%">Isi Kompetensi</th>
                         <th style="width: 8%">Aksi</th>
                        </tr> 
-                    </thead>
+                    </thead> 
                     <tbody>
                         <?php foreach($result as $kd): ?>
                         <tr>

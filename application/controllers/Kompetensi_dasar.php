@@ -118,8 +118,11 @@ class Kompetensi_dasar extends MY_Controller
     $this->db->delete('kd',['id' => $id]);
 
     helper_log(uniqid(),'Menghapus kompetensi dasar');
-    alertsuccess('message','Berhasil menghapus kompetensi dasar');
-    redirect('kompetensi_dasar');
+    $status['type'] = 'success';
+    $status['text'] = 'Berhasil menghapus data';
+    $status['title'] = 'Data Terhapus!';
+   
+    echo json_encode($status);
   }
    
 

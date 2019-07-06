@@ -53,6 +53,7 @@
                 </td>
                 <td>
                   <?= get_nama_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel); ?>
+                  <input type="hidden" name="mapel" value="<?= $mapel->id_mapel ?>">
                 </td>
                 <td>
                 <input type="hidden" class="guru" name="guru" value="<?= get_guru_mapel($ajaran_id,$data_kelas->id,$mapel->id_mapel,'id') ?>">
@@ -140,7 +141,6 @@ $(function(){
   });
   
 	$('a.simpan_pembelajaran').click(function(){
-    console.log('oke');
     var data = $("form#pembelajaran").serializeObject();
 
     var result = $.parseJSON(JSON.stringify(data));
@@ -149,7 +149,7 @@ $(function(){
 			$.ajax({
 				url: '<?= base_url('kelas/simpan_pembelajaran'); ?>',
 				type: 'post',
-				data: {keahlian_id:result.keahlian_id, rombel_id:result.rombel_id, query:result.query, guru_id:item, mapel_id:result.mapel[i],},
+				data: {keahlian_id:result.keahlian_id, rombel_id:result.rombel_id, query:result.query, guru_id:item, mapel_id:result.mapel[i]},
 				success(response){
 					var view = $.parseJSON(response);
 					noty({

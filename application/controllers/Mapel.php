@@ -113,8 +113,12 @@ class Mapel extends MY_Controller
   {
     $this->db->delete('data_mapel',['id_mapel' => $id_mapel]);
 
-    helper_log("delete", "Menghapus data mapel");
-    alertsuccess('message','Data berhasil dihapus');
-    redirect('mapel');
+    helper_log(uniqid(),'Menghapus mapel');
+
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
   }
 }

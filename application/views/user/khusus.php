@@ -33,7 +33,7 @@
                     <?php endif; ?>
                   </td>
                   <td>
-                    <a href="<?= base_url('user/delete_khusus/'.$user->id) ?>" class="btn btn-sm btn-danger btn-icon-split" onclick=" return confirm(`Data Ini akan dihapus?`) ">
+                    <a href="<?= base_url('user/delete_khusus/'.$user->id) ?>" class="btn btn-sm btn-danger btn-icon-split confirm">
                       <span class="icon text-white-50">
                         <i class="fas fa-user-slash"></i> 
                       </span>

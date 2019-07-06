@@ -13,7 +13,7 @@ class Laporan extends MY_Controller
   {
     $data['query'] = 'waka';
     $data['ajarans'] = $this->db->get('ajaran')->result();
-    
+
     $this->db->from('kelas');
     $this->db->group_by('tingkat');
     $this->db->order_by('tingkat','ASC');

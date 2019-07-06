@@ -36,9 +36,13 @@ class Panel extends MY_Controller
   public function delete($id)
   {
     $this->db->delete('menus',['id'=>$id]);
-    helper_log("delete", "Menghapus menu");
-    alertsuccess('message','Data berhasil dihapus');
-    redirect("panel/menu");  
+    helper_log(uniqid(),'Menghapus menu');
+
+    $data['title'] = 'Sukses';
+    $data['text'] = 'Data berhasil dihapus';
+    $data['type'] = 'success';
+    
+    echo json_encode($data);
   }
  
   public function create()

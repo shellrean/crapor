@@ -29,7 +29,7 @@
                 $siswa = $this->db->get_where('siswa',['nis' => $a->nis])->row();
 
                 ?>
-                <option value="<?php echo $siswa->nis; ?>" style="margin: 5px 0; padding: 8px 4px; border: 1px solid #eee;"><?php echo $siswa->nama_siswa; ?></option>
+                <option value="<?php echo $siswa->nis; ?>" style="margin: 5px 0; padding: 8px 4px; border: 1px solid #eee;"><?php echo $siswa->nama; ?></option>
                 <?php } 
                 ?>
             </select>
