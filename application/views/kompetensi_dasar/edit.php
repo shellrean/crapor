@@ -35,7 +35,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Kode KD</label>
-                  <input type="text" name="kd_id" id="kd_id" class="form-control" value="<?= $kd->id_kd ?>">
+                  <input type="text" name="kd_id" id="kd_id" class="form-control" value="<?= $kd->id_kd ?>" readonly>
                 </div>
 
                 <div class="form-group">

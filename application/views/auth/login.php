@@ -18,6 +18,10 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets') ?>/css/sb-admin-2.min.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 619015c6e99585b60f1b27f780d2932f99f69734
 </head>
 
 <body class="bg-gradient-info">

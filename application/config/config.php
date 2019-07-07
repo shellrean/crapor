@@ -23,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
+$config['base_url']  = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
 $config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];
 $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 /*
@@ -378,13 +378,13 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 1800;
-$config['sess_save_path'] = null;
-$config['sess_match_ip'] = false;
-$config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = false;
+$config['sess_driver'] 				= 'files';
+$config['sess_cookie_name'] 		= 'ci_session';
+$config['sess_expiration'] 			= 1800;
+$config['sess_save_path'] 			= null;
+$config['sess_match_ip'] 			= false;
+$config['sess_time_to_update'] 		= 300;
+$config['sess_regenerate_destroy'] 	= false;
 
 /*
 |--------------------------------------------------------------------------
@@ -401,11 +401,11 @@ $config['sess_regenerate_destroy'] = false;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']  = '';
-$config['cookie_domain']  = '';
-$config['cookie_path']    = '/';
-$config['cookie_secure']  = false;
-$config['cookie_httponly']   = false;
+$config['cookie_prefix']  		= '';
+$config['cookie_domain']  		= '';
+$config['cookie_path']    		= '/';
+$config['cookie_secure']  		= false;
+$config['cookie_httponly']   	= false;
 
 /*
 |--------------------------------------------------------------------------
