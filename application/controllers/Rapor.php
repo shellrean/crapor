@@ -350,7 +350,62 @@ class Rapor extends MY_Controller
 
   public function cetak_ledger()
   {
+    // $admin_group = array(1,2,3,5,6);
+    // hak_akses($admin_group);
+    // $loggeduser = $this->ion_auth->user()->row();
+    // $user_groups = $this->ion_auth->get_users_groups($loggeduser->id)->result();
+    // foreach($user_groups as $user_group){
+    //   $nama_group[] = $user_group->name; 
+    // }
+    // if($loggeduser->data_guru_id && !in_array('waka',$nama_group)){
+    //   $rombel = Datarombel::find_by_guru_id($loggeduser->data_guru_id);
+    //   $rombel_id = isset($rombel->id) ? $rombel->id : 0;
+    //   $kurikulum_id = isset($rombel->kurikulum_id) ? $rombel->kurikulum_id : 0;
+    //   $ajaran = get_ta();
+    //   $data['query'] = 'wali';
+    //   $data['rombel_id'] = $rombel_id;
+    //   $data['ajaran_id'] = $ajaran->id;
+    //   $kompetensi = Datakurikulum::find_by_kurikulum_id($kurikulum_id);
+    //   $nama_kompetensi = isset($kompetensi->nama_kurikulum) ? $kompetensi->nama_kurikulum : 0;
+    //   if (strpos($nama_kompetensi, 'SMK 2013') !== false) {
+    //     $data['nama_kompetensi'] = 2013;
+    //   } elseif (strpos($nama_kompetensi, 'SMK KTSP') !== false) {
+    //     $data['nama_kompetensi'] = 'ktsp';
+    //   } else {
+    //     $data['nama_kompetensi'] = 0;
+    //   }
+    //   $folder = '/cetak/';
+    // } else {
+    //   $data['query'] = 'waka';
+    //   $data['ajarans'] = Ajaran::all();
+    //   $data['rombels'] = Datarombel::find('all', array('group' => 'tingkat','order'=>'tingkat ASC'));
+    //   $folder = '/laporan/';
+    // }
+    // $this->template->title('Administrator Panel')
+    // ->set_layout($this->admin_tpl)
+    // ->set('page_title', 'Cetak Legger') 
+    // ->build($this->admin_folder.$folder.'legger',$data);
+    $guru = get_my_info();
+
+    $kelas = $this->db->get_where('kelas',['guru_id' => $guru->id])->row();
+      
+    $kelas_id = isset($kelas->id) ? $kelas->id : 0;
+
+    $kurikulum_id = isset($kelas->kurikulum_id) ? $kelas->kurikulum_id : 0;
+      
+    $ajaran = get_ta();
+
+    $data['query'] = 'wali';
+    $data['kelas_id'] = $kelas_id;
+    $data['ajaran_id'] = $ajaran->id;
+    $data['nama_kompetensi'] = 2013;
+
+    $kompetensi = $this->db->get_where('data_kurikulum',['kurikulum_id' => $kurikulum_id])->row();
+
+    $nama_kompetensi = isset($kompetensi->nama_kurikulum) ? $kompetensi->nama_kurikulum : 0;
     
+    $this->template->load('template','cetak/legger',$data);
+
   }
   
   
