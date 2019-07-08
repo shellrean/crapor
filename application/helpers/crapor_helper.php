@@ -148,11 +148,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
    * Helper untuk mengecek apakah user sudah login
    * @return boolean
    * @author Kuswandi <wandinak17@gmail.com>
-   */
+   */ 
   function is_login()
   {
     $CI =& get_instance();
-    if (!$CI->session->has_userdata('user_craport_identifer')) {
+    if (!$CI->session->has_userdata('user_craport_identifer') && !$CI->session->has_userdata('username') ) {
       redirect('auth');
     }
   }

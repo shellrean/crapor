@@ -8,7 +8,7 @@ $setting = $this->db->get('setting')->row();
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Cetak Rapor</title>
+    <title><?= $s->nama ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?= base_url('assets/') ?>vendor/bootstrap/bootstrap.min.css">
@@ -16,7 +16,6 @@ $setting = $this->db->get('setting')->row();
 body{background:#FFFFFF !important; background-color:#FFFFFF;font-family:Times; font-size:12px;}
 h3{font-size:14px;}
 table tr td,table tr th{padding:5px;}
-.table th{background-color:#ffff8f !important}
 .strong {font-weight:bold;}
 </style>
 </head>

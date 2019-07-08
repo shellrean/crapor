@@ -348,7 +348,7 @@ class User extends MY_Controller
   public function profile()
   {
     if(! empty($_FILES['image']['name'])) {
-      $this->_uploadImage();
+      $this->_uploadImage(); 
       redirect('user/profile');
     } else {
       $data['user'] = $this->db->get_where('user',['username' => $this->session->userdata('username')])->row();
@@ -359,7 +359,7 @@ class User extends MY_Controller
    * Change password
    * 
    * 
-   */
+   */ 
   public function ubahpass()
   {
     $this->form_validation->set_rules('password1','Password','required|trim|matches[password2]|min_length[6]');

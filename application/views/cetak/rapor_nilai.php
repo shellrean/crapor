@@ -148,7 +148,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
         <td valign="top"><?= get_nama_mapel($ajaran_id,$kelas_id,$mapela); ?></td>
         <td valign="top"><?= $nilai_pengetahuan_value; ?></td>
         <td valign="top"><?= $nilai_keterampilan_value; ?></td>
-        <td><?= $n_f ?></td>
+        <td valign="top"><?= $n_f ?></td>
         <td><?= ($n_f != '-') ? konversi_huruf(get_kkm($ajaran_id,$kelas_id,$mapela),$n_f) : '-' ?></td>
 
 		  </tr>
@@ -224,14 +224,26 @@ $all_mapel = $this->db->get_where('kurikulum',[
               $nilai_keterampilan_value = '-';
             }
           }
+          if($nilai_pengetahuan_value != '-' && $nilai_keterampilan_value != '-') {
+            $bobot = $this->db->get_where('data_mapel',['id_mapel' => $mapela])->row()->bobot;
+            $ex = explode(':',$bobot);
+            $bobot_p = $ex[0];
+            $bobot_k = $ex[1];
+            
+            $n1 = ($nilai_pengetahuan_value*$bobot_p)/100;
+            $n2 = ($nilai_keterampilan_value*$bobot_k)/100;
+            $n_f = $n1+$n2;
+          } else {
+            $n_f = '-';
+          }
       ?>
 		  <tr>
         <td valign="top"><?= $i; ?></td>
         <td valign="top"><?= get_nama_mapel($ajaran_id,$kelas_id,$mapelb); ?></td>
         <td valign="top"><?= $nilai_pengetahuan_value; ?></td>
         <td valign="top"><?= $nilai_keterampilan_value; ?></td>
-				<td></td>
-				<td></td>
+				<td valign="top"><?= $n_f ?></td>
+        <td><?= ($n_f != '-') ? konversi_huruf(get_kkm($ajaran_id,$kelas_id,$mapela),$n_f) : '-' ?></td>
 
 		  </tr>
       
@@ -279,14 +291,26 @@ $all_mapel = $this->db->get_where('kurikulum',[
 								$nilai_pengetahuan_value = '-';
 							}
 						}
+            if($nilai_pengetahuan_value != '-' && $nilai_keterampilan_value != '-') {
+            $bobot = $this->db->get_where('data_mapel',['id_mapel' => $mapela])->row()->bobot;
+            $ex = explode(':',$bobot);
+            $bobot_p = $ex[0];
+            $bobot_k = $ex[1];
+            
+            $n1 = ($nilai_pengetahuan_value*$bobot_p)/100;
+            $n2 = ($nilai_keterampilan_value*$bobot_k)/100;
+            $n_f = $n1+$n2;
+          } else {
+            $n_f = '-';
+          }
 				?>
 				<tr>
 					<td valign="top"><?= $i; ?></td>
 					<td valign="top"><?= get_nama_mapel($ajaran_id,$kelas_id,$mapelc); ?></td>
 					<td valign="top"><?= $nilai_pengetahuan_value; ?></td>
 					<td valign="top"><?= konversi_huruf(get_kkm($ajaran_id,$kelas_id,$mapelc),$nilai_pengetahuan_value); ?></td>
-					<td></td>
-					<td></td>
+					<td valign="top"><?= $n_f ?></td>
+        <td><?= ($n_f != '-') ? konversi_huruf(get_kkm($ajaran_id,$kelas_id,$mapela),$n_f) : '-' ?></td>
 	
 				</tr>
 				

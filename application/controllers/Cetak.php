@@ -69,20 +69,20 @@ class Cetak extends MY_Controller
     $rapor_absen=$this->load->view('cetak/rapor_absen', $data, true);
     $m_pdf->WriteHTML($rapor_absen);
 
+    # page karakter siswa
+    $m_pdf->AddPage('P');
+    $rapor_karakter=$this->load->view('cetak/rapor_karakter',$data, true);
+    $m_pdf->WriteHTML($rapor_karakter);
+
+    # footer
+    $rapor_footer=$this->load->view('cetak/rapor_footer', $data, true);
+    $m_pdf->WriteHTML($rapor_footer);
     
-// $rapor_prestasi=$this->load->view('cetak/rapor_prestasi', $data, true);
-// $m_pdf->WriteHTML($rapor_prestasi);
-
-
-
-
-$rapor_footer=$this->load->view('cetak/rapor_footer', $data, true);
-$m_pdf->WriteHTML($rapor_footer);
     //download it.
-//Output($file,'I') browser
-//Output($file,'F') simpan di server
-//Output($file,'S') Kirim ke email
-//Output($file,'D') Download
-$m_pdf->Output($pdfFilePath,'I');   
-}
+    //Output($file,'I') browser
+    //Output($file,'F') simpan di server
+    //Output($file,'S') Kirim ke email
+    //Output($file,'D') Download
+    $m_pdf->Output($pdfFilePath,'I');   
+  }
 }

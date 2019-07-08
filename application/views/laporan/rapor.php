@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <?= $this->session->flashdata('message'); ?>
-  <div class="card shadow mb-4">
+  <div class="card mb-4">
       <div class="card-header py-3">
         Penilaian keterampilan
       </div>
