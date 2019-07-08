@@ -347,6 +347,11 @@ class Rapor extends MY_Controller
     
     $this->template->load('template','cetak/rapor',$data);
   }
+
+  public function cetak_ledger()
+  {
+    
+  }
   
   
 } 
