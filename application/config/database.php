@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'root',
+	'password' => '',
 	'database' => 'craport',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -95,24 +95,3 @@ $db['default'] = array(
 	'save_queries' => true
 );
 
-$db['database_kedua'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'dinasti',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => false,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => false,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => false,
-	'compress' => false,
-	'stricton' => false,
-	'failover' => array(),
-	'save_queries' => true
-);
