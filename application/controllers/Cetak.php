@@ -85,4 +85,162 @@ class Cetak extends MY_Controller
     //Output($file,'D') Download
     $m_pdf->Output($pdfFilePath,'I');   
   }
+
+  public function legger($ajaran_id,$kelas_id,$kompetensi_id) 
+  {
+    $sekolah = $this->db->get('data_sekolah')->row();
+    $ajaran = get_ta();
+    $nama_kelas = $this->db->get_where('kelas',['id' => $kelas_id])->row();
+    $get_wali = $this->db->get_where('user',['id' => $nama_kelas->guru_id])->row();
+    $data_siswa = $this->db->get_where('siswa',['kelas_id' => $kelas_id])->result();
+
+    $data_mapel = $this->db->get_where('kurikulum',[
+        'ajaran_id'     => $ajaran_id,
+        'kelas_id'      => $kelas_id
+    ])->result();
+
+    $this->load->library('excel');
+    $objPHPExcel = new PHPExcel();
+    $objPHPExcel->setActiveSheetIndex(0);
+
+    $nama_kompetensi = 'PENGETAHUAN';
+    if($kompetensi_id == 2) {
+        $nama_kompetensi = 'KETERAMPILAN';
+    }
+
+    $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('A3')->getFont()->setBold(true);
+
+    $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle('A3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+    $objPHPExcel->getActiveSheet()->getStyle('A7')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('B7')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('C7')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('A8')->getFont()->setBold(true);
+
+    $objPHPExcel->getActiveSheet()->getStyle('B')->getNumberFormat()->setFormatCode('0000000000');
+
+    $objPHPExcel->getActiveSheet()->mergeCells('A8:C8');
+
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+
+    $objPHPExcel->getActiveSheet()->setCellValue('A1','LEDGER '.$nama_kompetensi);
+    $objPHPExcel->getActiveSheet()->setCellValue('A2',strtoupper($sekolah->nama));
+    $objPHPExcel->getActiveSheet()->setCellValue('A3','TAHUN PELAJARAN '.strtoupper($ajaran->tahun));
+    $objPHPExcel->getActiveSheet()->setCellValue('C4','KELAS');
+    $objPHPExcel->getActiveSheet()->setCellValue('C5','WALI KELAS');
+    $objPHPExcel->getActiveSheet()->setCellValue('D4',$nama_kelas->nama);
+    $objPHPExcel->getActiveSheet()->setCellValue('D5',$get_wali->name);
+
+    $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->setCellValue('A8', 'KKM');
+    $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->setCellValue('A7', 'NO.');
+    $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->setCellValue('B7', 'NISN');
+    $objPHPExcel->getActiveSheet()->getStyle('B7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->setCellValue('C7', 'NAMA SISWA');
+    $objPHPExcel->getActiveSheet()->setTitle('LEGGER');
+
+    $row = 9;
+    $row_mapel = 7;
+    $row_kkm = 8;
+    $merger_mapel = 4;
+    $merger_wali = 5;
+    $x = 'D';
+    $plus1 = 'E';
+    $plus2 = 'F';
+
+    for($i=0;$i<count($data_mapel); $i++) {
+        $huruf[] = $x;
+        $last = $x;
+        $plus_1 = $plus1;
+        $plus_2 = $plus2;
+        $x++;
+        $plus1++;
+        $plus2++;
+    }
+
+    $i=1; 
+    foreach($data_siswa as $siswa):
+        $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $i);
+        $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $siswa->nisn);
+        $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $siswa->nama);
+
+        foreach($data_mapel as $key=>$mapel) :
+            $where = [ 
+                'ajaran_id'     => $ajaran_id,
+                'kompetensi_id' => $kompetensi_id,
+                'kelas_id'      => $kelas_id,
+                'mapel_id'      => $mapel->id_mapel,
+                'data_siswa_nis'=> $siswa->nis,
+            ];
+
+            $all_nilai = $this->db->get_where('nilaiakhir',$where)->result();
+
+            if($all_nilai) {
+                $nilai_value = 0;
+                foreach($all_nilai as $allnilai) {
+                    $nilai_value += $allnilai->nilai;
+                }
+                $jumlah_nilai = number_format($nilai_value,2);
+            } else {
+                $jumlah_nilai = 0;
+            }
+
+            $objPHPExcel->getActiveSheet()->getStyle($huruf[$key].$row_mapel)->getAlignment()->setTextRotation(90);
+            $objPHPExcel->getActiveSheet()->getColumnDimension($huruf[$key])->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getStyle($huruf[$key].$row_mapel)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->setCellValue($huruf[$key].$row_mapel,get_nama_mapel($ajaran_id,$kelas_id,$mapel->id_mapel));
+            $objPHPExcel->getActiveSheet()->setCellValue($huruf[$key].$row_kkm, get_kkm($ajaran_id,$kelas_id,$mapel->id_mapel));
+            $objPHPExcel->getActiveSheet()->setCellValue($huruf[$key].$row, number_format($jumlah_nilai,0));
+            $objPHPExcel->getActiveSheet()->setCellValue($plus_1.$row, '=SUM(D'.$row.':'.$huruf[$key].$row.')');
+            $objPHPExcel->getActiveSheet()->setCellValue($plus_2.$row, '=AVERAGE(D'.$row.':'.$huruf[$key].$row.')');
+            $objPHPExcel->getActiveSheet()->getStyle($plus_1.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $objPHPExcel->getActiveSheet()->getStyle($plus_2.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+        endforeach;
+        $i++;
+        $row++;
+    endforeach;
+
+    $objPHPExcel->getActiveSheet()->mergeCells('A1:'.$plus_2.'1');
+    $objPHPExcel->getActiveSheet()->mergeCells('A2:'.$plus_2.'2');
+    $objPHPExcel->getActiveSheet()->mergeCells('A3:'.$plus_2.'3');
+    $objPHPExcel->getActiveSheet()->mergeCells('D4:'.$plus_2.'4');
+    $objPHPExcel->getActiveSheet()->mergeCells('D5:'.$plus_2.'5');
+
+    $objPHPExcel->getActiveSheet()->getColumnDimension($plus_1)->setAutoSize(true);
+    $objPHPExcel->getActiveSheet()->getColumnDimension($plus_2)->setAutoSize(true);
+
+    $objPHPExcel->getActiveSheet()->getStyle($plus_1.$row_mapel)->getAlignment()->setTextRotation(90);
+    $objPHPExcel->getActiveSheet()->getStyle($plus_2.$row_mapel)->getAlignment()->setTextRotation(90);
+
+    $objPHPExcel->getActiveSheet()->setCellValue($plus_1.$row_mapel, 'JUMLAH');
+    $objPHPExcel->getActiveSheet()->setCellValue($plus_2.$row_mapel, 'RATA-RATA');
+    $styleArray = array(
+        'borders' => array(
+            'allborders' => array(
+                'style' => PHPExcel_Style_Border::BORDER_THIN,
+                'color' => array('argb' => '00000000'),
+                ),
+            ),
+        );
+
+    $objPHPExcel->getActiveSheet()->getStyle('A7:'.$plus_2.($row - 1))->applyFromArray($styleArray);
+    $filename = 'LEDGER '.$nama_kompetensi.'_'.str_replace(' ','_',$nama_sekolah->nama).'.xlsx';
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="'.$filename.'"');
+    header('Cache-Control: max-age=0');
+
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    ob_end_clean();
+    $objWriter->save('php://output');
+
+  }
 }
