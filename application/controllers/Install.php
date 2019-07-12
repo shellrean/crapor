@@ -20,10 +20,11 @@ class Install extends CI_Controller
 
 		try {
 			$success = install_success();
-			if ($success) {
+			if ($success) {  
 				redirect('Auth');
 			}
-		} catch (Exception $e) {
+    } catch (Exception $e) 
+    {
 			$this->db_error = $e->getMessage();
 		}
 
@@ -91,7 +92,7 @@ class Install extends CI_Controller
 		$this->form_validation('kota','Kota','required');
 		$this->form_validation('provinsi','Provinsi','required');
 		$this->form_validation('website','Website','required');
-		$this->form_validation('email','Email','required');
+		$this->form_validation('email','Email','required'); 
 
         if($this->form_valition->run() == false)
         {
@@ -119,7 +120,7 @@ class Install extends CI_Controller
         if (empty($this->db_error)) {
           # cek tabel pengaturan, jika sudah ada lanjut ke step 2
           if ($this->db->table_exists('setting')) {
-            redirect('install/index/3');
+            redirect('install/index/3'); 
           }
 
           $this->db->trans_start();
@@ -133,7 +134,7 @@ class Install extends CI_Controller
 
         $ambil_error = "";
         if (!empty($this->db_error)) {
-            $ambil_error = get_alert('danger', $this->db_error);
+            $ambil_error = get_alert('danger', $this->db_error); 
         }
         $data['error'] = $ambil_error;
         $this->template->load('install','install/step1', $data);

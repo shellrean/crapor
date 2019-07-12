@@ -625,7 +625,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
    */
   function get_alert($notif = 'success', $msg = '')
   {
-      return '<div class="alert alert-'.$notif.'" fade show'.$msg.'</div>';
+      return '<div class="alert alert-'.$notif.'" fade show>'.$msg.'</div>'; 
   }
 
   /**
