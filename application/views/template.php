@@ -27,7 +27,7 @@
     <link href="<?= base_url('assets') ?>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendor/select2/css/select2.min.css">
-    
+     
     <link rel="stylesheet" href="<?= base_url('assets') ?>/css/select2-bootstrap4.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     
@@ -224,7 +224,48 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        <li class="nav-item dropdown no-arrow mx-1">
+                          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter">3+</span>
+                          </a>
+                          <!-- Dropdown - Alerts -->
+                          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header bg-info border-info">
+                              Alerts Center
+                            </h6>
+                            <?php $alerts = $this->db->get_where('notif',['showed' => 1])->result();
+                            if($alerts):
+                            foreach($alerts as $a): ?>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                              <div class="mr-3">
+                                <div class="icon-circle <?= $a->bg ?>">
+                                  <i class="<?= $a->icon ?> text-white"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="small text-gray-500"><?= $a->time ?></div>
+                                <span class="font-weight-bold"><?= $a->notif ?></span>
+                              </div>
+                            </a>
+                            <?php endforeach; ?>
+                            <?php else: ?>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                              <div class="mr-3">
+                                <div class="icon-circle bg-info">
+                                  <i class="fas fa-laugh-wink text-white"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="small text-gray-500">Administrator</div>
+                                <span class="font-weight-bold">Tidak ada notifikasi ditampilkan untuk saat ini</span>
+                              </div>
+                            </a>
+                            <?php endif ?>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Remember these alert</a>
+                          </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
