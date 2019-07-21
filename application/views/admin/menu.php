@@ -1,5 +1,4 @@
 <div class="container-fluid">
-    <!-- DataTales Example -->
     <?= $this->session->flashdata('message'); ?>
     <div class="card mb-4">
         <div class="card-header py-3">
