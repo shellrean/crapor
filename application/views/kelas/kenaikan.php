@@ -48,7 +48,7 @@
                 <option value="lulus">Lulus</option>
                <?php }
               else { ?>
-                <option value="">Rombongan belajar tidak ditemukan</option>
+                <option value="">Kelas berikutnya tidak ditemukan</option>
               <?php } ?>
             </select> 
 
