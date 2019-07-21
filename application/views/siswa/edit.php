@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <?= $this->session->flashdata('message'); ?>
-    <div class="card shadow mb-4 ">
+    <div class="card mb-4 ">
       <div class="card-header">
         <a href="<?= base_url('siswa') ?>" class="btn btn-sm btn-warning btn-icon-split">
           <span class="icon text-white-50">

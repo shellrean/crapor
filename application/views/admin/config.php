@@ -1,9 +1,8 @@
-<?php $url_api =  $setting->url_api ?>
 <div class="container-fluid">
   <?= $this->session->flashdata('message'); ?>
   <div class="card">
     <div class="card-header">
-      Configurasi umum aplikasi
+      Konfigurasi umum aplikasi
     </div>
     <form action="<?= base_url('config'); ?>" method="post">
     <div class="card-body">
@@ -42,10 +41,6 @@
               <option value="1" <?= ($setting->rumus == 1) ? 'selected' : ''; ?>>Ya</option>
               <option value="0" <?= ($setting->rumus == 0) ? 'selected' : ''; ?>>Tidak</option>
             </select>
-          </div> 
-          <div class="form-group">
-            <label>Url api server</label>
-            <input name="api_url" class="form-control" placeholder="Masukkan url api server" value="<?= $setting->url_api ?>">
           </div>
         </div>
       </div>

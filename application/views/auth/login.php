@@ -36,7 +36,7 @@
                             <div class="col-lg">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="<?= base_url('assets/img/logo43.png') ?>" alt="" width="100px">
+                                        <img src="<?= base_url('assets/img/logo1.png') ?>" alt="" width="100px">
                                         <h1 class="h4 text-gray-900 mb-4">Login page</h1>
                                     </div>
                                     

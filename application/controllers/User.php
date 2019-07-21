@@ -15,7 +15,7 @@ class User extends MY_Controller
   {
     parent::__construct();
 
-    $this->_cekLogin();
+    is_login();
 
     $this->load->library('excel');
     $this->load->library('form_validation');
@@ -335,7 +335,7 @@ class User extends MY_Controller
     } else {
       $status['type'] = 'error';
       $status['text'] = 'Format Import tidak sesuai. Silahkan download template yang telah disediakan.';
-      $status['title'] = 'Import Data Gagal!';
+      $status['title'] = 'Import data gagal!';
     }
     unlink($inputFileName);
 	echo json_encode($status);
@@ -421,17 +421,6 @@ class User extends MY_Controller
       $output[] = $status;
     }
     echo json_encode($output);
-  }
-  /**
-   * Check what its user have a session's name username
-   * 
-   * @return redirect
-   */
-  private function _cekLogin()
-  {
-    if (!$this->session->has_userdata('username')) {
-      redirect('auth');
-    }
   }
 
   /**

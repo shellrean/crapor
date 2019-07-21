@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <!-- DataTales Example -->
     <?= $this->session->flashdata('message'); ?>
-    <div class="card shadow mb-4">
+    <div class="card mb-4">
         <div class="card-header py-3">
           <a href="<?= base_url('mapel/create') ?>" class="btn btn-sm btn-info btn-icon-split">
             <span class="icon text-white-50">

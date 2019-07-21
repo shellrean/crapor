@@ -55,7 +55,6 @@ class Config extends MY_Controller
     $setting = [
       'periode' 		=> $this->input->post('periode'),
       'rumus'       => $this->input->post('rumus'),
-      'url_api'     => $this->input->post('api_url')
     ];
  
     # define semester
@@ -85,8 +84,8 @@ class Config extends MY_Controller
     $this->db->update('setting',$setting,['id' => 1]);
 
     # executed last code
-    helper_log('update','Mengubah configurasi umum');
-    alertsuccess('message','Configurasi berhasil diubah');
+    helper_log('update','Mengubah konfigurasi umum');
+    alertsuccess('message','Konfigurasi berhasil diubah');
     redirect('config'); 
   }
 

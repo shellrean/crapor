@@ -12,9 +12,9 @@ class M_kelas extends CI_Model
   {
 
     return $this->db->query("
-      SELECT J.nama_kurikulum as jurusan, G.name as nama_guru, K.*
-	  FROM data_kurikulum J , kelas k, user G
-	  WHERE k.jurusan_id = J.kurikulum_id AND k.guru_id=g.id;
+      SELECT j.nama_kurikulum as jurusan, g.name as nama_guru, k.*
+	  FROM data_kurikulum j , kelas k, user g
+	  WHERE k.jurusan_id = j.kurikulum_id AND k.guru_id=g.id;
     ")->result();
 
   }

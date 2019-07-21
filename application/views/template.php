@@ -55,7 +55,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon">
-                    <img src="<?= base_url('assets/img/logo43.png') ?>" style="max-width:50px">
+                    <img src="<?= base_url('assets/img/logo1.png') ?>" style="max-width:50px">
                 </div>
                 <div class="sidebar-brand-text mx-3">C -Rapor </div>
             </a>
@@ -263,7 +263,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>&copy; 2019 Crapor by kuswandi and safikri zikri ICT43 | Page load on <strong>{elapsed_time}</strong> second</span>
+                        <span>&copy; 2019 Crapor | Page load on <strong>{elapsed_time}</strong> second</span>
                     </div>
                 </div>
             </footer>
