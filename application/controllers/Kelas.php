@@ -23,7 +23,7 @@ class Kelas extends MY_Controller
   /**
    * Show all database kelas and create datatable
    * 
-   * 
+   *  
    * @return view
    */
   public function index()
@@ -150,7 +150,7 @@ class Kelas extends MY_Controller
   public function simpan_anggota()
   {
     $kelas_id   = $this->input->post('rombel_id',true);
-    $siswa_nis  = $this->input->post('siswa_nis',true);
+    $siswa_nis  = $this->input->post('siswa_nis');
 
     # get tahun ajaran now
     $ajaran = get_ta();
@@ -406,6 +406,7 @@ class Kelas extends MY_Controller
   {
     $find = $this->db->get_where('kelas',['id' => $id])->row();
  
+    $ajaran = get_ta();
     $data = [
 
       'anggota'     => $this->db->get_where('anggota_kelas',[
