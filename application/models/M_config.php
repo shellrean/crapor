@@ -94,7 +94,7 @@ class M_config extends CI_Model
   {
     $this->db->query("CREATE TABLE `{$this->db->dbprefix}anggota_kelas` (
       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-      `nis` int(11) DEFAULT NULL,
+      `nis` varchar(255) DEFAULT NULL,
       `id_kelas` int(11) UNSIGNED DEFAULT NULL,
       `ajaran_id` int(11) UNSIGNED DEFAULT NULL,
       PRIMARY KEY (`id`)
@@ -148,6 +148,7 @@ class M_config extends CI_Model
       `kelas_X` int(11) DEFAULT '0',
       `kelas_XI` int(11) DEFAULT '0',
       `kelas_XII` int(11) DEFAULT '0',
+      `bobot1` varchar(10) DEFAULT '50:50',
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
   }
