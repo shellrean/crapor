@@ -99,4 +99,15 @@ class Panel extends MY_Controller
       redirect("panel/menu");  
     }
   }
+  public function notif()
+  {
+    $this->form_validation->set_rules('title','Nofikasi','required');
+    if($this->form_validation->run() == false) {
+      $this->db->order_by('id','DESC');
+      $data['notifs'] = $this->db->get('notif')->result();
+      $this->template->load('template','admin/notif',$data);
+    } else {
+      echo 'oke';
+    }
+  }
 }
