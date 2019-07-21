@@ -22,7 +22,7 @@
 
         $( "#sortable2" ).on( "sortreceive", function( event, ui ) {
         	var siswa_nis = ui.item.find('input').val();
-        	console.log('receive');
+        	console.log(siswa_nis);
         	$.ajax({
         		url: '<?= site_url('kelas/simpan_anggota');?>',
         		type: 'post',
@@ -78,8 +78,8 @@
         <ul id="sortable1" class="connectedSortable">
         <?php foreach($siswas as $f){ ?>
           <li class="ui-state-default">
-          <input type="hidden" name="siswa" value="<?= $f->nis; ?>" />
-          <?= $f->nama; ?>
+          <input type="hidden" name="siswa_nis" value="<?= $f->nis; ?>" />
+          <?= $f->nis.' - '.$f->nama; ?>
           </li> 
         <?php } ?>
         </ul> 
@@ -92,8 +92,8 @@
           $siswa = $this->db->get_where('siswa',['nis' => $a->nis])->row();
           ?>
           <li class="ui-state-highlight">
-            <input type="hidden" name="siswa" value="<?= isset($siswa->nis) ? $siswa->nis : ''; ?>" />
-            <?= isset($siswa->nama) ? $siswa->nama : ''; ?>
+            <input type="hidden" name="siswa_nis" value="<?= isset($siswa->nis) ? $siswa->nis : ''; ?>" />
+            <?= isset($siswa->nama) ? $siswa->nis.' - '.$siswa->nama : ''; ?>
           </li>
           <?php } ?>
         </ul>
