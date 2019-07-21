@@ -16,7 +16,7 @@
                 <table class="table table-bordered" id="table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Icon</th>
                             <th>Nama menu</th>
                             <th>Link</th>
                             <th>Parent menu</th>
@@ -27,7 +27,9 @@
                     <tbody>
                         <?php foreach ($menus as $menu) : ?>
                         <tr>
-                            <td><?= $menu->id ?></td>
+                            <td><div class="icon-circle bg-info ?>">
+                                  <i class="<?= $menu->icon ?> text-white"></i>
+                                </div></td>
                             <td><?= $menu->title ?></td>
                             <td><?= $menu->link ?></td>
                             <td>
