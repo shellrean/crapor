@@ -3,11 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Install extends CI_Controller
 {
+    /**
+     * Property contain error exception 
+     */
     private $db_error;
     private $prefix;
 
     function __construct()
     {
+
 		parent::__construct();
 
 
@@ -17,11 +21,10 @@ class Install extends CI_Controller
 		# laod library
 		$this->load->library(array('session', 'template','user_agent','form_validation'));
 
-
+    # Check the installation correct
 		try {
-			$success = install_success();
-			if ($success) {  
-				redirect('Auth');
+			if (install_success()) {  
+				redirect('Auth'); 
 			}
     } catch (Exception $e) 
     {
@@ -36,23 +39,26 @@ class Install extends CI_Controller
 			$this->prefix = $db['default']['dbprefix'];
 
 			# load model
-			$this->load->model([
-				'M_config'
-			]);
+			$this->load->model(array('M_config'));
 			# load session
 			$this->load->library('session');
 		}
-    }
+  }
 
   public function index($step = '')
   {
     switch ($step) {
+
+      /* --------------------------------------------------------
+       * install/index/4
+       * -------------------------------------------------------- */
       case '4':
+        # Check Database connection
         if (!empty($this->db_error)) {
           redirect('install/index/2');
         }
 
-		# validate form input
+		    # Validate form input
         $this->form_validation->set_rules('username','Username','trim|required|is_unique[user.username]');
         $this->form_validation->set_rules('name','Name','required');
         $this->form_validation->set_rules('password1','Password','trim|required|matches[password2]|min_length[3]');
@@ -75,26 +81,16 @@ class Install extends CI_Controller
           redirect('Auth');
         }
       break;
+
+      /* --------------------------------------------------------
+      * install/index/3
+      * -------------------------------------------------------- */
       case '3':
         if (!empty($this->db_error)) {
           redirect('install/index/2');
         }
 
-		# validate form input
-		$this->form_validation('nama','Nama sekolah','required');
-		$this->form_validation('nss','Nss','required');
-		$this->form_validation('npsn','Npsn','required');
-		$this->form_validation('alamat_sekolah','Alamat sekolah','required');
-		$this->form_validation('kode_pos','Kode pos','required');
-		$this->form_validation('telp','Telp','required');
-		$this->form_validation('faks','Faks','required');
-		$this->form_validation('kecamatan','Kecamatan','required');
-		$this->form_validation('kota','Kota','required');
-		$this->form_validation('provinsi','Provinsi','required');
-		$this->form_validation('website','Website','required');
-		$this->form_validation('email','Email','required'); 
-
-        if($this->form_valition->run() == false)
+        if($this->form_validation->run('config/sekolah'))
         {
           $data = [
             'nama'      => $this->input->post('nama',true),
@@ -116,8 +112,13 @@ class Install extends CI_Controller
           $this->template->load('install','install/step2');
         }
       break;
+
+      /* --------------------------------------------------------
+      * install/index/2
+      * -------------------------------------------------------- */
       case '2':
         if (empty($this->db_error)) {
+          
           # cek tabel pengaturan, jika sudah ada lanjut ke step 2
           if ($this->db->table_exists('setting')) {
             redirect('install/index/3'); 
