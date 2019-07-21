@@ -162,7 +162,7 @@ class Siswa extends MY_Controller
         'pekerjaan_wali'    => $this->input->post('pekerjaan_wali',true),
 
       ];
-      $this->db->where('id_siswa',$id);
+      $this->db->where('id',$id);
       $this->db->update('siswa',$data);
       helper_log("add", "Mengubah data siswa");
       alertsuccess('message','Data berhasil diubah');
