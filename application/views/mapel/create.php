@@ -46,6 +46,12 @@
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="A0" checked>
                     <label class="form-check-label" for="exampleRadios1">
+                      A (Mapel Agama)
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="kelompok" id="kelompok" value="A1" checked>
+                    <label class="form-check-label" for="exampleRadios1">
                       A
                     </label>
                   </div>
