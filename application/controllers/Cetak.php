@@ -86,6 +86,24 @@ class Cetak extends MY_Controller
     $m_pdf->Output($pdfFilePath,'I');   
   }
 
+  public function rapor_debug($kur,$ajaran_id,$kelas_id,$siswa_nis){
+    $data['ajaran_id'] = $ajaran_id;
+    $data['kelas_id'] = $kelas_id;
+    $data['siswa_nis'] = $siswa_nis;
+    $data['kurikulum_id'] = $kur;
+    $this->load->view('cetak/rapor_header',$data);
+    $this->load->view('cetak/rapor_cover', $data,);
+    $this->load->view('cetak/rapor_identitas_sekolah', $data,);
+    $this->load->view('cetak/rapor_identitas_siswa', $data,);
+    $this->load->view('cetak/rapor_nilai', $data,);
+    $this->load->view('cetak/rapor_catatan_akademik', $data,);
+    $this->load->view('cetak/rapor_prakerin', $data,);
+    $this->load->view('cetak/rapor_ekskul', $data,);
+    $this->load->view('cetak/rapor_absen', $data,);
+    $this->load->view('cetak/rapor_karakter',$data,);
+    $this->load->view('cetak/rapor_footer', $data,);
+  }
+
   public function legger($ajaran_id,$kelas_id,$kompetensi_id) 
   {
     $sekolah = $this->db->get('data_sekolah')->row();
