@@ -536,25 +536,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
   function filter_agama_mapel($ajaran_id,$rombel_id,$get_id_mapel, $all_mapel,$agama_siswa)
   {
     $kelompok_agama = preg_quote('A0', '~');
-    $normatif_1 = preg_quote('A-', '~');
     $get_mapel_agama = preg_grep('~' . $kelompok_agama . '~', $get_id_mapel);
-    $get_mapel_agama_alias = preg_grep('~' . $normatif_1 . '~', $get_id_mapel);
     
     foreach($get_mapel_agama as $agama){
 		  $mapel_agama[$agama] = get_nama_mapel($ajaran_id,$rombel_id,$agama);
     }
     
     if(isset($mapel_agama)){
+      $agamas_siswas = strtolower($agama_siswa);
       foreach($mapel_agama as $key=>$m_agama){
-        if (strpos($m_agama,$agama_siswa) == false) {
+        if (strpos($m_agama,$agamas_siswas) == false) {
           $mapel_agama_jadi[] = $key;
-        }
-      }
-    }
-    if(isset($mapel_agama_alias)){
-      foreach($mapel_agama_alias as $key=>$m_agama_alias){
-        if (strpos($m_agama_alias,get_agama($agama_siswa)) == false) {
-          $mapel_agama_alias_jadi[] = $key;
         }
       }
     }
