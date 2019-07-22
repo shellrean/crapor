@@ -36,6 +36,8 @@ class M_config extends CI_Model
         "nilai",
         "nilaiakhir",
         "nilai_ekskul",
+        "notif",
+        "perkembangan_karakter",
         "pkl",
         "remedial",
         "rencana",
@@ -323,7 +325,7 @@ class M_config extends CI_Model
     (26, 'Praktik kerja lapangan', 'rapor/pkl', 'fas fa-fw fa-circle-notch', 24, 3),
     (27, 'Absensi', 'rapor/absen', 'fas fa-fw fa-circle-notch', 24, 3),
     (28, 'Ekstrakurikuler', 'rapor/ekskul', 'fas fa-fw fa-circle-notch', 24, 3),
-    (29, 'Cetak rapor', 'rapor/cetak_rapor', 'fas fa-fw fa-circle-notch', 24, 2),
+    (29, 'Karakter', 'rapor/perkembangan_karakter', 'fas fa-fw fa-circle-notch', 24, 3),
     (30, 'Cetak ledger', 'rapor/cetak_ledger', 'fas fa-fw fa-circle-notch', 24, 2),
     (31, 'Ekstrakurikuler', 'ekskul', 'fas fa-fw fa-circle-notch', 16, 1),
     (33, 'Penilaian', 'penilaian', 'fas fa-fw fa-boxes', 0, 2),
@@ -334,7 +336,8 @@ class M_config extends CI_Model
     (38, 'Hasil penilaian', 'monitoring/analisis', 'fas fa-fw fa-circle-notch', 37, 2),
     (39, 'Role khusus', 'user/khusus', 'fas fa-fw fa-circle-notch', 3, 1),
     (40, 'Laporan', 'laporan', 'fas fa-fw fa-circle-notch', 0, 4),
-    (41, 'Rapor hasil belajar', 'laporan/rapor', 'fas fa-fw fa-circle-notch', 40, 4);");
+    (41, 'Rapor hasil belajar', 'laporan/rapor', 'fas fa-fw fa-circle-notch', 40, 4),
+    (29, 'Cetak rapor', 'rapor/cetak_rapor', 'fas fa-fw fa-circle-notch', 24, 2);");
   }
   /**
    * Method untuk membuat tabel metode
@@ -401,6 +404,42 @@ class M_config extends CI_Model
       `deskripsi_ekskul` longtext NOT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+  }
+  /** 
+   * Method untuk membuat tabel notifikasi
+   */
+  public function create_tb_notif()
+  {
+    $this->db->query("CREATE TABLE `{$this->db->dbprefix}notif` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `user_id` int(5) NOT NULL,
+      `icon` varchar(255) NOT NULL,
+      `bg` varchar(50) NOT NULL,
+      `title` varchar(255) NOT NULL,
+      `notif` text NOT NULL,
+      `showed` int(11) NOT NULL,
+      `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+      PRIMARY KEY (`id`);
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+  }
+  /**
+   * Method untuk membuat tabel perkembangan karakter
+   */
+  public function create_tb_perkembangan_karakter()
+  {
+    $this->db->query(" CREATE TABLE `{$this->db->dbprefix}perkembangan_karakter` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `ajaran_id` int(11) NOT NULL,
+      `kelas_id` int(11) NOT NULL,
+      `siswa_nis` varchar(50) NOT NULL,
+      `integritas` text DEFAULT NULL,
+      `religius` text DEFAULT NULL,
+      `nasionalis` text DEFAULT NULL,
+      `mandiri` text DEFAULT NULL,
+      `gotong_royong` text DEFAULT NULL,
+      `catatan` text DEFAULT NULL,
+      PRIMARY KEY ('id')
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
   }
   /**
    * Method untuk membuat tabel pkl

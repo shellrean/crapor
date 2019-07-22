@@ -18,11 +18,11 @@ $rombel = $this->db->get('kelas',['id' => $kelas_id])->row();
 <table <?= $atribute; ?>>
 	<thead>
 		<tr>
-			<th style="width: 2px;" align="center">No</th>
-			<th style="width: 400px;" align="center">Mitra DU/DI</th>
-			<th style="width: 100px;" align="center">Lokasi</th>
-			<th style="width: 100px;" align="center">Lamanya<br>(bulan)</th>
-			<th style="width: 100px;" align="center">Keterangan</th>
+			<th style="width: 5%;" align="center">No</th>
+			<th style="width: 30%;">Mitra DU/DI</th>
+			<th style="width: 35%;">Lokasi</th>
+			<th style="width: 10%;" align="center">Lamanya<br>(bulan)</th>
+			<th style="width: 20%;" align="center">Keterangan</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -39,7 +39,7 @@ $rombel = $this->db->get('kelas',['id' => $kelas_id])->row();
 		<tr>
 			<td align="center"><?php echo $i; ?></td>
 			<td><?php echo $prak->mitra_prakerin; ?></td>
-			<td align="center"><?php echo $prak->lokasi_prakerin; ?></td>
+			<td><?php echo $prak->lokasi_prakerin; ?></td>
 			<td align="center"><?php echo $prak->lama_prakerin; ?></td>
 			<td><?php echo $prak->keterangan_prakerin; ?></td>
 		</tr>
