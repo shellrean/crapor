@@ -17,13 +17,13 @@ $setting = $this->db->get('setting')->row();
 $ajaran = $this->db->get_where('ajaran',['id' => $ajaran_id])->row();
 $kelas = $this->db->get_where('kelas',['id' => $kelas_id])->row();
  
-$kelompok_a = preg_quote('A0', '~'); // don't forget to quote input string!
+$kelompok_a = preg_quote('A', '~'); // don't forget to quote input string!
 $kelompok_b = preg_quote('B0', '~'); // don't forget to quote input string!
 $kelompok_c = preg_quote('C', '~'); // don't forget to ro input string!
 $all_mapel = $this->db->get_where('kurikulum',[
   'ajaran_id'     => $ajaran_id,
   'kelas_id'      => $kelas_id
-])->result();
+])->result(); 
 ?>
 <table>
   <tr>
@@ -64,7 +64,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
         $mapel_a = preg_grep('~' . $kelompok_a . '~', $get_id_mapel);
         $mapel_b = preg_grep('~' . $kelompok_b . '~', $get_id_mapel);
         $mapel_c = preg_grep('~' . $kelompok_c . '~', $get_id_mapel);
-        // $mapel_a = filter_agama_mapel($ajaran_id,$kelas_id,$get_id_mapel, $mapel_a, $s->agama);
+        $mapel_a = filter_agama_mapel($ajaran_id,$kelas_id,$get_id_mapel, $mapel_a, $s->agama);
       if($mapel_a){ 
       ?>
       <tr>
