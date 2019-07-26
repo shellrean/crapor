@@ -337,7 +337,7 @@ class M_config extends CI_Model
     (39, 'Role khusus', 'user/khusus', 'fas fa-fw fa-circle-notch', 3, 1),
     (40, 'Laporan', 'laporan', 'fas fa-fw fa-circle-notch', 0, 4),
     (41, 'Rapor hasil belajar', 'laporan/rapor', 'fas fa-fw fa-circle-notch', 40, 4),
-    (29, 'Cetak rapor', 'rapor/cetak_rapor', 'fas fa-fw fa-circle-notch', 24, 2);");
+    (42, 'Cetak rapor', 'rapor/cetak_rapor', 'fas fa-fw fa-circle-notch', 24, 2);");
   }
   /**
    * Method untuk membuat tabel metode
@@ -411,7 +411,7 @@ class M_config extends CI_Model
   public function create_tb_notif()
   {
     $this->db->query("CREATE TABLE `{$this->db->dbprefix}notif` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user_id` int(5) NOT NULL,
       `icon` varchar(255) NOT NULL,
       `bg` varchar(50) NOT NULL,
@@ -419,7 +419,7 @@ class M_config extends CI_Model
       `notif` text NOT NULL,
       `showed` int(11) NOT NULL,
       `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-      PRIMARY KEY (`id`);
+      PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
   }
   /**
@@ -438,7 +438,7 @@ class M_config extends CI_Model
       `mandiri` text DEFAULT NULL,
       `gotong_royong` text DEFAULT NULL,
       `catatan` text DEFAULT NULL,
-      PRIMARY KEY ('id')
+      PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
   }
   /**
