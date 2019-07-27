@@ -15,14 +15,7 @@ $sekolah = $this->db->get('data_sekolah')->row();
 $setting = $this->db->get('setting')->row();
 $ajaran = $this->db->get_where('ajaran',['id' => $ajaran_id])->row();
 $kelas = $this->db->get_where('kelas',['id' => $kelas_id])->row();
- 
-$kelompok_a = preg_quote('A0', '~'); // don't forget to quote input string!
-$kelompok_b = preg_quote('B0', '~'); // don't forget to quote input string!
-$kelompok_c = preg_quote('C', '~'); // don't forget to ro input string!
-$all_mapel = $this->db->get_where('kurikulum',[
-  'ajaran_id'     => $ajaran_id,
-  'kelas_id'      => $kelas_id
-])->result();
+$karakter = $this->db->get_where('perkembangan_karakter',array('siswa_nis' => $siswa_nis,'ajaran_id' => $ajaran_id))->row();
 ?>
 <table>
   <tr>
@@ -46,6 +39,26 @@ $all_mapel = $this->db->get_where('kurikulum',[
       <th style="width: 200px">Karakter yang dibangun</th>
       <th style="width: 500px">Deskripsi</th>
     </tr>
+    <tr>
+      <td>Integritas</td>
+      <td><?= $karakter->integritas ?></td>
+    </tr>
+    <tr>
+      <td>Religius</td>
+      <td><?= $karakter->religius ?></td>
+    </tr>
+    <tr>
+      <td>Nasionalis</td>
+      <td><?= $karakter->nasionalis ?></td>
+    </tr>
+    <tr>
+      <td>Mandiri</td>
+      <td><?= $karakter->mandiri ?></td>
+    </tr>
+    <tr>
+      <td>Gotong-royong</td>
+      <td><?= $karakter->gotong_royong ?></td>
+    </tr>
   </thead>
   <tbody>
   </tbody>
@@ -54,7 +67,7 @@ $all_mapel = $this->db->get_where('kurikulum',[
 <div class="strong">H.&nbsp;&nbsp;Catatan Perkembangan Karakter</div>
 <table width="100%" border="1">
   <tr>
-    <td style="padding:10px 10px 60px 10px;"></td>
+    <td style="padding:10px 10px 60px 10px;"><?= $karakter->catatan ?></td>
   </tr>
 </table> 
 <br>

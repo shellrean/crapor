@@ -150,7 +150,7 @@ class M_config extends CI_Model
       `kelas_X` int(11) DEFAULT '0',
       `kelas_XI` int(11) DEFAULT '0',
       `kelas_XII` int(11) DEFAULT '0',
-      `bobot1` varchar(10) DEFAULT '50:50',
+      `bobot` varchar(10) DEFAULT '50:50',
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
   }

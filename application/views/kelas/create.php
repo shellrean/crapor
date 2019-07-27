@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label>Wali kelas</label>
-            <select name="wali_kelas" class="form-control ">
+            <select name="wali_kelas" class="form-control select2">
               <?php foreach($gurus as $guru): ?>
                 <option value="<?= $guru->id ?>" <?= ($guru->id == set_value('wali_kelas')? "selected" : "") ?>><?= $guru->name ?></option>
               <?php endforeach; ?>

@@ -7,6 +7,12 @@
         </span>
         <span class="text">Download format</span>
       </a>
+      <a href="<?= base_url('rapor/karakter_reset') ?>" class="btn btn-sm btn-warning btn-icon-split" id="reset">
+        <span class="icon text-white-50">
+          <i class="fas fa-fw fa-sync"></i> 
+        </span>
+        <span class="text">Reset Data</span>
+      </a>
     </div>
     <form method="post" enctype="multipart/form-data">
     <div class="card-body">

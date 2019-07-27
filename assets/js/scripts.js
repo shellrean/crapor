@@ -65,6 +65,47 @@ $("#sync").on('click',function(e){
 	});
   
 });    
+/**
+ * ---------------------------------------------
+ */
+$("#reset").on('click',function(e){
+  var URL = $(this).attr('href')
+  e.preventDefault();
+  swal({
+    title: "Anda yakin?",
+    text: "Data yang anda input akan di reset seluruhnya",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "Reset!",
+    showLoaderOnConfirm: true,
+    preConfirm: function() {
+      return new Promise(function(resolve) {
+        $.ajax({
+          url: URL,
+          type: 'GET',     
+          contentType: false,
+          cache: false,  
+          processData:false,
+          beforeSend: function (){
+            $("#loading").css('display','block');                   
+          },
+          success: function(data, textStatus, jqXHR){
+            $("#loading").css('display','none');
+            var enc = JSON.parse(data);
+            swal({title:'Sukses',type:'success'}).then(function() {
+            })
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert("Error");
+          }         
+        });
+        
+      })
+    }
+  });
+  
+});    
 
 
 /**

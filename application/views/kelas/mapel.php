@@ -21,7 +21,7 @@
 
 <div class="container-fluid">
     <?= $this->session->flashdata('message'); ?>
-    <div class="card shadow mb-4">
+    <div class="card mb-4">
         <div class="card-header py-3">
           <a href="<?= base_url('kelas') ?>" class="btn btn-sm btn-warning btn-icon-split">
             <span class="icon text-white-50">
