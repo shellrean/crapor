@@ -29,7 +29,8 @@ class User extends MY_Controller
    */
   public function index()
   {
-    $this->_isadmin();
+    is_admin();
+
     $data['users'] = $this->db->get_where('user',['role_id' => 2])->result();
     $this->template->load('template', 'user/index', $data);
   }
@@ -287,9 +288,8 @@ class User extends MY_Controller
 					$i++;
 				}
 				$flat = call_user_func_array('array_merge', $InsertData);
-        $slug = array("slug" => uniqid().generateRandomString(20));
 				$password	= array("password"=>12345678);
-				$masukkan[] = array_merge($flat,$slug,$password);
+				$masukkan[] = array_merge($flat,$password);
 			}
 			$jumlah_data_import = count($masukkan);
 			$sum=0;
@@ -304,9 +304,14 @@ class User extends MY_Controller
 				$username 	= $v['username'];
         $password 	= $v['password'];
         $name =   $v['name'];
+        $nip = $v['nip'];
         $this->db->insert('user',[
           'username'  => $username,
           'name'      => $name,
+          'nip'       => $nip,
+          'role_id'   => 2,
+          'is_active' => 1,
+          'slug'      => uniqid().generateRandomString(20),
           'password'   => password_hash($password,PASSWORD_DEFAULT),
         ]);
 			} else {

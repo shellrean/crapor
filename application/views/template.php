@@ -9,9 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>C Rapor</title>
+    <title>C Rapor - Application</title>
 
-    <link rel="shortcut icon" href="<?= base_url('assets/img/favicon.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url('assets/img/logo-dki.png') ?>" type="image/x-icon">
     
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('assets') ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,9 +55,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon">
-                    <img src="<?= base_url('assets/img/logo1.png') ?>" style="max-width:50px">
+                    <img src="<?= base_url('assets/img/logo-dki.png') ?>" style="max-width:40px">
                 </div>
-                <div class="sidebar-brand-text mx-3">C -Rapor </div>
+                <div class="sidebar-brand-text mx-3 text-left"><small>C -Rapor</small> <i><small>Application</small></i> </div>
             </a>
 
             <!-- Divider -->
