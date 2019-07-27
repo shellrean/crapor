@@ -141,7 +141,8 @@
         </div>
         <div class="card-body">
           <div class="text-center">
-            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="<?= base_url() ?>/assets/img/undraw_posting_photo.svg" alt="">
+            <img src="<?= base_url() ?>assets/img/fast-transfer.svg" width="200px">
+            <img src="<?= base_url() ?>assets/img/vps-murah-indonesia.svg" width="200px">
           </div>
           <p>Kamu adalah <a target="_blank" rel="nofollow" href="#">Administrator</a>, Tangan anda menentukan berjalan tidaknya aplikasi ini</p>
         </div>
@@ -154,7 +155,7 @@
         </div>
         <div class="card-body">
           <p>
-            Hello
+
           </p>
         </div>
       </div>
