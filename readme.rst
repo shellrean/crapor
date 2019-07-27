@@ -7,23 +7,3 @@ Buat file **database.php** dalam folder **application/config/**
 Copy file **database.example.php** ke dalam file **database.php** 
 Jalankan aplikasi pada web browser dan ikuti instruksi dalam aplikasi
 > pastikan file terkonfigurasi dengan benar
-
-
-##  Server Requirements
-
-Kebutuhan server sebagai berikut
-|                |VERSI                     	 |KETERANGAN             |
-|----------------|-------------------------------|-----------------------------|
-|PHP 			 |5.6         					|Diatasnya lebih baik|
-
-## Crapor
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Administrator] -- To Link --> B((Waka))
-A --> C(Tacher)
-B --> D{Release}
-C --> D
-```
