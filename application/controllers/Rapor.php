@@ -572,6 +572,7 @@ class Rapor extends MY_Controller
         $kelas_id    = $v['kelas_id'];
         $siswa_nis   = $v['siswa_nis'];
         $religius    = $v['religius'];
+        $integritas  = $v['integritas'];
         $nasionalis  = $v['nasionalis'];
         $mandiri     = $v['mandiri'];
         $gotong_royong = $v['gotong_royong'];
@@ -580,7 +581,9 @@ class Rapor extends MY_Controller
         $this->db->insert('perkembangan_karakter',[
           'ajaran_id'   => $ajaran_id,
           'kelas_id'    => $kelas_id,
+          'siswa_nis'   => $siswa_nis,
           'religius'    => $religius,
+          'integritas'  => $integritas,
           'nasionalis'  => $nasionalis,
           'mandiri'     => $mandiri,
           'gotong_royong'=> $gotong_royong,
@@ -618,5 +621,20 @@ class Rapor extends MY_Controller
   echo json_encode($status);
   }
   
+  public function karakter_reset()
+  {
+    $ajaran = get_ta();
+    $guru = get_my_info();
+    $kelas = get_kelas_by_id_guru($guru->id);
+
+    $this->db->where(array('ajaran_id' => $ajaran->id, 'kelas_id' => $kelas->id));
+    $this->db->delete('perkembangan_karakter');
+
+    $status['type'] = 'success';
+    $status['title'] = 'Reset data sukses';
+    $status['text'] = 'Data perkembangan karakter berhasil direset';
+
+    echo json_encode($status);
+  }
   
 } 
