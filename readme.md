@@ -1,5 +1,7 @@
 # Aplikasi Crapor
-![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
+![](https://img.shields.io/github/stars/shellrean/crapor) 
+![](https://img.shields.io/github/forks/shellrean/crapor) ![](https://img.shields.io/github/tag/shellrean/crapor) 
+![](https://img.shields.io/github/release/shellrean/crapor) ![](https://img.shields.io/github/issues/shellrean/crapor)
 
 Crapor adalah aplikasi penginputan nilai dan data rapor **berbasis web**.  menggunakan php versi 7 dan framework codeigniter. Diharapkan dengan adanya aplikasi ini penginputan nilai dapat berjalan dengan disiplin efesien dan dapat mengurangi **human error**.
 
